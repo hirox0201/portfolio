@@ -70,8 +70,20 @@
   a{color:inherit;text-decoration:none;}
   ::selection{ background:var(--sky); color:var(--navy); }
 
+  /* 文字對齊：段落文字統一左右對齊（justify），並讓全形／半形混排時的字距分佈更均勻，
+     不會因為中英文混排造成單邊參差不齊、看起來像「空一格」的視覺問題 */
+  p, .lead, .about-block p, .timeline .desc, .w-info .wd, .feature-meta .fd,
+  .feature-mini-info .fmd, .brand500-head p, .feature-group-head p, .video-note,
+  .work-hero p, .gen-title small, .sub-head span, .cat-card p{
+    text-align:justify;
+    text-justify:inter-character;
+  }
+
   .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
   .ripple-line{ fill:none; stroke:var(--sky); stroke-width:1; opacity:.5; }
+
+  /* 基本防盜圖措施：圖片禁止拖曳、禁止選取／長按快顯選單（僅圖片，不影響文字選取） */
+  img{ -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
 
   header{
     position:fixed; top:0; left:0; right:0; z-index:500;
@@ -140,11 +152,9 @@
   .category-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
   .cat-card{ position:relative; border-radius:4px; overflow:hidden; cursor:pointer; background:var(--navy); aspect-ratio:3/4; display:flex; flex-direction:column; justify-content:flex-end; padding:32px; color:#fff; box-shadow:0 4px 20px rgba(23,50,77,.08); transition:transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s ease; }
   .cat-card:hover{ transform:translateY(-8px); box-shadow:var(--shadow); }
-  .cat-bg{ position:absolute; inset:0; opacity:.9; transition:transform .6s ease; }
-  .cat-card:hover .cat-bg{ transform:scale(1.06); }
-  .cat-01 .cat-bg{ background:linear-gradient(155deg,#1B3A5C 0%,#3E6E96 60%,#8FB8D6 100%); }
-  .cat-02 .cat-bg{ background:linear-gradient(155deg,#0F2740 0%,#2E5B82 55%,#6E9CC0 100%); }
-  .cat-03 .cat-bg{ background:linear-gradient(155deg,#1D3A56 0%,#4A7FA5 55%,#AFD0E3 100%); }
+  .cat-bg{ position:absolute; inset:0; overflow:hidden; background:var(--navy); }
+  .cat-bg img{ width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+  .cat-card:hover .cat-bg img{ transform:scale(1.06); }
   .cat-overlay{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.65) 0%, rgba(10,25,40,0) 55%); }
   .cat-num{ position:relative; font-family:var(--font-display); font-size:15px; letter-spacing:.1em; opacity:.85; margin-bottom:10px; }
   .cat-card h3{ position:relative; font-size:25px; font-weight:500; margin-bottom:8px; }
@@ -207,9 +217,9 @@
   .w-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:24px; }
   .w-card{ cursor:zoom-in; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
   .w-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .w-thumb{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--navy); }
-  .w-thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .w-card:hover .w-thumb img{ transform:scale(1.06); }
+  .w-thumb{ position:relative; overflow:hidden; background:var(--bg-panel); }
+  .w-thumb img{ display:block; width:100%; height:auto; transition:transform .5s ease; }
+  .w-card:hover .w-thumb img{ transform:scale(1.04); }
   .w-info{ padding:14px 16px 18px; border-top:1px solid var(--line); }
   .w-info .wt{ font-size:14px; font-weight:500; color:var(--navy); margin-bottom:6px; }
   .w-info .wd{ font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:8px; }
@@ -305,8 +315,8 @@
   /* ===== Lightbox（圖片） ===== */
   .lightbox{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
   .lightbox.open{ opacity:1; pointer-events:all; }
-  .lightbox-img{ width:min(70vw,760px); aspect-ratio:4/5; border-radius:3px; position:relative; transform:scale(.92); transition:transform .4s cubic-bezier(.2,.7,.3,1); box-shadow:0 30px 80px rgba(0,0,0,.4); overflow:hidden; background:var(--navy); }
-  .lightbox-img img{ width:100%; height:100%; object-fit:cover; }
+  .lightbox-img{ position:relative; display:inline-block; max-width:min(72vw,700px); max-height:76vh; border-radius:3px; transform:scale(.92); transition:transform .4s cubic-bezier(.2,.7,.3,1); box-shadow:0 30px 80px rgba(0,0,0,.4); overflow:hidden; background:var(--navy); }
+  .lightbox-img img{ display:block; max-width:min(72vw,700px); max-height:76vh; width:auto; height:auto; }
   .lightbox.open .lightbox-img{ transform:scale(1); }
   .lightbox-cap{ position:absolute; left:0; right:0; bottom:0; padding:26px 30px; background:linear-gradient(0deg, rgba(10,25,40,.8), rgba(10,25,40,0)); color:#fff; }
   .lightbox-cap .lt{ font-size:17px; margin-bottom:4px; }
@@ -336,6 +346,16 @@
   .content-stage.landscape{ width:min(94vw,1200px); height:min(86vh,760px); border-radius:6px; }
   .content-frame-wrap{ position:absolute; inset:0; }
   .content-frame-wrap iframe{ width:100%; height:100%; border:0; transition:opacity .5s ease; }
+
+  /* 固定尺寸 HTML5 作品專用：可縮放／拖曳的檢視器，初始以「適合閱讀」的比例顯示 */
+  .content-viewport{ position:absolute; inset:0; overflow:auto; -webkit-overflow-scrolling:touch; background:#f2f2f2; }
+  .content-canvas{ position:relative; background:#fff; box-shadow:0 0 24px rgba(0,0,0,.08); }
+  .content-canvas iframe{ position:absolute; top:0; left:0; border:0; display:block; }
+  .content-zoom-hint{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:4; font-size:11px; letter-spacing:.04em; color:#fff; background:rgba(0,0,0,.45); padding:7px 16px; border-radius:100px; pointer-events:none; opacity:0; transition:opacity .4s ease; white-space:nowrap; }
+  .content-zoom-hint.show{ opacity:.95; }
+  .content-zoom-controls{ position:absolute; right:14px; bottom:16px; z-index:4; display:flex; flex-direction:column; gap:7px; }
+  .content-zoom-btn{ width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.35); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:17px; line-height:1; user-select:none; transition:background .2s ease; }
+  .content-zoom-btn:hover{ background:rgba(0,0,0,.68); }
   .content-edge-hint{ position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.32); border:1px solid rgba(255,255,255,.4); color:#fff; display:flex; align-items:center; justify-content:center; z-index:3; pointer-events:none; opacity:.85; }
   .content-edge-hint svg{ width:14px; }
   .content-edge-hint.left{ left:10px; } .content-edge-hint.right{ right:10px; }
@@ -423,21 +443,27 @@
       </div>
       <div class="category-grid">
         <a class="cat-card cat-01 nav-link" href="#graphic" data-target="graphic">
-          <div class="cat-bg"></div><div class="cat-overlay"></div>
+          <!-- 分類封面圖 1：把下面 src 換成你自己的圖片網址即可 -->
+          <div class="cat-bg"><img src="https://picsum.photos/seed/cat-graphic/800/1000" alt="平面設計"></div>
+          <div class="cat-overlay"></div>
           <div class="cat-num">01</div>
           <h3>平面設計</h3>
           <p>品牌識別、活動視覺、印刷刊物、隨手亂畫</p>
           <div class="cat-arrow">進入瀏覽 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </a>
         <a class="cat-card cat-02 nav-link" href="#video" data-target="video">
-          <div class="cat-bg"></div><div class="cat-overlay"></div>
+          <!-- 分類封面圖 2：把下面 src 換成你自己的圖片網址即可 -->
+          <div class="cat-bg"><img src="https://picsum.photos/seed/cat-video/800/1000" alt="影音動畫敘事"></div>
+          <div class="cat-overlay"></div>
           <div class="cat-num">02</div>
           <h3>影音動畫敘事</h3>
           <p>動畫、專題影片、腳本分鏡、故事敘事</p>
           <div class="cat-arrow">進入瀏覽 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </a>
         <a class="cat-card cat-03 nav-link" href="#stories" data-target="stories">
-          <div class="cat-bg"></div><div class="cat-overlay"></div>
+          <!-- 分類封面圖 3：把下面 src 換成你自己的圖片網址即可 -->
+          <div class="cat-bg"><img src="https://picsum.photos/seed/cat-web/800/1000" alt="infographic"></div>
+          <div class="cat-overlay"></div>
           <div class="cat-num">03</div>
           <h3>infographic</h3>
           <p>AMP Stories、專題網頁、HTML5動畫網頁</p>
@@ -513,7 +539,7 @@
   </section>
 
   <footer>
-    <span>© 2026 TIM YANG — Visual Designer</span>
+    <span>© 2026 TIM YANG — Visual Designer．站內圖片版權所有，未經同意請勿轉載使用</span>
     <div class="foot-links">
       <a href="mailto:hiro0201@gmail.com">hiro0201@gmail.com</a>
       <a href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener">
@@ -688,6 +714,16 @@ const brand500Categories = [
       {title:"街頭文化觀察", desc:"城市街頭文化與青年生活紀錄。", year:"2023", img:"https://picsum.photos/seed/young03/700/875"},
       {title:"獨立市集特輯", desc:"週末獨立市集的攤位與商品紀錄。", year:"2023", img:"https://picsum.photos/seed/young04/700/875"},
       {title:"新型態商業空間", desc:"複合式商業空間的設計與體驗紀錄。", year:"2022", img:"https://picsum.photos/seed/young05/700/875"},
+    ]
+  },
+  {
+    key:"pa", name:"500趴", intro:"《500輯》IP之一，記錄城市裡精彩派對與活動現場的第一手觀察。",
+    items:[
+      {title:"品牌派對主視覺", desc:"品牌形象派對主視覺與現場佈置設計。", year:"2024", img:"https://picsum.photos/seed/pa01/700/875"},
+      {title:"音樂派對紀實", desc:"獨立音樂派對現場氛圍紀錄。", year:"2024", img:"https://picsum.photos/seed/pa02/700/875"},
+      {title:"屋頂派對特輯", desc:"城市屋頂派對場景與賓客紀錄。", year:"2023", img:"https://picsum.photos/seed/pa03/700/875"},
+      {title:"周年慶典紀錄", desc:"品牌周年活動現場紀實拍攝。", year:"2023", img:"https://picsum.photos/seed/pa04/700/875"},
+      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2022", img:"https://picsum.photos/seed/pa05/700/875"},
     ]
   },
 ];
@@ -969,11 +1005,13 @@ generalWorks.forEach(g=>{
    同樣會維持各自獨立，不會被合併或互相干擾。
 
    native:{w,h} 是給「固定尺寸、沒有 RWD」的舊版 HTML5（Adobe Edge Animate）作品用的：
-   會把 iframe 依照原始尺寸完整渲染，再用 CSS transform 等比例縮小到符合目前裝置的可視範圍，
-   避免內容被裁切或跑版。如果縮放後畫面留白過多／內容還是被裁切，代表 native 裡填的尺寸
-   跟實際原始作品的畫布尺寸不同，把正確的寬高告訴我，我再幫你調整這組數字即可。
+   一開始會以「符合裝置寬度、方便閱讀」的比例顯示（不會縮到過小看不清楚），
+   如果內容比視窗高，可以直接用滑動（滑鼠滾輪／觸控滑動）瀏覽其餘部分，
+   畫面右下角也提供放大／縮小／重置按鈕，方便進一步查看細節；iframe 本身完全
+   保持可互動（可以正常點擊裡面的遊戲、按鈕），不會被檢視器擋掉。
 ============================================================ */
 let contentResizeHandler = null;
+let zoomState = null; // { nativeW, nativeH, scale, baseScale, minScale, maxScale }
 
 function openContent(url, opts){
   opts = opts || {};
@@ -982,60 +1020,158 @@ function openContent(url, opts){
   stage.className = 'content-stage ' + shape;
   stage.style.width = '';
   stage.style.height = '';
+  zoomState = null;
+  if(contentResizeHandler){ window.removeEventListener('resize', contentResizeHandler); contentResizeHandler = null; }
 
   const wrap = document.getElementById('contentFrameWrap');
-  const edgeHints = shape === 'portrait'
-    ? `<div class="content-edge-hint left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></div>
-       <div class="content-edge-hint right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>`
-    : '';
-  wrap.innerHTML = `
-    <div class="content-loading" id="contentLoading">
-      <div class="content-spinner"></div>
-      <span>載入中…</span>
-    </div>
-    <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
-    ${edgeHints}
-    <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
-  document.getElementById('contentModal').classList.add('open');
 
-  const iframe = document.getElementById('contentIframe');
-  const loading = document.getElementById('contentLoading');
-  iframe.addEventListener('load', ()=>{
-    if(loading) loading.style.opacity = '0';
-    iframe.style.opacity = '1';
-    setTimeout(()=>{ if(loading) loading.remove(); }, 400);
-  });
-
-  // 固定尺寸（非 RWD）作品：依原始尺寸等比例縮放至符合裝置的畫面
   if(opts.native && opts.native.w && opts.native.h){
-    const nativeW = opts.native.w, nativeH = opts.native.h;
-    const applyScale = ()=>{
-      const maxW = Math.min(window.innerWidth * 0.94, 1200);
-      const maxH = Math.min(window.innerHeight * 0.86, 760);
-      const scale = Math.min(maxW / nativeW, maxH / nativeH, 1);
-      stage.style.width = (nativeW * scale) + 'px';
-      stage.style.height = (nativeH * scale) + 'px';
-      iframe.style.width = nativeW + 'px';
-      iframe.style.height = nativeH + 'px';
-      iframe.style.transform = 'scale(' + scale + ')';
-      iframe.style.transformOrigin = 'top left';
-    };
-    applyScale();
-    contentResizeHandler = applyScale;
-    window.addEventListener('resize', contentResizeHandler);
+    // 固定尺寸 HTML5 作品：可縮放／可捲動瀏覽的檢視器
+    wrap.innerHTML = `
+      <div class="content-loading" id="contentLoading">
+        <div class="content-spinner"></div>
+        <span>載入中…</span>
+      </div>
+      <div class="content-viewport" id="contentViewport">
+        <div class="content-canvas" id="contentCanvas">
+          <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
+        </div>
+      </div>
+      <div class="content-zoom-controls">
+        <div class="content-zoom-btn" id="zoomInBtn">＋</div>
+        <div class="content-zoom-btn" id="zoomOutBtn">－</div>
+        <div class="content-zoom-btn" id="zoomResetBtn" style="font-size:13px;">⤢</div>
+      </div>
+      <div class="content-zoom-hint" id="contentZoomHint">可滑動瀏覽・可縮放</div>
+      <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
+    document.getElementById('contentModal').classList.add('open');
+
+    const iframe = document.getElementById('contentIframe');
+    const loading = document.getElementById('contentLoading');
+    iframe.addEventListener('load', ()=>{
+      if(loading) loading.style.opacity = '0';
+      iframe.style.opacity = '1';
+      setTimeout(()=>{ if(loading) loading.remove(); }, 400);
+    });
+
+    setupZoomViewport(opts.native.w, opts.native.h);
+  } else {
+    // 一般內容（AMP Stories 等）：單純 iframe，本身已具備 RWD
+    const edgeHints = shape === 'portrait'
+      ? `<div class="content-edge-hint left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></div>
+         <div class="content-edge-hint right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>`
+      : '';
+    wrap.innerHTML = `
+      <div class="content-loading" id="contentLoading">
+        <div class="content-spinner"></div>
+        <span>載入中…</span>
+      </div>
+      <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
+      ${edgeHints}
+      <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
+    document.getElementById('contentModal').classList.add('open');
+
+    const iframe = document.getElementById('contentIframe');
+    const loading = document.getElementById('contentLoading');
+    iframe.addEventListener('load', ()=>{
+      if(loading) loading.style.opacity = '0';
+      iframe.style.opacity = '1';
+      setTimeout(()=>{ if(loading) loading.remove(); }, 400);
+    });
   }
 }
+
+function setupZoomViewport(nativeW, nativeH){
+  const stage = document.getElementById('contentStage');
+  const viewport = document.getElementById('contentViewport');
+  const canvas = document.getElementById('contentCanvas');
+  const iframe = document.getElementById('contentIframe');
+  const hint = document.getElementById('contentZoomHint');
+
+  const render = ()=>{
+    const s = zoomState.scale;
+    canvas.style.width = (nativeW * s) + 'px';
+    canvas.style.height = (nativeH * s) + 'px';
+    iframe.style.width = nativeW + 'px';
+    iframe.style.height = nativeH + 'px';
+    iframe.style.transform = 'scale(' + s + ')';
+    iframe.style.transformOrigin = 'top left';
+  };
+
+  const fitToDevice = ()=>{
+    const maxW = Math.min(window.innerWidth * (window.innerWidth < 640 ? 0.98 : 0.94), 1200);
+    const maxH = Math.min(window.innerHeight * (window.innerWidth < 640 ? 0.9 : 0.86), 760);
+    stage.style.width = maxW + 'px';
+    stage.style.height = maxH + 'px';
+    // 以「符合裝置寬度」為基準，讓內容盡量放大到方便閱讀，超出的高度用捲動瀏覽
+    const baseScale = Math.min(Math.max(maxW / nativeW, 0.32), 1.5);
+    const prevScale = zoomState ? zoomState.scale : null;
+    zoomState = {
+      nativeW, nativeH, baseScale,
+      minScale: baseScale * 0.5,
+      maxScale: baseScale * 2.5,
+      scale: prevScale || baseScale
+    };
+    render();
+  };
+
+  fitToDevice();
+  contentResizeHandler = fitToDevice;
+  window.addEventListener('resize', contentResizeHandler);
+
+  // 顯示提示文字，幾秒後自動淡出
+  requestAnimationFrame(()=> hint.classList.add('show'));
+  setTimeout(()=> hint.classList.remove('show'), 3200);
+
+  const applyZoom = (factor)=>{
+    if(!zoomState) return;
+    const next = Math.min(Math.max(zoomState.scale * factor, zoomState.minScale), zoomState.maxScale);
+    zoomState.scale = next;
+    render();
+  };
+  document.getElementById('zoomInBtn').onclick = ()=> applyZoom(1.25);
+  document.getElementById('zoomOutBtn').onclick = ()=> applyZoom(0.8);
+  document.getElementById('zoomResetBtn').onclick = ()=>{
+    if(!zoomState) return;
+    zoomState.scale = zoomState.baseScale;
+    render();
+    viewport.scrollTo({left:0, top:0, behavior:'smooth'});
+  };
+
+  // 桌機：按住 Ctrl／Cmd 滾輪縮放；一般滾輪則維持原生捲動瀏覽
+  viewport.addEventListener('wheel', e=>{
+    if(e.ctrlKey || e.metaKey){
+      e.preventDefault();
+      applyZoom(e.deltaY < 0 ? 1.08 : 0.93);
+    }
+  }, { passive:false });
+}
+
 function closeContent(){
   document.getElementById('contentModal').classList.remove('open');
   if(contentResizeHandler){
     window.removeEventListener('resize', contentResizeHandler);
     contentResizeHandler = null;
   }
+  zoomState = null;
   // 延遲卸載，讓關閉動畫先跑完，同時確保下次開別篇時是全新載入、不殘留內容
   setTimeout(()=>{ document.getElementById('contentFrameWrap').innerHTML = ''; }, 350);
 }
 document.getElementById('contentModal').addEventListener('click', e=>{
   if(e.target.id === 'contentModal') closeContent();
+});
+
+/* ============ 基本防盜圖 ============
+   禁止對圖片點右鍵（擋掉「另存圖片」選單）與拖曳圖片，僅作用在 <img>，
+   不影響文字選取、複製等其他正常操作。
+   提醒：這只能擋掉多數隨手複製的行為，無法百分之百防止有心人透過開發者工具
+   或畫面截圖取得圖片，最有效的做法還是上傳「網頁用低解析度版本」，
+   原始高解析度檔案不要放到網站上。 ============ */
+document.addEventListener('contextmenu', e=>{
+  if(e.target.tagName === 'IMG') e.preventDefault();
+});
+document.addEventListener('dragstart', e=>{
+  if(e.target.tagName === 'IMG') e.preventDefault();
 });
 
 /* ============ 鍵盤操作 ============ */
