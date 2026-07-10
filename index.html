@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Hiro｜Visual Designer 作品集</title>
+<title>TIM YANG｜Visual Designer 作品集</title>
 
 <style>
   /* ============ 自訂字體：獅尾四季春加糖（標題）／獅尾黑體（內文） ============ */
@@ -82,7 +82,7 @@
     border-bottom:1px solid var(--line);
   }
   .logo-group{ display:flex; align-items:center; gap:16px; }
-  .logo{ font-family:var(--font-display); font-weight:500; font-size:24px; letter-spacing:.04em; color:var(--navy); }
+  .logo{ font-family:var(--font-display); font-weight:500; font-size:19px; letter-spacing:.12em; color:var(--navy); white-space:nowrap; }
   .logo span{ color:var(--blue-2); }
   .social-icon{
     width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
@@ -109,8 +109,8 @@
   .page-inner{ max-width:1180px; margin:0 auto; padding:0 5vw; }
 
   #page-home{ position:relative; }
-  .hero{ position:relative; min-height:100vh; display:flex; align-items:center; padding-top:90px; overflow:hidden; }
-  .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; }
+  .hero{ position:relative; min-height:100vh; display:flex; flex-direction:column; padding-top:110px; padding-bottom:40px; overflow:hidden; }
+  .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; flex:1; display:flex; align-items:center; }
   .eyebrow{ font-size:12.5px; letter-spacing:.35em; color:var(--blue); margin-bottom:22px; text-transform:uppercase; }
   .hero h1{ font-size:clamp(42px,7vw,86px); font-weight:500; color:var(--navy); line-height:1.2; letter-spacing:.02em; margin-bottom:22px; }
   .hero h1 em{ font-style:normal; color:var(--blue-2); }
@@ -124,7 +124,7 @@
   .btn-ghost{ border-color:var(--navy); color:var(--navy); }
   .btn-ghost:hover{ background:var(--navy); color:#fff; }
 
-  .scroll-cue{ position:absolute; bottom:40px; left:5vw; z-index:2; display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.2em; color:var(--blue-2); }
+  .scroll-cue{ position:relative; z-index:2; margin:0 5vw; display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.2em; color:var(--blue-2); }
   .scroll-cue .line{ width:36px; height:1px; background:var(--blue-2); position:relative; overflow:hidden; }
   .scroll-cue .line::after{ content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--navy); animation:cue 2.4s ease-in-out infinite; }
   @keyframes cue{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} }
@@ -233,6 +233,26 @@
   .feature-meta .fx{ display:flex; gap:8px; flex-wrap:wrap; }
   @media(max-width:860px){ .feature-card{ grid-template-columns:1fr; } }
 
+  /* 互動作品分組（例如「2014世界盃」內含多篇獨立作品） */
+  .feature-group{ margin-bottom:52px; }
+  .feature-group:last-child{ margin-bottom:0; }
+  .feature-group-head{ margin-bottom:18px; }
+  .feature-group-head h4{ font-size:16.5px; color:var(--navy); font-weight:500; margin-bottom:8px; }
+  .feature-group-head p{ font-size:13px; color:var(--ink-soft); max-width:680px; line-height:1.85; }
+  .feature-group-head a{ color:var(--blue); border-bottom:1px solid var(--sky); }
+  .feature-mini-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .feature-mini-card{ cursor:pointer; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
+  .feature-mini-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+  .feature-mini-thumb{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--navy); }
+  .feature-mini-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .feature-mini-card:hover .feature-mini-thumb img{ transform:scale(1.06); }
+  .feature-mini-play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; }
+  .feature-mini-play svg{ width:14px; margin-left:2px; }
+  .feature-mini-info{ padding:14px 16px 16px; }
+  .feature-mini-info .fmt{ font-size:13.5px; font-weight:500; color:var(--navy); margin-bottom:6px; }
+  .feature-mini-info .fmd{ font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
+  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } }
+
   /* 影音作品 grid */
   .grid-video{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; padding-bottom:60px; }
   .v-item{ cursor:pointer; border-radius:4px; overflow:hidden; background:#0e2338; box-shadow:0 3px 14px rgba(23,50,77,.08); }
@@ -300,38 +320,22 @@
   .video-fallback-link{ position:absolute; left:0; right:0; bottom:-38px; text-align:center; font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
   .video-fallback-link:hover{ color:#fff; }
 
-  /* ===== 互動作品 Modal（HTML5 / Adobe Edge Animate） ===== */
-  .feature-modal{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
-  .feature-modal.open{ opacity:1; pointer-events:all; }
-  .feature-frame-wrap{ width:min(94vw,1200px); height:min(86vh,760px); position:relative; border-radius:6px; overflow:hidden; background:#fff; transform:scale(.96); transition:transform .4s cubic-bezier(.2,.7,.3,1); box-shadow:0 30px 80px rgba(0,0,0,.4); }
-  .feature-modal.open .feature-frame-wrap{ transform:scale(1); }
-  .feature-frame-wrap iframe{ width:100%; height:100%; border:0; transition:opacity .5s ease; }
-  .feature-loading{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#fff; color:var(--ink-soft); font-size:12.5px; letter-spacing:.06em; transition:opacity .3s ease; }
-  .feature-spinner{ width:30px; height:30px; border-radius:50%; border:2px solid var(--line); border-top-color:var(--blue); animation:featureSpin .8s linear infinite; }
-  @keyframes featureSpin{ to{ transform:rotate(360deg); } }
-  .feature-fallback-link{ position:absolute; left:0; right:0; bottom:-38px; text-align:center; font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
-  .feature-fallback-link:hover{ color:#fff; }
-
-  /* ===== AMP Story 檢視器（IG 限動風格） ===== */
-  .story-viewer{ position:fixed; inset:0; z-index:1100; background:#0a1826; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s ease; }
-  .story-viewer.open{ opacity:1; pointer-events:all; }
-  .story-stage{ position:relative; width:min(420px,92vw); height:min(88vh,880px); border-radius:16px; overflow:hidden; background:#000; box-shadow:0 30px 90px rgba(0,0,0,.55); transform:scale(.96); transition:transform .35s cubic-bezier(.2,.7,.3,1); }
-  .story-viewer.open .story-stage{ transform:scale(1); }
-  .story-progress{ position:absolute; top:14px; left:14px; right:14px; z-index:5; display:flex; gap:5px; }
-  .story-seg{ flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,.3); overflow:hidden; }
-  .story-seg .fill{ height:100%; width:0%; background:#fff; }
-  .story-seg.done .fill{ width:100%; }
-  .story-seg.active .fill{ width:100%; background:#fff; }
-  .story-headbar{ position:absolute; top:28px; left:14px; right:14px; z-index:5; display:flex; align-items:center; justify-content:space-between; color:#fff; }
-  .story-headbar .story-title{ font-size:13px; font-weight:500; text-shadow:0 1px 4px rgba(0,0,0,.5); }
-  .story-headbar .story-close{ position:static; width:32px; height:32px; }
-  .story-nav-zone{ display:none; }
-  .story-frame-wrap{ position:absolute; inset:0; z-index:1; background:#fff; }
-  .story-frame-wrap iframe{ width:100%; height:100%; border:0; }
-  .story-fallback{ position:absolute; left:0; right:0; bottom:0; z-index:5; padding:16px 18px 20px; background:linear-gradient(0deg, rgba(0,0,0,.65), transparent); color:#fff; font-size:12px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
-  .story-fallback a{ color:#fff; text-decoration:underline; white-space:nowrap; }
-  .story-viewer-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.4); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:6; backdrop-filter:blur(4px); }
-  .story-viewer-arrow.prev{ left:10px; } .story-viewer-arrow.next{ right:10px; }
+  /* ===== 通用內容 Modal（AMP Stories / HTML5 互動作品 共用）=====
+     每一篇都是完全獨立開啟、獨立關閉，彼此之間沒有任何左右切換或連動機制。 */
+  .content-modal{ position:fixed; inset:0; z-index:1100; background:rgba(10,24,38,.95); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+  .content-modal.open{ opacity:1; pointer-events:all; }
+  .content-stage{ position:relative; border-radius:8px; overflow:hidden; background:#fff; box-shadow:0 30px 90px rgba(0,0,0,.5); transform:scale(.96); transition:transform .35s cubic-bezier(.2,.7,.3,1); }
+  .content-modal.open .content-stage{ transform:scale(1); }
+  .content-stage.portrait{ width:min(420px,92vw); height:min(88vh,880px); border-radius:16px; }
+  .content-stage.landscape{ width:min(94vw,1200px); height:min(86vh,760px); border-radius:6px; }
+  .content-frame-wrap{ position:absolute; inset:0; }
+  .content-frame-wrap iframe{ width:100%; height:100%; border:0; transition:opacity .5s ease; }
+  .content-loading{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#fff; color:var(--ink-soft); font-size:12.5px; letter-spacing:.06em; transition:opacity .3s ease; }
+  .content-spinner{ width:30px; height:30px; border-radius:50%; border:2px solid var(--line); border-top-color:var(--blue); animation:contentSpin .8s linear infinite; }
+  @keyframes contentSpin{ to{ transform:rotate(360deg); } }
+  .content-fallback-link{ position:absolute; left:0; right:0; bottom:-38px; text-align:center; font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
+  .content-fallback-link:hover{ color:#fff; }
+  .content-title-tag{ position:absolute; top:-38px; left:0; font-size:12.5px; color:var(--sky); letter-spacing:.06em; }
 
   @media(max-width:860px){
     nav ul{ display:none; }
@@ -351,7 +355,7 @@
 
 <header>
   <div class="logo-group">
-    <a href="#home" class="logo nav-link" data-target="home">Hiro<span>.</span></a>
+    <a href="#home" class="logo nav-link" data-target="home">TIM <span>YANG</span></a>
     <a class="social-icon" href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener" title="LinkedIn">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
     </a>
@@ -390,7 +394,7 @@
         <a class="btn btn-ghost nav-link" href="#about" data-target="about">關於我</a>
       </div>
     </div>
-    <div class="scroll-cue"><span class="line"></span>SCROLL</div>
+    <div class="scroll-cue"><span class="line"></span>向下滑動</div>
   </section>
 
   <section class="category-section" id="works">
@@ -438,12 +442,18 @@
         </div>
         <div>
           <div class="about-block">
+            <h4>自我介紹</h4>
+            <p style="font-size:14.5px; color:var(--ink-soft); line-height:1.95;">
+              楊 殿宏（TIM YANG），1982年生，SOLOキャンプ40代おじさん。大叔級資深肥宅王者，日本旅遊超過四十趟，旅居醉酒有達2個月，主要出沒在東京和關東地區，熱愛露營、金屬類音樂，遊戲資歷從任天堂紅白機發售到現在PS5，有 SCA 烘豆師資格的 OUTDOOR LIFE 視覺專案管理師。
+            </p>
+          </div>
+          <div class="about-block">
             <h4>工作經驗</h4>
             <ul class="timeline">
-              <li><span class="yr">早期</span><span class="desc">曾任職於 <b>NIKE</b>、<b>行政院新聞局</b>、<b>產發局台北花博</b>，擔任設計工作。</span></li>
-              <li><span class="yr">2010</span><span class="desc">進入《<b>聯合報 新媒體中心</b>》，開始媒體人生。</span></li>
-              <li><span class="yr">2017</span><span class="desc">進入《<b>東森新媒體 ETtoday</b>》並成立視覺設計中心，擔任中心主任。</span></li>
-              <li><span class="yr">2023</span><span class="desc">回《<b>聯合線上 500輯</b>》團隊擔任 PM，負責視覺設計管理，並兼任視覺設計師至今。</span></li>
+              <li><span class="yr">2010前</span><span class="desc">曾任職於 <b>NIKE</b>、<b>行政院新聞局</b>（現 行政院新聞傳播處）、<b>研華電子</b>、<b>北市府產發局台北花卉博覽會</b>，擔任設計工作。</span></li>
+              <li><span class="yr">2011</span><span class="desc">進入《<b>聯合報 新媒體中心</b>》，擔任視覺設計師，工作為數位設計領域，並閒暇之餘短暫擔任專題記者，撰稿旅遊線專訪日本311大地震後的東北地區狀況。</span></li>
+              <li><span class="yr">2017</span><span class="desc">進入《<b>東森新媒體 ETtoday</b>》擔任視覺設計師，2年後成立《<b>視覺設計中心</b>》，擔任中心主任，團隊人數為6人。</span></li>
+              <li><span class="yr">2023</span><span class="desc">進入《<b>聯合線上 娛樂生活事業部 行銷中心</b>》500輯團隊擔任專案經理 Program Manager，負責視覺設計管理並兼任視覺設計師至今。</span></li>
             </ul>
           </div>
           <div class="about-block">
@@ -478,7 +488,7 @@
   </section>
 
   <footer>
-    <span>© 2026 Hiro — Visual Designer</span>
+    <span>© 2026 TIM YANG — Visual Designer</span>
     <div class="foot-links">
       <a href="mailto:hiro0201@gmail.com">hiro0201@gmail.com</a>
       <a href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener">
@@ -551,9 +561,8 @@
     </div>
 
     <div class="sub-section">
-      <div class="sub-head"><h3>互動作品</h3><span>點卡片 → 原地開啟互動網頁</span></div>
-      <div class="feature-card" id="featureCard"></div>
-      <p class="video-note" id="featureNote"></p>
+      <div class="sub-head"><h3>互動作品</h3><span>點卡片 → 原地開啟，每篇皆完全獨立、互不干擾</span></div>
+      <div id="feature-container"></div>
     </div>
 
     <div class="sub-section">
@@ -580,7 +589,7 @@
   </div>
 </div>
 
-<!-- ============ 影片 Modal ============ -->
+<!-- ============ 影片 Modal（YouTube） ============ -->
 <div class="video-modal" id="videoModal">
   <div class="video-close" onclick="closeVideo()">
     <svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -588,35 +597,14 @@
   <div class="video-frame-wrap" id="videoFrameWrap"></div>
 </div>
 
-<!-- ============ 互動作品 Modal（HTML5 / Adobe Edge Animate） ============ -->
-<div class="feature-modal" id="featureModal">
-  <div class="video-close" onclick="closeFeature()">
+<!-- ============ 通用內容 Modal（AMP Stories／HTML5互動作品 共用） ============
+     每次點擊都只會開啟「該篇自己」的內容，彼此完全獨立，沒有左右切換、沒有共用畫面。 -->
+<div class="content-modal" id="contentModal">
+  <div class="video-close" onclick="closeContent()">
     <svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
   </div>
-  <div class="feature-frame-wrap" id="featureFrameWrap"></div>
-</div>
-
-<!-- ============ AMP Story 檢視器（IG 限動風） ============ -->
-<div class="story-viewer" id="storyViewer">
-  <div class="story-stage">
-    <div class="story-progress" id="storyProgress"></div>
-    <div class="story-headbar">
-      <div class="story-title" id="storyTitle"></div>
-      <div class="story-close" onclick="closeStoryViewer()">
-        <svg width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </div>
-    </div>
-    <div class="story-frame-wrap"><iframe id="storyIframe" src="" referrerpolicy="origin" title="amp story"></iframe></div>
-    <div class="story-viewer-arrow prev" onclick="storyNav(-1)">
-      <svg width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg>
-    </div>
-    <div class="story-viewer-arrow next" onclick="storyNav(1)">
-      <svg width="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg>
-    </div>
-    <div class="story-fallback">
-      <span id="storyFallbackText">若內容未顯示，可能是該頁面禁止外部嵌入</span>
-      <a id="storyFallbackLink" href="#" target="_blank" rel="noopener">在新分頁開啟</a>
-    </div>
+  <div class="content-stage landscape" id="contentStage">
+    <div class="content-frame-wrap" id="contentFrameWrap"></div>
   </div>
 </div>
 
@@ -689,7 +677,7 @@ const videoWorks = [
   {title:"影音作品 06", desc:"點擊播放", ytid:"lJFLhsY3-7g"},
 ];
 
-// AMP Stories（原地以限動形式展開）－標題為依網址暫擬，請依實際內容調整
+// AMP Stories（原地獨立瀏覽，每一篇彼此獨立，沒有左右切換機制）－標題為依網址暫擬，請依實際內容調整
 const ampStories = [
   {title:"京劇之美", url:"https://events.ettoday.net/depth-report/amp-beijingopera/"},
   {title:"日星鑄字行", url:"https://events.ettoday.net/depth-report/amp-daystar/"},
@@ -697,19 +685,27 @@ const ampStories = [
 ];
 
 // 互動作品（HTML5 / Adobe Edge Animate）
-// 重要：github.com/hirox0201/fifa2014 目前只是「原始碼倉庫」，並不是可執行的網頁，
-// 無法直接嵌入。要能像 AMP Stories 一樣原地瀏覽，必須先到該 repo 開啟 GitHub Pages：
-// Settings → Pages → Source 選「Deploy from a branch」→ Branch 選 main /(root) → Save
-// 開啟後大約 1-2 分鐘會產生一個真正可執行的網址，通常會是：
-// https://hirox0201.github.io/fifa2014/
-// 目前已經把下面的 url 先設定成這個網址；GitHub Pages 開通前點開會是空白或 404，
-// 一旦你開通後，不需要再改程式碼，會直接自動生效。
-const featureWork = {
-  title:"2014 世界盃足球賽｜HTML5 互動動畫網頁",
-  desc:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，是投入相當多時間心力完成的作品。",
-  img:"https://picsum.photos/seed/fifa2014cover/1200/675",
-  url:"https://hirox0201.github.io/fifa201402/",
-  repoUrl:"https://github.com/hirox0201/fifa201402"
+// 「2014世界盃」是一組 3 篇的作品，每一篇都是完全獨立的網址、獨立開啟、獨立關閉，
+// 彼此之間沒有任何左右切換或連動機制。
+const worldCup2014 = {
+  title:"2014世界盃",
+  intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，共分為三篇獨立作品，是投入相當多時間心力完成的作品。",
+  repoUrl:"https://github.com/hirox0201/fifa2014",
+  pages:[
+    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/"},
+    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/"},
+    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/"},
+  ]
+};
+
+// 馬來西亞航空 MH370 事故動畫演示（獨立單一作品）
+// 提醒：MH370 是2014年3月從吉隆坡飛往北京途中失聯的班機，後續殘骸陸續於2015-2016年間
+// 在印度洋沿岸多處被發現；如果你指的是別的事件或年份，請直接告訴我，我再幫你修改圖說文字。
+const mh370Work = {
+  title:"馬來西亞航空 MH370 事故動畫演示",
+  desc:"以動畫方式重現馬來西亞航空370號班機失聯事件的時間軸與關鍵資訊，該班機於2014年3月自吉隆坡飛往北京途中失去聯繫，成為航空史上最大謎團之一，殘骸陸續於後續數年在印度洋沿岸尋獲。",
+  img:"https://picsum.photos/seed/mh370cover/1200/675",
+  url:"https://hirox0201.github.io/mh370/"
 };
 
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
@@ -860,9 +856,9 @@ document.getElementById('videoModal').addEventListener('click', e=>{
   if(e.target.id === 'videoModal') closeVideo();
 });
 
-/* ============ 渲染：AMP Stories（限動卡片） ============ */
+/* ============ 渲染：AMP Stories（每一篇獨立卡片，各自獨立開啟，無左右切換） ============ */
 const ampGrid = document.getElementById('amp-grid');
-ampStories.forEach((s, i)=>{
+ampStories.forEach(s=>{
   const el = document.createElement('div');
   el.className = 'amp-card';
   el.innerHTML = `
@@ -873,51 +869,53 @@ ampStories.forEach((s, i)=>{
       </div>
     </div>
     <div class="amp-label">AMP STORY</div>`;
-  el.onclick = ()=> openStoryViewer(i);
+  el.onclick = ()=> openContent(s.url, {shape:'portrait'});
   ampGrid.appendChild(el);
 });
 
-/* ============ 渲染：互動作品（HTML5 / Adobe Edge Animate） ============ */
-const featureCard = document.getElementById('featureCard');
-featureCard.innerHTML = `
+/* ============ 渲染：互動作品（2014世界盃 3篇 + MH370，皆各自獨立） ============ */
+const featureContainer = document.getElementById('feature-container');
+
+// 2014世界盃：一組標題下方放 3 張獨立卡片，點哪張只會開啟那一篇，互不干擾
+const wcGroup = document.createElement('div');
+wcGroup.className = 'feature-group';
+wcGroup.innerHTML = `
+  <div class="feature-group-head">
+    <h4>${worldCup2014.title}</h4>
+    <p>${worldCup2014.intro}　原始碼：<a href="${worldCup2014.repoUrl}" target="_blank" rel="noopener">GitHub</a></p>
+  </div>
+  <div class="feature-mini-grid" id="wc2014-grid"></div>`;
+featureContainer.appendChild(wcGroup);
+const wcGrid = wcGroup.querySelector('#wc2014-grid');
+worldCup2014.pages.forEach(p=>{
+  const el = document.createElement('div');
+  el.className = 'feature-mini-card';
+  el.innerHTML = `
+    <div class="feature-mini-thumb">
+      <img src="${p.img}" alt="${p.title}">
+      <div class="feature-mini-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>
+    <div class="feature-mini-info"><div class="fmt">${p.title}</div><div class="fmd">${p.desc}</div></div>`;
+  el.onclick = ()=> openContent(p.url, {shape:'landscape'});
+  wcGrid.appendChild(el);
+});
+
+// MH370：獨立單一作品卡
+const mhGroup = document.createElement('div');
+mhGroup.className = 'feature-group';
+mhGroup.innerHTML = `<div class="feature-card" id="mh370Card"></div>`;
+featureContainer.appendChild(mhGroup);
+const mh370Card = mhGroup.querySelector('#mh370Card');
+mh370Card.innerHTML = `
   <div class="feature-thumb">
-    <img src="${featureWork.img}" alt="${featureWork.title}">
+    <img src="${mh370Work.img}" alt="${mh370Work.title}">
     <div class="feature-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
   </div>
   <div class="feature-meta">
-    <div class="ft">${featureWork.title}</div>
-    <div class="fd">${featureWork.desc}</div>
+    <div class="ft">${mh370Work.title}</div>
+    <div class="fd">${mh370Work.desc}</div>
   </div>`;
-featureCard.onclick = openFeature;
-document.getElementById('featureNote').innerHTML =
-  `＊ 此作品原始碼位於 <a href="${featureWork.repoUrl}" target="_blank" rel="noopener" style="color:var(--blue);border-bottom:1px solid var(--sky);">GitHub</a>。若點擊卡片後畫面空白，代表該倉庫尚未開啟 GitHub Pages（Settings → Pages → Deploy from a branch → main /(root) → Save），開啟後約 1-2 分鐘即可原地正常瀏覽，不需再修改網站程式碼。`;
-
-function openFeature(){
-  const wrap = document.getElementById('featureFrameWrap');
-  wrap.innerHTML = `
-    <div class="feature-loading" id="featureLoading">
-      <div class="feature-spinner"></div>
-      <span>作品載入中…</span>
-    </div>
-    <iframe id="featureIframe" src="${featureWork.url}" title="${featureWork.title}" style="opacity:0" allowfullscreen></iframe>
-    <a class="feature-fallback-link" href="${featureWork.url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
-  document.getElementById('featureModal').classList.add('open');
-
-  const iframe = document.getElementById('featureIframe');
-  const loading = document.getElementById('featureLoading');
-  iframe.addEventListener('load', ()=>{
-    if(loading) loading.style.opacity = '0';
-    iframe.style.opacity = '1';
-    setTimeout(()=>{ if(loading) loading.remove(); }, 400);
-  });
-}
-function closeFeature(){
-  document.getElementById('featureModal').classList.remove('open');
-  setTimeout(()=>{ document.getElementById('featureFrameWrap').innerHTML = ''; }, 350);
-}
-document.getElementById('featureModal').addEventListener('click', e=>{
-  if(e.target.id === 'featureModal') closeFeature();
-});
+mh370Card.onclick = ()=> openContent(mh370Work.url, {shape:'landscape'});
 
 /* ============ 渲染：一般網頁作品（另開新分頁） ============ */
 const generalGrid = document.getElementById('general-grid');
@@ -933,70 +931,53 @@ generalWorks.forEach(g=>{
   generalGrid.appendChild(el);
 });
 
-/* ============ AMP Story 檢視器邏輯（IG 限動風） ============
-   每一篇 AMP Story 都是完全獨立的項目（各自的 url 與 iframe），
-   彼此不會共用內容。日後在 ampStories 陣列裡新增項目，同樣會各自獨立顯示，
-   不會被合併成同一篇。
-   注意：已移除「自動倒數跳下一篇」的機制，並移除覆蓋在畫面上的左右點擊熱區，
-   因為 AMP Story 本身內部就有自己的翻頁互動，這兩者若同時存在會互相搶奪點擊，
-   導致單篇故事還沒看完就被強制跳到下一篇。現在只能透過畫面外側的左右箭頭
-   按鈕，或鍵盤方向鍵，手動切換到上一篇／下一篇。
+/* ============ 通用內容 Modal 邏輯（AMP Stories／互動作品 共用） ============
+   每次呼叫 openContent() 都只會載入「這一個」網址，彼此完全獨立：
+   - 沒有上一篇／下一篇切換
+   - 沒有自動輪播
+   - 關閉後會把 iframe 完全卸載，下次打開別篇也不會殘留上一篇的畫面
+   日後新增項目，只要照同樣方式呼叫 openContent(url, {shape:'portrait'|'landscape'})，
+   同樣會維持各自獨立，不會被合併或互相干擾。
 ============================================================ */
-let storyIndex = 0;
+function openContent(url, opts){
+  opts = opts || {};
+  const shape = opts.shape === 'portrait' ? 'portrait' : 'landscape';
+  const stage = document.getElementById('contentStage');
+  stage.className = 'content-stage ' + shape;
 
-function renderStoryProgress(){
-  const wrap = document.getElementById('storyProgress');
-  wrap.innerHTML = '';
-  ampStories.forEach((s, i)=>{
-    const seg = document.createElement('div');
-    seg.className = 'story-seg';
-    if(i < storyIndex) seg.classList.add('done');
-    if(i === storyIndex) seg.classList.add('active');
-    seg.innerHTML = '<div class="fill"></div>';
-    wrap.appendChild(seg);
+  const wrap = document.getElementById('contentFrameWrap');
+  wrap.innerHTML = `
+    <div class="content-loading" id="contentLoading">
+      <div class="content-spinner"></div>
+      <span>載入中…</span>
+    </div>
+    <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
+    <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
+  document.getElementById('contentModal').classList.add('open');
+
+  const iframe = document.getElementById('contentIframe');
+  const loading = document.getElementById('contentLoading');
+  iframe.addEventListener('load', ()=>{
+    if(loading) loading.style.opacity = '0';
+    iframe.style.opacity = '1';
+    setTimeout(()=>{ if(loading) loading.remove(); }, 400);
   });
 }
-
-function openStoryViewer(i){
-  storyIndex = i;
-  renderStoryLoad();
-  document.getElementById('storyViewer').classList.add('open');
+function closeContent(){
+  document.getElementById('contentModal').classList.remove('open');
+  // 延遲卸載，讓關閉動畫先跑完，同時確保下次開別篇時是全新載入、不殘留內容
+  setTimeout(()=>{ document.getElementById('contentFrameWrap').innerHTML = ''; }, 350);
 }
-
-function renderStoryLoad(){
-  const s = ampStories[storyIndex];
-  document.getElementById('storyTitle').textContent = s.title;
-  // 每次切換都重新指定 iframe 的 src，確保載入的是該篇獨立的網址，不會殘留上一篇內容
-  document.getElementById('storyIframe').src = s.url;
-  document.getElementById('storyFallbackLink').href = s.url;
-  renderStoryProgress();
-}
-
-function storyNav(dir){
-  const next = storyIndex + dir;
-  if(next < 0 || next >= ampStories.length) return; // 已在第一篇／最後一篇，不再往外跳出
-  storyIndex = next;
-  renderStoryLoad();
-}
-
-function closeStoryViewer(){
-  document.getElementById('storyViewer').classList.remove('open');
-  document.getElementById('storyIframe').src = '';
-}
-document.getElementById('storyViewer').addEventListener('click', e=>{
-  if(e.target.id === 'storyViewer') closeStoryViewer();
+document.getElementById('contentModal').addEventListener('click', e=>{
+  if(e.target.id === 'contentModal') closeContent();
 });
 
 /* ============ 鍵盤操作 ============ */
 document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape'){ closeLightbox(); closeVideo(); closeStoryViewer(); closeFeature(); }
+  if(e.key === 'Escape'){ closeLightbox(); closeVideo(); closeContent(); }
   if(document.getElementById('lightbox').classList.contains('open')){
     if(e.key === 'ArrowLeft') navLightbox(-1);
     if(e.key === 'ArrowRight') navLightbox(1);
-  }
-  if(document.getElementById('storyViewer').classList.contains('open')){
-    if(e.key === 'ArrowLeft') storyNav(-1);
-    if(e.key === 'ArrowRight') storyNav(1);
   }
 });
 </script>
