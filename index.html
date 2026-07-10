@@ -109,9 +109,12 @@
   .page-inner{ max-width:1180px; margin:0 auto; padding:0 5vw; }
 
   #page-home{ position:relative; }
-  .hero{ position:relative; min-height:100vh; display:flex; flex-direction:column; padding-top:110px; padding-bottom:40px; overflow:hidden; }
-  .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; flex:1; display:flex; align-items:center; }
+  .hero{ position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; padding:110px 0 96px; overflow:hidden; }
+  .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; }
   .eyebrow{ font-size:12.5px; letter-spacing:.35em; color:var(--blue); margin-bottom:22px; text-transform:uppercase; }
+  .hero-id{ display:flex; align-items:center; gap:12px; margin-bottom:26px; }
+  .hero-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 10px rgba(23,50,77,.15); }
+  .hero-id span{ font-size:12.5px; letter-spacing:.08em; color:var(--ink-soft); }
   .hero h1{ font-size:clamp(42px,7vw,86px); font-weight:500; color:var(--navy); line-height:1.2; letter-spacing:.02em; margin-bottom:22px; }
   .hero h1 em{ font-style:normal; color:var(--blue-2); }
   .hero p.lead{ font-size:17px; color:var(--ink-soft); max-width:520px; margin-bottom:44px; }
@@ -124,7 +127,7 @@
   .btn-ghost{ border-color:var(--navy); color:var(--navy); }
   .btn-ghost:hover{ background:var(--navy); color:#fff; }
 
-  .scroll-cue{ position:relative; z-index:2; margin:0 5vw; display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.2em; color:var(--blue-2); }
+  .scroll-cue{ position:absolute; bottom:36px; left:5vw; z-index:2; display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.2em; color:var(--blue-2); }
   .scroll-cue .line{ width:36px; height:1px; background:var(--blue-2); position:relative; overflow:hidden; }
   .scroll-cue .line::after{ content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--navy); animation:cue 2.4s ease-in-out infinite; }
   @keyframes cue{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} }
@@ -152,7 +155,10 @@
 
   #about{ padding:100px 0 130px; position:relative; scroll-margin-top:90px; }
   .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:start; }
-  .about-photo{ aspect-ratio:4/5; border-radius:4px; position:relative; overflow:hidden; background:linear-gradient(160deg,#17324D,#3E6E96 70%,#AFD0E3); }
+  .about-photo-group{ display:flex; flex-direction:column; gap:18px; }
+  .about-photo{ border-radius:4px; position:relative; overflow:hidden; background:linear-gradient(160deg,#17324D,#3E6E96 70%,#AFD0E3); }
+  .about-photo.main{ aspect-ratio:4/5; }
+  .about-photo.second{ aspect-ratio:16/10; }
   .about-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
   .about-block{ margin-bottom:42px; }
   .about-block:last-child{ margin-bottom:0; }
@@ -330,6 +336,9 @@
   .content-stage.landscape{ width:min(94vw,1200px); height:min(86vh,760px); border-radius:6px; }
   .content-frame-wrap{ position:absolute; inset:0; }
   .content-frame-wrap iframe{ width:100%; height:100%; border:0; transition:opacity .5s ease; }
+  .content-edge-hint{ position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.32); border:1px solid rgba(255,255,255,.4); color:#fff; display:flex; align-items:center; justify-content:center; z-index:3; pointer-events:none; opacity:.85; }
+  .content-edge-hint svg{ width:14px; }
+  .content-edge-hint.left{ left:10px; } .content-edge-hint.right{ right:10px; }
   .content-loading{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#fff; color:var(--ink-soft); font-size:12.5px; letter-spacing:.06em; transition:opacity .3s ease; }
   .content-spinner{ width:30px; height:30px; border-radius:50%; border:2px solid var(--line); border-top-color:var(--blue); animation:contentSpin .8s linear infinite; }
   @keyframes contentSpin{ to{ transform:rotate(360deg); } }
@@ -339,6 +348,10 @@
 
   @media(max-width:860px){
     nav ul{ display:none; }
+    .hero{ padding:100px 0 88px; }
+    .hero-tags{ margin-bottom:32px; }
+    .btn-row{ margin-bottom:6px; }
+    .scroll-cue{ bottom:26px; }
     .about-grid{ grid-template-columns:1fr; gap:50px; }
     .category-grid{ grid-template-columns:1fr; }
     .grid-graphic{ grid-template-columns:repeat(2,1fr); }
@@ -381,6 +394,11 @@
       <path class="ripple-line" d="M-50,600 C 250,540 450,680 750,600 S 1150,500 1300,600" stroke-width="1"/>
     </svg>
     <div class="hero-inner">
+      <div class="hero-id">
+        <!-- 首頁小頭像：把下面 src 換成你自己的照片網址即可，尺寸已固定為小圖示 -->
+        <img class="hero-avatar" src="https://picsum.photos/seed/hiro-portrait/200/200" alt="TIM YANG">
+        <span>TIM YANG ｜ Visual Designer</span>
+      </div>
       <div class="eyebrow">VISUAL DESIGNER PORTFOLIO</div>
       <h1>設計，是把想法<br><em>清楚地</em>說出來。</h1>
       <p class="lead">十餘年媒體與品牌視覺經驗，橫跨平面設計、UI/UX、動態影音與網頁敘事。相信簡潔的畫面，能承載最複雜的訊息。</p>
@@ -436,9 +454,15 @@
         <h2>關於我</h2>
       </div>
       <div class="about-grid">
-        <!-- 個人照片：把下面 src 換成你自己的照片網址即可 -->
-        <div class="about-photo">
-          <img src="https://picsum.photos/seed/hiro-portrait/640/800" alt="個人照片">
+        <div class="about-photo-group">
+          <!-- 個人照片 1（主照）：把下面 src 換成你自己的照片網址即可 -->
+          <div class="about-photo main">
+            <img src="https://picsum.photos/seed/hiro-portrait-1/640/760" alt="個人照片 1">
+          </div>
+          <!-- 個人照片 2（副照）：把下面 src 換成第二張照片網址即可 -->
+          <div class="about-photo second">
+            <img src="https://picsum.photos/seed/hiro-portrait-2/640/420" alt="個人照片 2">
+          </div>
         </div>
         <div>
           <div class="about-block">
@@ -687,14 +711,17 @@ const ampStories = [
 // 互動作品（HTML5 / Adobe Edge Animate）
 // 「2014世界盃」是一組 3 篇的作品，每一篇都是完全獨立的網址、獨立開啟、獨立關閉，
 // 彼此之間沒有任何左右切換或連動機制。
+// native:{w,h} 是這篇作品原始的固定畫布尺寸（沒有 RWD），用來等比例縮放至符合裝置畫面。
+// 目前先填入常見的舊版 Edge Animate 預設尺寸 960x600 作為預估值；
+// 如果縮放後畫面留白過多或內容仍被裁切，把該作品實際的畫布尺寸告訴我，我再幫你調整這組數字。
 const worldCup2014 = {
   title:"2014世界盃",
   intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，共分為三篇獨立作品，是投入相當多時間心力完成的作品。",
   repoUrl:"https://github.com/hirox0201/fifa2014",
   pages:[
-    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/"},
-    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/"},
-    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/"},
+    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/", native:{w:960,h:600}},
+    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/", native:{w:960,h:600}},
+    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/", native:{w:960,h:600}},
   ]
 };
 
@@ -705,7 +732,8 @@ const mh370Work = {
   title:"馬來西亞航空 MH370 事故動畫演示",
   desc:"以動畫方式重現馬來西亞航空370號班機失聯事件的時間軸與關鍵資訊，該班機於2014年3月自吉隆坡飛往北京途中失去聯繫，成為航空史上最大謎團之一，殘骸陸續於後續數年在印度洋沿岸尋獲。",
   img:"https://picsum.photos/seed/mh370cover/1200/675",
-  url:"https://hirox0201.github.io/mh370/"
+  url:"https://hirox0201.github.io/mh370/",
+  native:{w:960,h:600}
 };
 
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
@@ -896,7 +924,7 @@ worldCup2014.pages.forEach(p=>{
       <div class="feature-mini-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
     </div>
     <div class="feature-mini-info"><div class="fmt">${p.title}</div><div class="fmd">${p.desc}</div></div>`;
-  el.onclick = ()=> openContent(p.url, {shape:'landscape'});
+  el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native});
   wcGrid.appendChild(el);
 });
 
@@ -915,7 +943,7 @@ mh370Card.innerHTML = `
     <div class="ft">${mh370Work.title}</div>
     <div class="fd">${mh370Work.desc}</div>
   </div>`;
-mh370Card.onclick = ()=> openContent(mh370Work.url, {shape:'landscape'});
+mh370Card.onclick = ()=> openContent(mh370Work.url, {shape:'landscape', native:mh370Work.native});
 
 /* ============ 渲染：一般網頁作品（另開新分頁） ============ */
 const generalGrid = document.getElementById('general-grid');
@@ -936,22 +964,36 @@ generalWorks.forEach(g=>{
    - 沒有上一篇／下一篇切換
    - 沒有自動輪播
    - 關閉後會把 iframe 完全卸載，下次打開別篇也不會殘留上一篇的畫面
-   日後新增項目，只要照同樣方式呼叫 openContent(url, {shape:'portrait'|'landscape'})，
+   日後新增項目，只要照同樣方式呼叫 openContent(url, {shape:'portrait'|'landscape', native:{w,h}})，
    同樣會維持各自獨立，不會被合併或互相干擾。
+
+   native:{w,h} 是給「固定尺寸、沒有 RWD」的舊版 HTML5（Adobe Edge Animate）作品用的：
+   會把 iframe 依照原始尺寸完整渲染，再用 CSS transform 等比例縮小到符合目前裝置的可視範圍，
+   避免內容被裁切或跑版。如果縮放後畫面留白過多／內容還是被裁切，代表 native 裡填的尺寸
+   跟實際原始作品的畫布尺寸不同，把正確的寬高告訴我，我再幫你調整這組數字即可。
 ============================================================ */
+let contentResizeHandler = null;
+
 function openContent(url, opts){
   opts = opts || {};
   const shape = opts.shape === 'portrait' ? 'portrait' : 'landscape';
   const stage = document.getElementById('contentStage');
   stage.className = 'content-stage ' + shape;
+  stage.style.width = '';
+  stage.style.height = '';
 
   const wrap = document.getElementById('contentFrameWrap');
+  const edgeHints = shape === 'portrait'
+    ? `<div class="content-edge-hint left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></div>
+       <div class="content-edge-hint right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>`
+    : '';
   wrap.innerHTML = `
     <div class="content-loading" id="contentLoading">
       <div class="content-spinner"></div>
       <span>載入中…</span>
     </div>
     <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
+    ${edgeHints}
     <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
   document.getElementById('contentModal').classList.add('open');
 
@@ -962,9 +1004,32 @@ function openContent(url, opts){
     iframe.style.opacity = '1';
     setTimeout(()=>{ if(loading) loading.remove(); }, 400);
   });
+
+  // 固定尺寸（非 RWD）作品：依原始尺寸等比例縮放至符合裝置的畫面
+  if(opts.native && opts.native.w && opts.native.h){
+    const nativeW = opts.native.w, nativeH = opts.native.h;
+    const applyScale = ()=>{
+      const maxW = Math.min(window.innerWidth * 0.94, 1200);
+      const maxH = Math.min(window.innerHeight * 0.86, 760);
+      const scale = Math.min(maxW / nativeW, maxH / nativeH, 1);
+      stage.style.width = (nativeW * scale) + 'px';
+      stage.style.height = (nativeH * scale) + 'px';
+      iframe.style.width = nativeW + 'px';
+      iframe.style.height = nativeH + 'px';
+      iframe.style.transform = 'scale(' + scale + ')';
+      iframe.style.transformOrigin = 'top left';
+    };
+    applyScale();
+    contentResizeHandler = applyScale;
+    window.addEventListener('resize', contentResizeHandler);
+  }
 }
 function closeContent(){
   document.getElementById('contentModal').classList.remove('open');
+  if(contentResizeHandler){
+    window.removeEventListener('resize', contentResizeHandler);
+    contentResizeHandler = null;
+  }
   // 延遲卸載，讓關閉動畫先跑完，同時確保下次開別篇時是全新載入、不殘留內容
   setTimeout(()=>{ document.getElementById('contentFrameWrap').innerHTML = ''; }, 350);
 }
