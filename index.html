@@ -807,6 +807,25 @@ const worldCup2014 = {
   ]
 };
 
+// 馬來西亞航空 MH370 事故動畫演示（獨立單一作品）
+// native:{w:768,h:960} 已由你提供的原始碼 AdobeEdge.loadComposition() 參數確認。
+// 重要：目前這篇在 GitHub Pages 上還無法正常顯示，原因已找到——
+// index_edge.js 裡指定要載入的 jQuery 檔名是「jquery-2.0.3.min.js」（用句點），
+// 但你上傳的檔案實際命名是「jquery-2_0_3_min.js」（用底線），兩者對不起來，
+// 導致 jQuery 載入失敗（404），使整個 Edge Animate 動畫都無法啟動，
+// 但因為只是背景資源讀取失敗、不是網頁程式錯誤，瀏覽器不會跳出明顯的錯誤訊息。
+// 修正方式：在 index.html 同一層建立一個叫做「js」的資料夾，把 index_edge.js
+// 跟 jQuery 檔案都放進去，並把 jQuery 檔案改回正確檔名「jquery-2.0.3.min.js」
+// （用句點），images 資料夾也需確認存在且和 index.html 同一層。等你把 GitHub
+// 上的檔案修正好，這裡就會自動生效，不需要再調整程式碼。
+const mh370Work = {
+  title:"馬來西亞航空 MH370 事故動畫演示",
+  desc:"以動畫方式重現馬來西亞航空370號班機失聯事件的時間軸與關鍵資訊。",
+  img:"https://picsum.photos/seed/mh370cover/900/1120",
+  url:"https://hirox0201.github.io/mh370/",
+  native:{w:768,h:960}
+};
+
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
 const generalWorks = [
   {title:"毛小孩照護指南", desc:"events.ettoday.net/depth-report/dog_care", url:"https://events.ettoday.net/depth-report/dog_care/"},
@@ -1044,6 +1063,23 @@ worldCup2014.pages.forEach(p=>{
   el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
   wcGrid.appendChild(el);
 });
+
+// MH370：獨立單一作品卡（直式畫布，比照世界盃套用手機直式呈現）
+const mhGroup = document.createElement('div');
+mhGroup.className = 'feature-group';
+mhGroup.innerHTML = `<div class="feature-card" id="mh370Card"></div>`;
+featureContainer.appendChild(mhGroup);
+const mh370Card = mhGroup.querySelector('#mh370Card');
+mh370Card.innerHTML = `
+  <div class="feature-thumb">
+    <img src="${mh370Work.img}" alt="${mh370Work.title}">
+    <div class="feature-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
+  </div>
+  <div class="feature-meta">
+    <div class="ft">${mh370Work.title}</div>
+    <div class="fd">${mh370Work.desc}</div>
+  </div>`;
+mh370Card.onclick = ()=> openContent(mh370Work.url, {shape:'landscape', native:mh370Work.native, mobilePortrait:true});
 
 /* ============ 渲染：一般網頁作品（另開新分頁） ============ */
 const generalGrid = document.getElementById('general-grid');
