@@ -116,6 +116,30 @@
   nav a:hover, nav a.active{ color:var(--navy); }
   nav a:hover::after, nav a.active::after{ width:100%; }
 
+  /* 漢堡選單按鈕（預設隱藏，行動裝置才顯示） */
+  .menu-toggle{ display:none; flex-direction:column; justify-content:center; gap:5px; width:32px; height:32px; cursor:pointer; }
+  .menu-toggle span{ display:block; width:100%; height:1.5px; background:var(--navy); transition:transform .3s ease, opacity .3s ease; }
+  .menu-toggle.open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2){ opacity:0; }
+  .menu-toggle.open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+
+  /* 行動裝置抽屜選單 */
+  .mobile-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(78vw,320px); z-index:600;
+    background:#fff; box-shadow:-8px 0 30px rgba(23,50,77,.15);
+    padding:100px 34px 40px; display:flex; flex-direction:column; gap:40px;
+    transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.7,.3,1);
+  }
+  .mobile-drawer.open{ transform:translateX(0); }
+  .mobile-drawer ul{ list-style:none; display:flex; flex-direction:column; gap:26px; }
+  .mobile-drawer a{ font-size:16px; letter-spacing:.06em; color:var(--navy); font-family:var(--font-display); font-weight:500; }
+  .mobile-drawer .social-icon{ align-self:flex-start; display:inline-flex; gap:8px; width:auto; height:auto; padding:10px 16px; border-radius:100px; font-size:13px; letter-spacing:.06em; }
+  .mobile-drawer-backdrop{
+    position:fixed; inset:0; z-index:590; background:rgba(10,25,40,.4);
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .mobile-drawer-backdrop.open{ opacity:1; pointer-events:all; }
+
   .page{ display:none; min-height:100vh; }
   .page.active{ display:block; }
   .page-inner{ max-width:1180px; margin:0 auto; padding:0 5vw; }
@@ -271,17 +295,17 @@
 
   /* 影音作品 grid */
   .grid-video{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; padding-bottom:60px; }
-  .v-item{ cursor:pointer; border-radius:4px; overflow:hidden; background:#0e2338; box-shadow:0 3px 14px rgba(23,50,77,.08); }
-  .v-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:#0e2338; }
+  .v-item{ cursor:pointer; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); }
+  .v-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
   .v-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; display:block; }
   .v-item:hover .v-thumb img{ transform:scale(1.06); }
   .v-thumb::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.55), rgba(10,25,40,.05)); }
   .play-btn{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; z-index:2; transition:transform .3s ease, background .3s ease; }
   .v-item:hover .play-btn{ transform:translate(-50%,-50%) scale(1.1); background:#fff; }
   .play-btn svg{ width:20px; margin-left:3px; }
-  .v-meta{ padding:20px 22px 24px; color:#fff; }
+  .v-meta{ padding:20px 22px 24px; color:var(--navy); border-top:1px solid var(--line); }
   .v-meta .vt{ font-size:15.5px; font-weight:500; margin-bottom:6px; }
-  .v-meta .vd{ font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
+  .v-meta .vd{ font-size:12.5px; color:var(--blue); letter-spacing:.04em; }
   .video-note{ font-size:12.5px; color:var(--ink-soft); padding-bottom:60px; max-width:640px; }
 
   /* 網頁作品：子區塊標題 */
@@ -291,9 +315,9 @@
   .sub-head span{ font-size:12px; color:var(--blue-2); letter-spacing:.1em; }
 
   /* AMP Stories 卡片（像 IG 限動縮圖） */
-  .grid-amp{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .grid-amp{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:20px; }
   .amp-card{ cursor:pointer; text-align:center; }
-  .amp-ring{ width:100%; aspect-ratio:9/16; border-radius:14px; padding:4px; background:var(--navy); margin-bottom:14px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
+  .amp-ring{ width:100%; aspect-ratio:16/9; border-radius:8px; padding:3px; background:var(--navy); margin-bottom:12px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
   .amp-card:hover .amp-ring{ transform:translateY(-6px) scale(1.02); }
   .amp-inner{ width:100%; height:100%; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#fff; padding:18px; position:relative; overflow:hidden; }
   .amp-cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
@@ -366,6 +390,7 @@
 
   @media(max-width:860px){
     nav ul{ display:none; }
+    .menu-toggle{ display:flex; }
     .hero{ padding:100px 0 88px; }
     .hero-tags{ margin-bottom:32px; }
     .btn-row{ margin-bottom:6px; }
@@ -375,7 +400,7 @@
     .grid-graphic{ grid-template-columns:repeat(2,1fr); }
     .g-item.tall{ grid-row:auto; }
     .grid-video{ grid-template-columns:1fr; }
-    .grid-amp{ grid-template-columns:repeat(2,1fr); }
+    .grid-amp{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
     .gen-item{ flex-direction:column; align-items:flex-start; }
     .lightbox-content{ max-width:96vw; max-height:94vh; }
     .lightbox-img img{ max-width:96vw; max-height:72vh; }
@@ -401,7 +426,25 @@
       <li><a href="#about" class="nav-link" data-target="about">關於我</a></li>
     </ul>
   </nav>
+  <div class="menu-toggle" id="menuToggle" aria-label="開啟選單">
+    <span></span><span></span><span></span>
+  </div>
 </header>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <ul>
+    <li><a href="#home" class="nav-link" data-target="home">首頁</a></li>
+    <li><a href="#graphic" class="nav-link" data-target="graphic">平面設計</a></li>
+    <li><a href="#video" class="nav-link" data-target="video">影音動畫敘事</a></li>
+    <li><a href="#stories" class="nav-link" data-target="stories">infographic</a></li>
+    <li><a href="#about" class="nav-link" data-target="about">關於我</a></li>
+  </ul>
+  <a class="social-icon" href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener" title="LinkedIn">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
+    LinkedIn
+  </a>
+</div>
+<div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
 
 <!-- ================= HOME ================= -->
 <div class="page active" id="page-home">
@@ -750,30 +793,16 @@ const ampStories = [
 // 互動作品（HTML5 / Adobe Edge Animate）
 // 「2014世界盃」是一組 3 篇的作品，每一篇都是完全獨立的網址、獨立開啟、獨立關閉，
 // 彼此之間沒有任何左右切換或連動機制。
-// 這個專題原本是因應 iPad 尺寸設計的，畫布是「直式」比例，
-// native:{w:768,h:1024} 對應 iPad 直式（3:4）解析度。
-// 如果實際比例跟這組數字仍有落差（畫面留白過多或被裁切），
-// 把作品實際的畫布尺寸告訴我，我再幫你精準調整。
+// native:{w:768,h:1300} 為實測的 Adobe Edge 原始設計畫布尺寸（直式）。
 const worldCup2014 = {
   title:"2014世界盃",
   intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，共分為三篇獨立作品，是投入相當多時間心力完成的作品。",
   repoUrl:"https://github.com/hirox0201/fifa2014",
   pages:[
-    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/", native:{w:768,h:1024}},
-    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/", native:{w:768,h:1024}},
-    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/", native:{w:768,h:1024}},
+    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/", native:{w:768,h:1300}},
+    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/", native:{w:768,h:1300}},
+    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/", native:{w:768,h:1300}},
   ]
-};
-
-// 馬來西亞航空 MH370 事故動畫演示（獨立單一作品）
-// 提醒：MH370 是2014年3月從吉隆坡飛往北京途中失聯的班機，後續殘骸陸續於2015-2016年間
-// 在印度洋沿岸多處被發現；如果你指的是別的事件或年份，請直接告訴我，我再幫你修改圖說文字。
-const mh370Work = {
-  title:"馬來西亞航空 MH370 事故動畫演示",
-  desc:"以動畫方式重現馬來西亞航空370號班機失聯事件的時間軸與關鍵資訊，該班機於2014年3月自吉隆坡飛往北京途中失去聯繫，成為航空史上最大謎團之一，殘骸陸續於後續數年在印度洋沿岸尋獲。",
-  img:"https://picsum.photos/seed/mh370cover/1200/675",
-  url:"https://hirox0201.github.io/mh370/",
-  native:{w:960,h:600}
 };
 
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
@@ -817,10 +846,30 @@ document.addEventListener('click', (e)=>{
     const target = link.getAttribute('data-target') || link.getAttribute('href').replace('#','');
     if(location.hash === '#'+target){ routeFromHash(); }
     else{ location.hash = target; }
+    closeMobileDrawer();
   }
 });
 window.addEventListener('hashchange', routeFromHash);
 window.addEventListener('DOMContentLoaded', routeFromHash);
+
+/* ============ 行動裝置漢堡選單 ============ */
+function openMobileDrawer(){
+  document.getElementById('menuToggle').classList.add('open');
+  document.getElementById('mobileDrawer').classList.add('open');
+  document.getElementById('mobileDrawerBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileDrawer(){
+  document.getElementById('menuToggle').classList.remove('open');
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('mobileDrawerBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('menuToggle').addEventListener('click', ()=>{
+  const isOpen = document.getElementById('mobileDrawer').classList.contains('open');
+  if(isOpen) closeMobileDrawer(); else openMobileDrawer();
+});
+document.getElementById('mobileDrawerBackdrop').addEventListener('click', closeMobileDrawer);
 
 /* ============ 共用：作品卡片渲染（含常駐圖說） ============ */
 function renderWorkCard(container, item, group, index){
@@ -865,6 +914,7 @@ function openLightbox(group, index){
   lbIndex = index;
   renderLightbox();
   document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 function renderLightbox(){
   const w = lbGroup[lbIndex];
@@ -877,10 +927,32 @@ function navLightbox(dir){
   lbIndex = (lbIndex + dir + lbGroup.length) % lbGroup.length;
   renderLightbox();
 }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
 document.getElementById('lightbox').addEventListener('click', e=>{
   if(e.target.id === 'lightbox') closeLightbox();
 });
+
+/* 燈箱觸控滑動切換（左右滑動看上一張／下一張），不會自動播放，純手勢觸發 */
+(function(){
+  const lb = document.getElementById('lightbox');
+  let touchStartX = 0, touchStartY = 0, touchActive = false;
+  lb.addEventListener('touchstart', e=>{
+    if(e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchActive = true;
+  }, { passive:true });
+  lb.addEventListener('touchend', e=>{
+    if(!touchActive) return;
+    touchActive = false;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    // 水平滑動距離明顯大於垂直滑動，且超過門檻值，才判定為切換手勢（避免誤觸垂直滑動）
+    if(Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5){
+      navLightbox(dx < 0 ? 1 : -1);
+    }
+  }, { passive:true });
+})();
 
 /* ============ 渲染：影音作品 ============ */
 const videoGrid = document.getElementById('video-grid');
@@ -915,10 +987,12 @@ function openVideo(id){
       allowfullscreen></iframe>
       <a class="video-fallback-link" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">若無法播放，點此在 YouTube 直接觀看 →</a>`;
   document.getElementById('videoModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 function closeVideo(){
   document.getElementById('videoModal').classList.remove('open');
   document.getElementById('videoFrameWrap').innerHTML = '';
+  document.body.style.overflow = '';
 }
 document.getElementById('videoModal').addEventListener('click', e=>{
   if(e.target.id === 'videoModal') closeVideo();
@@ -942,7 +1016,7 @@ ampStories.forEach(s=>{
   ampGrid.appendChild(el);
 });
 
-/* ============ 渲染：互動作品（2014世界盃 3篇 + MH370，皆各自獨立） ============ */
+/* ============ 渲染：互動作品（2014世界盃，3篇皆各自獨立） ============ */
 const featureContainer = document.getElementById('feature-container');
 
 // 2014世界盃：一組標題下方放 3 張獨立卡片，點哪張只會開啟那一篇，互不干擾
@@ -968,23 +1042,6 @@ worldCup2014.pages.forEach(p=>{
   el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
   wcGrid.appendChild(el);
 });
-
-// MH370：獨立單一作品卡
-const mhGroup = document.createElement('div');
-mhGroup.className = 'feature-group';
-mhGroup.innerHTML = `<div class="feature-card" id="mh370Card"></div>`;
-featureContainer.appendChild(mhGroup);
-const mh370Card = mhGroup.querySelector('#mh370Card');
-mh370Card.innerHTML = `
-  <div class="feature-thumb">
-    <img src="${mh370Work.img}" alt="${mh370Work.title}">
-    <div class="feature-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
-  </div>
-  <div class="feature-meta">
-    <div class="ft">${mh370Work.title}</div>
-    <div class="fd">${mh370Work.desc}</div>
-  </div>`;
-mh370Card.onclick = ()=> openContent(mh370Work.url, {shape:'landscape', native:mh370Work.native});
 
 /* ============ 渲染：一般網頁作品（另開新分頁） ============ */
 const generalGrid = document.getElementById('general-grid');
@@ -1025,6 +1082,9 @@ function openContent(url, opts){
   stage.style.width = '';
   stage.style.height = '';
   if(contentResizeHandler){ window.removeEventListener('resize', contentResizeHandler); contentResizeHandler = null; }
+
+  // 鎖定背景頁面捲動，避免手機上出現「拖到彈窗卻滑動背景」的卡頓感
+  document.body.style.overflow = 'hidden';
 
   // 手機瀏覽且標記為 mobilePortrait 的作品：改用直式畫面框
   const isMobile = window.innerWidth < 700;
@@ -1096,12 +1156,19 @@ function setupNativeViewport(nativeW, nativeH, shape){
     const maxH = isPortraitStage
       ? Math.min(window.innerHeight * 0.9, 880)
       : Math.min(window.innerHeight * (window.innerWidth < 640 ? 0.9 : 0.86), 760);
-    stage.style.width = maxW + 'px';
-    stage.style.height = maxH + 'px';
-    // 以「符合裝置寬度」為基準，讓內容盡量放大到方便閱讀，超出的高度用捲動瀏覽，不做裁切
+
+    // 以「符合裝置寬度」為基準縮放，讓內容盡量放大到方便閱讀
     const scale = Math.min(Math.max(maxW / nativeW, 0.3), 1.4);
-    canvas.style.width = (nativeW * scale) + 'px';
-    canvas.style.height = (nativeH * scale) + 'px';
+    const canvasW = nativeW * scale;
+    const canvasH = nativeH * scale;
+
+    // 畫面框「貼合實際內容尺寸」，不要留下多餘留白：
+    // 寬／高只要小於上限，就直接用內容本身的尺寸，超過上限才用捲動瀏覽其餘部分
+    stage.style.width = Math.min(canvasW, maxW) + 'px';
+    stage.style.height = Math.min(canvasH, maxH) + 'px';
+
+    canvas.style.width = canvasW + 'px';
+    canvas.style.height = canvasH + 'px';
     iframe.style.width = nativeW + 'px';
     iframe.style.height = nativeH + 'px';
     iframe.style.transform = 'scale(' + scale + ')';
@@ -1115,6 +1182,7 @@ function setupNativeViewport(nativeW, nativeH, shape){
 
 function closeContent(){
   document.getElementById('contentModal').classList.remove('open');
+  document.body.style.overflow = '';
   if(contentResizeHandler){
     window.removeEventListener('resize', contentResizeHandler);
     contentResizeHandler = null;
