@@ -628,11 +628,11 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         返回上一頁
       </a>
-      <h2>影音作品</h2>
+      <h2>影音動畫敘事</h2>
       <p>點擊縮圖即可在原頁面直接放大播放，無需跳轉。</p>
     </div>
     <div class="grid-video" id="video-grid"></div>
-    <p class="video-note">＊ 若播放時出現 YouTube「錯誤 153」，通常是該支影片被擁有者設定「不允許外部網站嵌入播放」，或分享連結所在頁面的安全性設定阻擋了播放。已將嵌入方式改為 youtube-nocookie（隱私加強模式）並調整 referrer 設定；若特定影片仍無法播放，代表該影片本身關閉了嵌入權限，需要到 YouTube 後台開啟「允許嵌入」，或改用允許嵌入的另一支影片。</p>
+    <p class="video-note">以上動畫作品，從腳本撰寫、分鏡、幕後次要配音、角色人物繪製、動畫動態呈現皆由本人執行，其餘資料彙整、校對、幕後主要配音則由同仁一起處理。一部動畫製作時期從三周到一個月半不等。</p>
   </div>
 </div>
 
@@ -774,20 +774,29 @@ const brand500Categories = [
 
 // 影音作品：已換成您提供的 6 支 YouTube 影片
 const videoWorks = [
-  {title:"影音作品 01", desc:"點擊播放", ytid:"9cMXhftGdNE"},
-  {title:"影音作品 02", desc:"點擊播放", ytid:"1_fNvCi90Vs"},
-  {title:"影音作品 03", desc:"點擊播放", ytid:"RaaSajsD6u4"},
-  {title:"影音作品 04", desc:"點擊播放", ytid:"GcKrLSai86U"},
-  {title:"影音作品 05", desc:"點擊播放", ytid:"nqFTLATqsQM"},
-  {title:"影音作品 06", desc:"點擊播放", ytid:"lJFLhsY3-7g"},
+  {title:"星際大戰幼幼班 搞懂四色光劍", desc:"透過8-bit繪製，呈現趣味的冷知識。", ytid:"9cMXhftGdNE"},
+  {title:"耶誕叮叮噹 紅鼻子是馴鹿…還是麋鹿？", desc:"整體用耶誕折疊卡片的概念、角色用巧拼版質感設計，討論冷知識。", ytid:"1_fNvCi90Vs"},
+  {title:"台語王是你？草莓台語安抓唸", desc:"實際的水果影片配上可愛手繪擬人，讓學習冷知識也可以很輕鬆。", ytid:"RaaSajsD6u4"},
+  {title:"身體好嗎？便便顏色告訴你", desc:"完全手繪的可可愛愛動畫，平常鮮少人討論的日常健康冷知識。", ytid:"GcKrLSai86U"},
+  {title:"還不知道加密貨幣？別做投資族的LKK", desc:"新興的加密貨幣，向量動畫讓你知！", ytid:"nqFTLATqsQM"},
+  {title:"遊北韓4大禁忌 小心玩到沒命", desc:"想去北韓旅遊嗎？這篇告訴你！", ytid:"lJFLhsY3-7g"},
 ];
 
 // AMP Stories（原地獨立瀏覽，每一篇彼此獨立，沒有左右切換機制）－標題為依網址暫擬，請依實際內容調整
 // img 為封面圖，目前先放佔位圖，之後直接替換 img 網址即可
 const ampStories = [
-  {title:"京劇之美", url:"https://events.ettoday.net/depth-report/amp-beijingopera/", img:"https://picsum.photos/seed/amp-beijingopera/640/1000"},
-  {title:"日星鑄字行", url:"https://events.ettoday.net/depth-report/amp-daystar/", img:"https://picsum.photos/seed/amp-daystar/640/1000"},
-  {title:"K-POP 浪潮", url:"https://events.ettoday.net/depth-report/amp-kpop/", img:"https://picsum.photos/seed/amp-kpop/640/1000"},
+  {title:"十二夜後仍不見曙光，零撲殺浮現五大危機", url:"https://events.ettoday.net/depth-report/amp-dog/", img:"https://events.ettoday.net/depth-report/amp-dog/dog_share.jpg"},
+  {title:"深夜法器聲響起，百年習俗「送肉粽」解密，7大禁忌別碰", url:"https://events.ettoday.net/depth-report/amp-sbc/index.html", img:"https://events.ettoday.net/depth-report/amp-sbc/sbc-fb.jpg"},
+  {title:"200年前的「變女術」", url:"https://events.ettoday.net/depth-report/amp-beijingopera/", img:"https://events.ettoday.net/depth-report/amp-beijingopera/beijingopera-fb.jpg"},
+  {title:"國小生也聽KPOP！", url:"https://events.ettoday.net/depth-report/amp-kpop/", img:"https://events.ettoday.net/depth-report/amp-kpop/kpop-fb.jpg"},
+  {title:"逃離辦公室，成為大海的子民", url:"https://events.ettoday.net/depth-report/amp-mermaid/", img:"https://events.ettoday.net/depth-report/amp-mermaid/mermaid-fb.jpg"},
+  {title:"匠人之魂的燃燒", url:"https://events.ettoday.net/depth-report/amp-daystar/", img:"https://events.ettoday.net/depth-report/amp-daystar/daystar-fb.jpg"},
+  {title:"甩尾進金崙，跟村民一起搶救解憂雜貨店", url:"https://events.ettoday.net/depth-report/amp-konbini/", img:"https://events.ettoday.net/depth-report/amp-konbini/konbini-fb.jpg"},
+  {title:"人生旅遊清單+1，直擊加拿大冰川天空步道，全覽洛磯山美景", url:"https://events.ettoday.net/depth-report/amp-canadaiceriver/", img:"https://events.ettoday.net/depth-report/amp-canadaiceriver/canadaiceriver-fb.jpg"},
+  {title:"熊出沒！野生動物的天堂「加拿大傑士伯國家公園」", url:"https://events.ettoday.net/depth-report/amp-canadajasper/", img:"https://events.ettoday.net/depth-report/amp-canadajasper/canadajasper-fb.jpg"},
+  {title:"我們的城中城", url:"https://events.ettoday.net/depth-report/amp-cheng-zhong-cheng/index.html", img:"https://events.ettoday.net/depth-report/amp-cheng-zhong-cheng/cheng-zhong-cheng-fb.jpg"},
+  {title:"羞答答台灣之光，摩鐵的「八腳獸傳奇」", url:"https://events.ettoday.net/depth-report/amp-motel_sexchair/index.html", img:"https://events.ettoday.net/depth-report/amp-motel_sexchair/sexchair-fb.jpg"},
+  {title:"非去不可的Funtel！全家摩鐵玩起來", url:"https://events.ettoday.net/depth-report/amp-motel_funtel/index.html", img:"https://events.ettoday.net/depth-report/amp-motel_funtel/motel_funtel-fb.jpg"},
 ];
 
 // 互動作品（HTML5 / Adobe Edge Animate）
@@ -829,6 +838,7 @@ const mh370Work = {
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
 const generalWorks = [
   {title:"毛小孩照護指南", desc:"events.ettoday.net/depth-report/dog_care", url:"https://events.ettoday.net/depth-report/dog_care/"},
+  {title:"2018 SIHH日內瓦高級鐘錶展", desc:"events.ettoday.net/depth-report/sihh2018/", url:"https://events.ettoday.net/depth-report/sihh2018/"},
   {title:"城市小旅行提案", desc:"events.ettoday.net/depth-report/ncs_travel", url:"https://events.ettoday.net/depth-report/ncs_travel/"},
 ];
 
