@@ -316,17 +316,28 @@
 
   /* AMP Stories 卡片（像 IG 限動縮圖） */
   .grid-amp{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:20px; }
-  .amp-card{ cursor:pointer; text-align:center; }
+  .amp-card{ cursor:pointer; }
   .amp-ring{ width:100%; aspect-ratio:16/9; border-radius:8px; padding:3px; background:var(--navy); margin-bottom:12px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
   .amp-card:hover .amp-ring{ transform:translateY(-6px) scale(1.02); }
-  .amp-inner{ width:100%; height:100%; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#fff; padding:18px; position:relative; overflow:hidden; }
+  .amp-inner{ width:100%; height:100%; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; position:relative; overflow:hidden; }
   .amp-cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
   .amp-card:hover .amp-cover{ transform:scale(1.06); }
-  .amp-inner::before{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.8) 0%, rgba(10,25,40,.1) 50%, rgba(10,25,40,.35) 100%); }
-  .amp-inner .amp-play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); display:flex; align-items:center; justify-content:center; }
+  .amp-inner::before{ content:''; position:absolute; inset:0; background:rgba(10,25,40,.28); }
+  .amp-inner .amp-play{ position:relative; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.5); display:flex; align-items:center; justify-content:center; }
   .amp-inner .amp-play svg{ width:16px; }
-  .amp-inner .amp-t{ font-size:13.5px; font-weight:500; position:relative; }
-  .amp-card .amp-label{ font-size:12px; color:var(--ink-soft); }
+  .amp-info{ padding:0 2px; }
+  .amp-info .amp-t{ font-size:14px; font-weight:500; color:var(--navy); margin-bottom:4px; }
+  .amp-info .amp-label{ font-size:11.5px; color:var(--blue); letter-spacing:.06em; }
+
+  .grid-general{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:24px; }
+  .gen-item{ border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
+  .gen-item:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+  .gen-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
+  .gen-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .gen-item:hover .gen-thumb img{ transform:scale(1.06); }
+  .gen-info{ padding:16px 18px 18px; border-top:1px solid var(--line); }
+  .gen-title{ font-size:15.5px; color:var(--navy); font-weight:500; }
+  .gen-go{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--blue); letter-spacing:.06em; margin-top:10px; }
 
   /* 一般網頁作品（另開新頁） */
   .grid-general{ display:flex; flex-direction:column; }
@@ -401,7 +412,6 @@
     .g-item.tall{ grid-row:auto; }
     .grid-video{ grid-template-columns:1fr; }
     .grid-amp{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
-    .gen-item{ flex-direction:column; align-items:flex-start; }
     .lightbox-content{ max-width:96vw; max-height:94vh; }
     .lightbox-img img{ max-width:96vw; max-height:72vh; }
     .lightbox-nav{ width:38px; height:38px; }
@@ -836,10 +846,11 @@ const mh370Work = {
 };
 
 // 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
+// img 為縮圖，目前先放佔位圖，之後直接替換 img 網址即可
 const generalWorks = [
-  {title:"毛小孩照護指南", desc:"events.ettoday.net/depth-report/dog_care", url:"https://events.ettoday.net/depth-report/dog_care/"},
-  {title:"2018 SIHH日內瓦高級鐘錶展", desc:"events.ettoday.net/depth-report/sihh2018/", url:"https://events.ettoday.net/depth-report/sihh2018/"},
-  {title:"城市小旅行提案", desc:"events.ettoday.net/depth-report/ncs_travel", url:"https://events.ettoday.net/depth-report/ncs_travel/"},
+  {title:"毛小孩照護指南", desc:"events.ettoday.net/depth-report/dog_care", url:"https://events.ettoday.net/depth-report/dog_care/", img:"https://picsum.photos/seed/gen-dogcare/800/450"},
+  {title:"2018 SIHH日內瓦高級鐘錶展", desc:"events.ettoday.net/depth-report/sihh2018/", url:"https://events.ettoday.net/depth-report/sihh2018/", img:"https://picsum.photos/seed/gen-sihh/800/450"},
+  {title:"城市小旅行提案", desc:"events.ettoday.net/depth-report/ncs_travel", url:"https://events.ettoday.net/depth-report/ncs_travel/", img:"https://picsum.photos/seed/gen-travel/800/450"},
 ];
 
 /* ============ 路由 / 頁面切換（含錨點 + 平滑捲動） ============ */
@@ -1039,10 +1050,12 @@ ampStories.forEach(s=>{
       <div class="amp-inner">
         <img class="amp-cover" src="${s.img}" alt="${s.title}">
         <div class="amp-play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="amp-t">${s.title}</div>
       </div>
     </div>
-    <div class="amp-label">AMP STORY</div>`;
+    <div class="amp-info">
+      <div class="amp-t">${s.title}</div>
+      <div class="amp-label">AMP STORY</div>
+    </div>`;
   el.onclick = ()=> openContent(s.url, {shape:'portrait'});
   ampGrid.appendChild(el);
 });
@@ -1100,8 +1113,11 @@ generalWorks.forEach(g=>{
   el.target = '_blank';
   el.rel = 'noopener';
   el.innerHTML = `
-    <div class="gen-title">${g.title}<small>${g.desc}</small></div>
-    <div class="gen-go">另開新分頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg></div>`;
+    <div class="gen-thumb"><img src="${g.img}" alt="${g.title}"></div>
+    <div class="gen-info">
+      <div class="gen-title">${g.title}</div>
+      <div class="gen-go">另開新分頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
+    </div>`;
   generalGrid.appendChild(el);
 });
 
