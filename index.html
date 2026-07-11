@@ -293,11 +293,13 @@
   /* AMP Stories 卡片（像 IG 限動縮圖） */
   .grid-amp{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
   .amp-card{ cursor:pointer; text-align:center; }
-  .amp-ring{ width:100%; aspect-ratio:9/16; border-radius:14px; padding:4px; background:linear-gradient(135deg,var(--blue-2),var(--navy)); margin-bottom:14px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
+  .amp-ring{ width:100%; aspect-ratio:9/16; border-radius:14px; padding:4px; background:var(--navy); margin-bottom:14px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
   .amp-card:hover .amp-ring{ transform:translateY(-6px) scale(1.02); }
-  .amp-inner{ width:100%; height:100%; border-radius:11px; background:var(--navy); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; padding:18px; position:relative; overflow:hidden; }
-  .amp-inner::before{ content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 60%); }
-  .amp-inner .amp-play{ width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+  .amp-inner{ width:100%; height:100%; border-radius:11px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#fff; padding:18px; position:relative; overflow:hidden; }
+  .amp-cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .amp-card:hover .amp-cover{ transform:scale(1.06); }
+  .amp-inner::before{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.8) 0%, rgba(10,25,40,.1) 50%, rgba(10,25,40,.35) 100%); }
+  .amp-inner .amp-play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); display:flex; align-items:center; justify-content:center; }
   .amp-inner .amp-play svg{ width:16px; }
   .amp-inner .amp-t{ font-size:13.5px; font-weight:500; position:relative; }
   .amp-card .amp-label{ font-size:12px; color:var(--ink-soft); }
@@ -315,11 +317,12 @@
   /* ===== Lightbox（圖片） ===== */
   .lightbox{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
   .lightbox.open{ opacity:1; pointer-events:all; }
-  .lightbox-img{ position:relative; display:inline-block; max-width:min(72vw,700px); max-height:76vh; border-radius:3px; transform:scale(.92); transition:transform .4s cubic-bezier(.2,.7,.3,1); box-shadow:0 30px 80px rgba(0,0,0,.4); overflow:hidden; background:var(--navy); }
-  .lightbox-img img{ display:block; max-width:min(72vw,700px); max-height:76vh; width:auto; height:auto; }
+  .lightbox-content{ position:relative; display:flex; flex-direction:column; align-items:center; max-width:min(74vw,720px); max-height:92vh; }
+  .lightbox-img{ position:relative; border-radius:3px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.4); background:var(--navy); transform:scale(.92); transition:transform .4s cubic-bezier(.2,.7,.3,1); }
+  .lightbox-img img{ display:block; max-width:min(74vw,720px); max-height:74vh; width:auto; height:auto; }
   .lightbox.open .lightbox-img{ transform:scale(1); }
-  .lightbox-cap{ position:absolute; left:0; right:0; bottom:0; padding:26px 30px; background:linear-gradient(0deg, rgba(10,25,40,.8), rgba(10,25,40,0)); color:#fff; }
-  .lightbox-cap .lt{ font-size:17px; margin-bottom:4px; }
+  .lightbox-cap{ margin-top:16px; text-align:center; color:#fff; padding:0 8px; max-width:100%; }
+  .lightbox-cap .lt{ font-size:15px; margin-bottom:5px; }
   .lightbox-cap .ly{ font-size:12px; opacity:.75; }
   .lightbox-close, .video-close, .story-close{ position:absolute; top:30px; right:5vw; z-index:1010; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .25s ease; }
   .lightbox-close:hover, .video-close:hover, .story-close:hover{ background:rgba(255,255,255,.22); }
@@ -351,11 +354,6 @@
   .content-viewport{ position:absolute; inset:0; overflow:auto; -webkit-overflow-scrolling:touch; background:#f2f2f2; }
   .content-canvas{ position:relative; background:#fff; box-shadow:0 0 24px rgba(0,0,0,.08); }
   .content-canvas iframe{ position:absolute; top:0; left:0; border:0; display:block; }
-  .content-zoom-hint{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:4; font-size:11px; letter-spacing:.04em; color:#fff; background:rgba(0,0,0,.45); padding:7px 16px; border-radius:100px; pointer-events:none; opacity:0; transition:opacity .4s ease; white-space:nowrap; }
-  .content-zoom-hint.show{ opacity:.95; }
-  .content-zoom-controls{ position:absolute; right:14px; bottom:16px; z-index:4; display:flex; flex-direction:column; gap:7px; }
-  .content-zoom-btn{ width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.35); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:17px; line-height:1; user-select:none; transition:background .2s ease; }
-  .content-zoom-btn:hover{ background:rgba(0,0,0,.68); }
   .content-edge-hint{ position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.32); border:1px solid rgba(255,255,255,.4); color:#fff; display:flex; align-items:center; justify-content:center; z-index:3; pointer-events:none; opacity:.85; }
   .content-edge-hint svg{ width:14px; }
   .content-edge-hint.left{ left:10px; } .content-edge-hint.right{ right:10px; }
@@ -379,7 +377,8 @@
     .grid-video{ grid-template-columns:1fr; }
     .grid-amp{ grid-template-columns:repeat(2,1fr); }
     .gen-item{ flex-direction:column; align-items:flex-start; }
-    .lightbox-img{ width:88vw; }
+    .lightbox-content{ max-width:96vw; max-height:94vh; }
+    .lightbox-img img{ max-width:96vw; max-height:72vh; }
     .lightbox-nav{ width:38px; height:38px; }
   }
 </style>
@@ -634,8 +633,10 @@
   <div class="lightbox-nav lightbox-next" onclick="navLightbox(1)">
     <svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg>
   </div>
-  <div class="lightbox-img" id="lightbox-img">
-    <img id="lightbox-img-tag" src="" alt="">
+  <div class="lightbox-content">
+    <div class="lightbox-img" id="lightbox-img">
+      <img id="lightbox-img-tag" src="" alt="">
+    </div>
     <div class="lightbox-cap"><div class="lt" id="lightbox-title"></div><div class="ly" id="lightbox-year"></div></div>
   </div>
 </div>
@@ -739,26 +740,28 @@ const videoWorks = [
 ];
 
 // AMP Stories（原地獨立瀏覽，每一篇彼此獨立，沒有左右切換機制）－標題為依網址暫擬，請依實際內容調整
+// img 為封面圖，目前先放佔位圖，之後直接替換 img 網址即可
 const ampStories = [
-  {title:"京劇之美", url:"https://events.ettoday.net/depth-report/amp-beijingopera/"},
-  {title:"日星鑄字行", url:"https://events.ettoday.net/depth-report/amp-daystar/"},
-  {title:"K-POP 浪潮", url:"https://events.ettoday.net/depth-report/amp-kpop/"},
+  {title:"京劇之美", url:"https://events.ettoday.net/depth-report/amp-beijingopera/", img:"https://picsum.photos/seed/amp-beijingopera/640/1000"},
+  {title:"日星鑄字行", url:"https://events.ettoday.net/depth-report/amp-daystar/", img:"https://picsum.photos/seed/amp-daystar/640/1000"},
+  {title:"K-POP 浪潮", url:"https://events.ettoday.net/depth-report/amp-kpop/", img:"https://picsum.photos/seed/amp-kpop/640/1000"},
 ];
 
 // 互動作品（HTML5 / Adobe Edge Animate）
 // 「2014世界盃」是一組 3 篇的作品，每一篇都是完全獨立的網址、獨立開啟、獨立關閉，
 // 彼此之間沒有任何左右切換或連動機制。
-// native:{w,h} 是這篇作品原始的固定畫布尺寸（沒有 RWD），用來等比例縮放至符合裝置畫面。
-// 目前先填入常見的舊版 Edge Animate 預設尺寸 960x600 作為預估值；
-// 如果縮放後畫面留白過多或內容仍被裁切，把該作品實際的畫布尺寸告訴我，我再幫你調整這組數字。
+// 這個專題原本是因應 iPad 尺寸設計的，畫布是「直式」比例，
+// native:{w:768,h:1024} 對應 iPad 直式（3:4）解析度。
+// 如果實際比例跟這組數字仍有落差（畫面留白過多或被裁切），
+// 把作品實際的畫布尺寸告訴我，我再幫你精準調整。
 const worldCup2014 = {
   title:"2014世界盃",
   intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，共分為三篇獨立作品，是投入相當多時間心力完成的作品。",
   repoUrl:"https://github.com/hirox0201/fifa2014",
   pages:[
-    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/", native:{w:960,h:600}},
-    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/", native:{w:960,h:600}},
-    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/", native:{w:960,h:600}},
+    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"https://picsum.photos/seed/fifa201401/900/600", url:"https://hirox0201.github.io/fifa201401/", native:{w:768,h:1024}},
+    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"https://picsum.photos/seed/fifa201402/900/600", url:"https://hirox0201.github.io/fifa201402/", native:{w:768,h:1024}},
+    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"https://picsum.photos/seed/fifa201404/900/600", url:"https://hirox0201.github.io/fifa201404/", native:{w:768,h:1024}},
   ]
 };
 
@@ -929,6 +932,7 @@ ampStories.forEach(s=>{
   el.innerHTML = `
     <div class="amp-ring">
       <div class="amp-inner">
+        <img class="amp-cover" src="${s.img}" alt="${s.title}">
         <div class="amp-play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
         <div class="amp-t">${s.title}</div>
       </div>
@@ -961,7 +965,7 @@ worldCup2014.pages.forEach(p=>{
       <div class="feature-mini-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
     </div>
     <div class="feature-mini-info"><div class="fmt">${p.title}</div><div class="fmd">${p.desc}</div></div>`;
-  el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native});
+  el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
   wcGrid.appendChild(el);
 });
 
@@ -1005,28 +1009,32 @@ generalWorks.forEach(g=>{
    同樣會維持各自獨立，不會被合併或互相干擾。
 
    native:{w,h} 是給「固定尺寸、沒有 RWD」的舊版 HTML5（Adobe Edge Animate）作品用的：
-   一開始會以「符合裝置寬度、方便閱讀」的比例顯示（不會縮到過小看不清楚），
-   如果內容比視窗高，可以直接用滑動（滑鼠滾輪／觸控滑動）瀏覽其餘部分，
-   畫面右下角也提供放大／縮小／重置按鈕，方便進一步查看細節；iframe 本身完全
+   會以「符合裝置寬度、方便閱讀」的比例完整呈現，不額外提供縮放按鈕，介面越簡單越好；
+   如果內容比視窗高，直接用捲動（滑鼠滾輪／觸控滑動）瀏覽其餘部分即可，iframe 本身完全
    保持可互動（可以正常點擊裡面的遊戲、按鈕），不會被檢視器擋掉。
+
+   mobilePortrait:true 是給「原始設計為直式（例如 iPad 直式）」的作品用的：
+   在手機瀏覽時會自動改用直式（9:16 比例）的畫面框呈現，桌機則維持原本較寬的畫面框
+   （桌機螢幕夠大，維持原樣即可）。
 ============================================================ */
 let contentResizeHandler = null;
-let zoomState = null; // { nativeW, nativeH, scale, baseScale, minScale, maxScale }
 
 function openContent(url, opts){
   opts = opts || {};
-  const shape = opts.shape === 'portrait' ? 'portrait' : 'landscape';
   const stage = document.getElementById('contentStage');
-  stage.className = 'content-stage ' + shape;
   stage.style.width = '';
   stage.style.height = '';
-  zoomState = null;
   if(contentResizeHandler){ window.removeEventListener('resize', contentResizeHandler); contentResizeHandler = null; }
+
+  // 手機瀏覽且標記為 mobilePortrait 的作品：改用直式畫面框
+  const isMobile = window.innerWidth < 700;
+  const shape = (opts.mobilePortrait && isMobile) ? 'portrait' : (opts.shape === 'portrait' ? 'portrait' : 'landscape');
+  stage.className = 'content-stage ' + shape;
 
   const wrap = document.getElementById('contentFrameWrap');
 
   if(opts.native && opts.native.w && opts.native.h){
-    // 固定尺寸 HTML5 作品：可縮放／可捲動瀏覽的檢視器
+    // 固定尺寸 HTML5 作品：等比例縮放至符合裝置畫面，超出的部分用捲動瀏覽
     wrap.innerHTML = `
       <div class="content-loading" id="contentLoading">
         <div class="content-spinner"></div>
@@ -1037,12 +1045,6 @@ function openContent(url, opts){
           <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
         </div>
       </div>
-      <div class="content-zoom-controls">
-        <div class="content-zoom-btn" id="zoomInBtn">＋</div>
-        <div class="content-zoom-btn" id="zoomOutBtn">－</div>
-        <div class="content-zoom-btn" id="zoomResetBtn" style="font-size:13px;">⤢</div>
-      </div>
-      <div class="content-zoom-hint" id="contentZoomHint">可滑動瀏覽・可縮放</div>
       <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
     document.getElementById('contentModal').classList.add('open');
 
@@ -1054,7 +1056,7 @@ function openContent(url, opts){
       setTimeout(()=>{ if(loading) loading.remove(); }, 400);
     });
 
-    setupZoomViewport(opts.native.w, opts.native.h);
+    setupNativeViewport(opts.native.w, opts.native.h, shape);
   } else {
     // 一般內容（AMP Stories 等）：單純 iframe，本身已具備 RWD
     const edgeHints = shape === 'portrait'
@@ -1081,70 +1083,34 @@ function openContent(url, opts){
   }
 }
 
-function setupZoomViewport(nativeW, nativeH){
+function setupNativeViewport(nativeW, nativeH, shape){
   const stage = document.getElementById('contentStage');
-  const viewport = document.getElementById('contentViewport');
   const canvas = document.getElementById('contentCanvas');
   const iframe = document.getElementById('contentIframe');
-  const hint = document.getElementById('contentZoomHint');
-
-  const render = ()=>{
-    const s = zoomState.scale;
-    canvas.style.width = (nativeW * s) + 'px';
-    canvas.style.height = (nativeH * s) + 'px';
-    iframe.style.width = nativeW + 'px';
-    iframe.style.height = nativeH + 'px';
-    iframe.style.transform = 'scale(' + s + ')';
-    iframe.style.transformOrigin = 'top left';
-  };
 
   const fitToDevice = ()=>{
-    const maxW = Math.min(window.innerWidth * (window.innerWidth < 640 ? 0.98 : 0.94), 1200);
-    const maxH = Math.min(window.innerHeight * (window.innerWidth < 640 ? 0.9 : 0.86), 760);
+    const isPortraitStage = shape === 'portrait';
+    const maxW = isPortraitStage
+      ? Math.min(window.innerWidth * 0.94, 420)
+      : Math.min(window.innerWidth * (window.innerWidth < 640 ? 0.98 : 0.94), 1200);
+    const maxH = isPortraitStage
+      ? Math.min(window.innerHeight * 0.9, 880)
+      : Math.min(window.innerHeight * (window.innerWidth < 640 ? 0.9 : 0.86), 760);
     stage.style.width = maxW + 'px';
     stage.style.height = maxH + 'px';
-    // 以「符合裝置寬度」為基準，讓內容盡量放大到方便閱讀，超出的高度用捲動瀏覽
-    const baseScale = Math.min(Math.max(maxW / nativeW, 0.32), 1.5);
-    const prevScale = zoomState ? zoomState.scale : null;
-    zoomState = {
-      nativeW, nativeH, baseScale,
-      minScale: baseScale * 0.5,
-      maxScale: baseScale * 2.5,
-      scale: prevScale || baseScale
-    };
-    render();
+    // 以「符合裝置寬度」為基準，讓內容盡量放大到方便閱讀，超出的高度用捲動瀏覽，不做裁切
+    const scale = Math.min(Math.max(maxW / nativeW, 0.3), 1.4);
+    canvas.style.width = (nativeW * scale) + 'px';
+    canvas.style.height = (nativeH * scale) + 'px';
+    iframe.style.width = nativeW + 'px';
+    iframe.style.height = nativeH + 'px';
+    iframe.style.transform = 'scale(' + scale + ')';
+    iframe.style.transformOrigin = 'top left';
   };
 
   fitToDevice();
   contentResizeHandler = fitToDevice;
   window.addEventListener('resize', contentResizeHandler);
-
-  // 顯示提示文字，幾秒後自動淡出
-  requestAnimationFrame(()=> hint.classList.add('show'));
-  setTimeout(()=> hint.classList.remove('show'), 3200);
-
-  const applyZoom = (factor)=>{
-    if(!zoomState) return;
-    const next = Math.min(Math.max(zoomState.scale * factor, zoomState.minScale), zoomState.maxScale);
-    zoomState.scale = next;
-    render();
-  };
-  document.getElementById('zoomInBtn').onclick = ()=> applyZoom(1.25);
-  document.getElementById('zoomOutBtn').onclick = ()=> applyZoom(0.8);
-  document.getElementById('zoomResetBtn').onclick = ()=>{
-    if(!zoomState) return;
-    zoomState.scale = zoomState.baseScale;
-    render();
-    viewport.scrollTo({left:0, top:0, behavior:'smooth'});
-  };
-
-  // 桌機：按住 Ctrl／Cmd 滾輪縮放；一般滾輪則維持原生捲動瀏覽
-  viewport.addEventListener('wheel', e=>{
-    if(e.ctrlKey || e.metaKey){
-      e.preventDefault();
-      applyZoom(e.deltaY < 0 ? 1.08 : 0.93);
-    }
-  }, { passive:false });
 }
 
 function closeContent(){
@@ -1153,7 +1119,6 @@ function closeContent(){
     window.removeEventListener('resize', contentResizeHandler);
     contentResizeHandler = null;
   }
-  zoomState = null;
   // 延遲卸載，讓關閉動畫先跑完，同時確保下次開別篇時是全新載入、不殘留內容
   setTimeout(()=>{ document.getElementById('contentFrameWrap').innerHTML = ''; }, 350);
 }
