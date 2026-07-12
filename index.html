@@ -86,8 +86,29 @@
     text-justify:inter-character;
   }
 
-  .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
-  .ripple-line{ fill:none; stroke:var(--sky); stroke-width:1; opacity:.5; }
+  .hero-video-wrap{ position:absolute; inset:0; overflow:hidden; z-index:0; background:var(--navy); }
+  .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .hero-video-scrim{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(15,32,50,.7) 0%, rgba(15,32,50,.5) 40%, rgba(15,32,50,.35) 70%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(10,22,36,.55) 0%, rgba(10,22,36,.15) 55%, rgba(10,22,36,.05) 100%);
+  }
+  @media (prefers-reduced-motion: reduce){ .hero-video{ display:none; } }
+
+  /* Hero 文字改為淺色系，確保在深色影片背景上維持清晰對比（以資訊清楚為優先） */
+  .hero .eyebrow{ color:var(--sky); }
+  .hero-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,.85); box-shadow:0 2px 10px rgba(0,0,0,.25); }
+  .hero .hero-id span{ color:rgba(255,255,255,.85); }
+  .hero h1{ color:#fff; text-shadow:0 2px 20px rgba(0,0,0,.25); }
+  .hero h1 em{ color:var(--sky); }
+  .hero p.lead{ color:rgba(255,255,255,.88); }
+  .hero .tag{ color:#fff; border:1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); backdrop-filter:blur(4px); }
+  .hero .btn-ghost{ border-color:rgba(255,255,255,.75); color:#fff; }
+  .hero .btn-ghost:hover{ background:#fff; color:var(--navy); }
+  .hero .scroll-cue{ color:rgba(255,255,255,.85); }
+  .hero .scroll-cue .line{ background:rgba(255,255,255,.4); }
+  .hero .scroll-cue .line::after{ background:#fff; }
 
   /* 基本防盜圖措施：圖片禁止拖曳、禁止選取／長按快顯選單（僅圖片，不影響文字選取） */
   img{ -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
@@ -156,7 +177,6 @@
   .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; }
   .eyebrow{ font-size:12.5px; letter-spacing:.35em; color:var(--blue); margin-bottom:22px; text-transform:uppercase; }
   .hero-id{ display:flex; align-items:center; gap:12px; margin-bottom:26px; }
-  .hero-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 10px rgba(23,50,77,.15); }
   .hero-id span{ font-size:12.5px; letter-spacing:.08em; color:var(--ink-soft); }
   .hero h1{ font-size:clamp(42px,7vw,86px); font-weight:500; color:var(--navy); line-height:1.2; letter-spacing:.02em; margin-bottom:22px; }
   .hero h1 em{ font-style:normal; color:var(--blue-2); }
@@ -195,19 +215,19 @@
   .cat-card:hover .cat-arrow svg{ transform:translateX(6px); }
 
   #about{ padding:100px 0 130px; position:relative; scroll-margin-top:90px; }
-  .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:start; }
-  .about-photo-group{ display:flex; flex-direction:column; gap:18px; }
-  .about-photo{ border-radius:4px; position:relative; overflow:hidden; background:linear-gradient(160deg,#17324D,#3E6E96 70%,#AFD0E3); }
-  .about-photo.main{ aspect-ratio:4/5; }
-  .about-photo.second{ aspect-ratio:16/10; }
+  .about-grid{ display:flex; flex-direction:column; gap:44px; }
+  .about-photo-group{ display:flex; flex-direction:row; gap:18px; }
+  .about-photo{ border-radius:4px; position:relative; overflow:hidden; background:linear-gradient(160deg,#17324D,#3E6E96 70%,#AFD0E3); flex:1; }
+  .about-photo.main{ aspect-ratio:4/5; max-width:320px; }
+  .about-photo.second{ aspect-ratio:4/5; max-width:320px; }
   .about-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
   .about-block{ margin-bottom:42px; }
   .about-block:last-child{ margin-bottom:0; }
   .about-block h4{ font-size:12.5px; letter-spacing:.25em; color:var(--blue); margin-bottom:18px; text-transform:uppercase; font-family:var(--font-body); font-weight:700; }
   .timeline{ list-style:none; }
-  .timeline li{ display:grid; grid-template-columns:90px 1fr; gap:18px; padding:16px 0; border-top:1px solid var(--line); font-size:14.5px; }
+  .timeline li{ padding:16px 0; border-top:1px solid var(--line); font-size:14.5px; }
   .timeline li:last-child{ border-bottom:1px solid var(--line); }
-  .timeline .yr{ color:var(--blue-2); font-family:var(--font-display); font-size:17px; }
+  .timeline .yr{ display:block; color:var(--blue-2); font-family:var(--font-display); font-size:17px; margin-bottom:6px; }
   .timeline .desc b{ color:var(--navy); font-weight:700; }
   .chip-row{ display:flex; flex-wrap:wrap; gap:10px; }
   .chip{ font-size:13px; padding:9px 16px; border-radius:100px; background:var(--sky-pale); color:var(--navy); border:1px solid var(--line); }
@@ -271,7 +291,7 @@
   .year-tab.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
 
   /* 互動作品（HTML5）卡片 */
-  .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); display:grid; grid-template-columns:1.2fr 1fr; transition:transform .3s ease, box-shadow .3s ease; }
+  .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
   .feature-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
   .feature-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
   .feature-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
@@ -282,7 +302,6 @@
   .feature-meta .ft{ font-size:18px; font-weight:500; color:var(--navy); margin-bottom:10px; }
   .feature-meta .fd{ font-size:13px; color:var(--ink-soft); line-height:1.75; margin-bottom:14px; }
   .feature-meta .fx{ display:flex; gap:8px; flex-wrap:wrap; }
-  @media(max-width:860px){ .feature-card{ grid-template-columns:1fr; } }
 
   /* 互動作品分組（例如「2014世界盃」內含多篇獨立作品） */
   .feature-group{ margin-bottom:52px; }
@@ -326,7 +345,7 @@
   .sub-head span{ font-size:12px; color:var(--blue-2); letter-spacing:.1em; }
 
   /* AMP Stories 卡片（像 IG 限動縮圖） */
-  .grid-amp{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:20px; }
+  .grid-amp{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
   .amp-card{ cursor:pointer; }
   .amp-ring{ width:100%; aspect-ratio:16/9; border-radius:8px; padding:3px; background:var(--navy); margin-bottom:12px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
   .amp-card:hover .amp-ring{ transform:translateY(-6px) scale(1.02); }
@@ -408,12 +427,13 @@
     .hero-tags{ margin-bottom:32px; }
     .btn-row{ margin-bottom:6px; }
     .scroll-cue{ bottom:26px; }
-    .about-grid{ grid-template-columns:1fr; gap:50px; }
+    .about-photo-group{ flex-direction:column; }
+    .about-photo.main, .about-photo.second{ max-width:none; }
     .category-grid{ grid-template-columns:1fr; }
     .grid-graphic{ grid-template-columns:repeat(2,1fr); }
     .g-item.tall{ grid-row:auto; }
     .grid-video{ grid-template-columns:1fr; }
-    .grid-amp{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
+    .grid-amp{ grid-template-columns:1fr; }
     .lightbox-content{ max-width:96vw; max-height:94vh; }
     .lightbox-img img{ max-width:96vw; max-height:72vh; }
     .lightbox-nav{ width:38px; height:38px; }
@@ -461,12 +481,17 @@
 <!-- ================= HOME ================= -->
 <div class="page active" id="page-home">
   <section class="hero" id="home">
-    <svg class="ripple-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
-      <path class="ripple-line" d="M-50,180 C 250,120 450,260 750,180 S 1150,80 1300,180" stroke-width="1"/>
-      <path class="ripple-line" d="M-50,320 C 250,260 450,400 750,320 S 1150,220 1300,320" stroke-width="1"/>
-      <path class="ripple-line" d="M-50,460 C 250,400 450,540 750,460 S 1150,360 1300,460" stroke-width="1"/>
-      <path class="ripple-line" d="M-50,600 C 250,540 450,680 750,600 S 1150,500 1300,600" stroke-width="1"/>
-    </svg>
+    <!-- 首頁動態背景影片：目前先嵌入 Pexels 上的免費授權富士山空拍影片（可商用，來源：pexels.com/video/a-footage-of-mt-fuji-6602522）。
+         之後如果想換成別的日本文化／傳統技藝主題影片，建議直接到 pexels.com 或 coverr.co 下載喜歡的免費影片檔案，
+         上傳到你自己的 GitHub 專案（例如放進一個叫 videos 的資料夾），再把下面 <source src="..."> 的網址換成你自己檔案的相對路徑即可，
+         例如 videos/hero-bg.mp4，這樣長期使用會比直接連到別人網站的影片網址更穩定。 -->
+    <div class="hero-video-wrap">
+      <video class="hero-video" autoplay muted loop playsinline
+        poster="https://images.pexels.com/videos/6602522/pexels-photo-6602522.jpeg?auto=compress&cs=tinysrgb&h=1080&fit=crop&w=1920">
+        <source src="https://videos.pexels.com/video-files/6602522/6602522-hd_1920_1080_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-scrim"></div>
+    </div>
     <div class="hero-inner">
       <div class="hero-id">
         <!-- 首頁小頭像：把下面 src 換成你自己的照片網址即可，尺寸已固定為小圖示 -->
