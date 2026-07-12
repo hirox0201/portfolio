@@ -258,6 +258,10 @@
   .brand500-cat .sub-head{ flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:22px; }
   .brand500-cat .sub-head h3{ font-size:19px; }
   .brand500-cat .sub-head p{ font-size:12.5px; color:var(--ink-soft); letter-spacing:0; }
+  .year-tabs{ display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
+  .year-tab{ font-family:var(--font-body); font-size:13px; letter-spacing:.04em; color:var(--ink-soft); background:none; border:1px solid var(--line); padding:8px 18px; border-radius:100px; cursor:pointer; transition:all .2s ease; }
+  .year-tab:hover{ border-color:var(--blue-2); color:var(--navy); }
+  .year-tab.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
 
   /* 互動作品（HTML5）卡片 */
   .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); display:grid; grid-template-columns:1.2fr 1fr; transition:transform .3s ease, box-shadow .3s ease; }
@@ -291,7 +295,7 @@
   .feature-mini-info{ padding:14px 16px 16px; }
   .feature-mini-info .fmt{ font-size:13.5px; font-weight:500; color:var(--navy); margin-bottom:6px; }
   .feature-mini-info .fmd{ font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
-  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } }
+  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } .grid-general{ grid-template-columns:1fr; } }
 
   /* 影音作品 grid */
   .grid-video{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; padding-bottom:60px; }
@@ -329,25 +333,15 @@
   .amp-info .amp-t{ font-size:14px; font-weight:500; color:var(--navy); margin-bottom:4px; }
   .amp-info .amp-label{ font-size:11.5px; color:var(--blue); letter-spacing:.06em; }
 
-  .grid-general{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:24px; }
+  .grid-general{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
   .gen-item{ border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
   .gen-item:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .gen-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
+  .gen-thumb{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--navy); }
   .gen-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
   .gen-item:hover .gen-thumb img{ transform:scale(1.06); }
   .gen-info{ padding:16px 18px 18px; border-top:1px solid var(--line); }
   .gen-title{ font-size:15.5px; color:var(--navy); font-weight:500; }
   .gen-go{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--blue); letter-spacing:.06em; margin-top:10px; }
-
-  /* 一般網頁作品（另開新頁） */
-  .grid-general{ display:flex; flex-direction:column; }
-  .gen-item{ border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:20px; padding:26px 4px; transition:background .3s ease; }
-  .grid-general .gen-item:last-child{ border-bottom:1px solid var(--line); }
-  .gen-item:hover{ background:var(--sky-pale); }
-  .gen-title{ font-size:17px; color:var(--navy); font-weight:500; }
-  .gen-title small{ display:block; font-size:12px; color:var(--ink-soft); font-weight:400; margin-top:6px; }
-  .gen-go{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--blue); letter-spacing:.06em; flex-shrink:0; }
-  .gen-go svg{ width:14px; }
 
   /* ===== Lightbox（圖片） ===== */
   .lightbox{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
@@ -748,36 +742,40 @@ const brand500Categories = [
       {title:"獎旗設計", desc:"發送給各個得碗店家，方便掛至店內的獎旗。", year:"2024", img:"images/500bowl2024/500bowl2024_06.webp"},
       {title:"工作人員＆媒體識別證", desc:"工作人員識別證個性款。", year:"2024", img:"images/500bowl2024/500bowl2024_07.webp"},
       {title:"工作人員＆媒體識別證", desc:"工作人員識別證質感款。", year:"2024", img:"images/500bowl2024/500bowl2024_08.webp"},
+      {title:"500碗2025主視覺", desc:"年度主視覺概念延伸提案。", year:"2025", img:"https://picsum.photos/seed/wan2025-01/700/875"},
+      {title:"500碗2025得獎店家特輯", desc:"年度得獎店家視覺紀錄。", year:"2025", img:"https://picsum.photos/seed/wan2025-02/700/875"},
+      {title:"500碗2026主視覺", desc:"年度主視覺概念延伸提案。", year:"2026", img:"https://picsum.photos/seed/wan2026-01/700/875"},
+      {title:"500碗2026周邊提案", desc:"年度周邊商品視覺提案。", year:"2026", img:"https://picsum.photos/seed/wan2026-02/700/875"},
     ]
   },
   {
     key:"tian", name:"500甜", intro:"《500輯》IP之一，台灣首份甜點指南。",
     items:[
-      {title:"手作甜點工作室", desc:"獨立甜點工作室的作品拍攝與設計。", year:"2024", img:"https://picsum.photos/seed/tian01/700/875"},
-      {title:"季節水果塔特輯", desc:"當季水果製作甜點的視覺紀錄。", year:"2023", img:"https://picsum.photos/seed/tian02/700/875"},
-      {title:"職人手沖咖啡", desc:"咖啡職人手沖過程與空間紀錄。", year:"2023", img:"https://picsum.photos/seed/tian03/700/875"},
-      {title:"傳統糕餅故事", desc:"傳統糕餅店的職人故事與商品紀錄。", year:"2022", img:"https://picsum.photos/seed/tian04/700/875"},
-      {title:"下午茶提案", desc:"城市下午茶店家精選提案設計。", year:"2022", img:"https://picsum.photos/seed/tian05/700/875"},
+      {title:"手作甜點工作室", desc:"獨立甜點工作室的作品拍攝與設計。", year:"2026", img:"https://picsum.photos/seed/tian01/700/875"},
+      {title:"季節水果塔特輯", desc:"當季水果製作甜點的視覺紀錄。", year:"2026", img:"https://picsum.photos/seed/tian02/700/875"},
+      {title:"職人手沖咖啡", desc:"咖啡職人手沖過程與空間紀錄。", year:"2025", img:"https://picsum.photos/seed/tian03/700/875"},
+      {title:"傳統糕餅故事", desc:"傳統糕餅店的職人故事與商品紀錄。", year:"2025", img:"https://picsum.photos/seed/tian04/700/875"},
+      {title:"下午茶提案", desc:"城市下午茶店家精選提案設計。", year:"2025", img:"https://picsum.photos/seed/tian05/700/875"},
     ]
   },
   {
     key:"young", name:"500Young", intro:"《500輯》IP之一，聚焦青年世代價值的領航獎項。",
     items:[
-      {title:"新創空間巡禮", desc:"年輕創業者打造的特色空間紀錄。", year:"2024", img:"https://picsum.photos/seed/young01/700/875"},
-      {title:"潮流品牌特輯", desc:"新興潮流品牌視覺與商品拍攝。", year:"2024", img:"https://picsum.photos/seed/young02/700/875"},
-      {title:"街頭文化觀察", desc:"城市街頭文化與青年生活紀錄。", year:"2023", img:"https://picsum.photos/seed/young03/700/875"},
-      {title:"獨立市集特輯", desc:"週末獨立市集的攤位與商品紀錄。", year:"2023", img:"https://picsum.photos/seed/young04/700/875"},
-      {title:"新型態商業空間", desc:"複合式商業空間的設計與體驗紀錄。", year:"2022", img:"https://picsum.photos/seed/young05/700/875"},
+      {title:"新創空間巡禮", desc:"年輕創業者打造的特色空間紀錄。", year:"2026", img:"https://picsum.photos/seed/young01/700/875"},
+      {title:"潮流品牌特輯", desc:"新興潮流品牌視覺與商品拍攝。", year:"2026", img:"https://picsum.photos/seed/young02/700/875"},
+      {title:"街頭文化觀察", desc:"城市街頭文化與青年生活紀錄。", year:"2024", img:"https://picsum.photos/seed/young03/700/875"},
+      {title:"獨立市集特輯", desc:"週末獨立市集的攤位與商品紀錄。", year:"2024", img:"https://picsum.photos/seed/young04/700/875"},
+      {title:"新型態商業空間", desc:"複合式商業空間的設計與體驗紀錄。", year:"2024", img:"https://picsum.photos/seed/young05/700/875"},
     ]
   },
   {
     key:"pa", name:"500趴", intro:"《500輯》IP之一，記錄城市裡精彩派對與活動現場的第一手觀察。",
     items:[
-      {title:"品牌派對主視覺", desc:"品牌形象派對主視覺與現場佈置設計。", year:"2024", img:"https://picsum.photos/seed/pa01/700/875"},
-      {title:"音樂派對紀實", desc:"獨立音樂派對現場氛圍紀錄。", year:"2024", img:"https://picsum.photos/seed/pa02/700/875"},
+      {title:"品牌派對主視覺", desc:"品牌形象派對主視覺與現場佈置設計。", year:"2025", img:"https://picsum.photos/seed/pa01/700/875"},
+      {title:"音樂派對紀實", desc:"獨立音樂派對現場氛圍紀錄。", year:"2025", img:"https://picsum.photos/seed/pa02/700/875"},
       {title:"屋頂派對特輯", desc:"城市屋頂派對場景與賓客紀錄。", year:"2023", img:"https://picsum.photos/seed/pa03/700/875"},
       {title:"周年慶典紀錄", desc:"品牌周年活動現場紀實拍攝。", year:"2023", img:"https://picsum.photos/seed/pa04/700/875"},
-      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2022", img:"https://picsum.photos/seed/pa05/700/875"},
+      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2023", img:"https://picsum.photos/seed/pa05/700/875"},
     ]
   },
 ];
@@ -913,9 +911,16 @@ function renderWorkCard(container, item, group, index){
 const graphicGrid = document.getElementById('graphic-grid');
 graphicWorks.forEach((w, i)=> renderWorkCard(graphicGrid, w, graphicWorks, i));
 
-/* ============ 渲染：500輯（四個子分類，各自獨立） ============ */
+/* ============ 渲染：500輯（五個子分類，各自獨立，並依年份分頁瀏覽） ============
+   每個分類底下的年份分頁按鈕，只會控制「自己這個分類」要顯示哪個年份的作品，
+   跟其他分類的分頁按鈕完全獨立、互不影響。日後要新增/調整年份，
+   只要在 brand500Categories 該分類的 items 裡調整每個項目的 year 欄位即可，
+   分頁按鈕會自動依資料裡出現過的年份產生，不需要額外修改這段渲染邏輯。 */
 const brand500Container = document.getElementById('brand500-container');
 brand500Categories.forEach(cat=>{
+  // 依這個分類實際擁有的年份自動產生分頁按鈕，由新到舊排序
+  const years = [...new Set(cat.items.map(it=>it.year))].sort((a,b)=> b.localeCompare(a));
+
   const block = document.createElement('div');
   block.className = 'brand500-cat';
   block.innerHTML = `
@@ -923,10 +928,30 @@ brand500Categories.forEach(cat=>{
       <h3>${cat.name}</h3>
       <p>${cat.intro}</p>
     </div>
+    <div class="year-tabs" id="tabs-${cat.key}">
+      ${years.map((y,i)=> `<button type="button" class="year-tab${i===0 ? ' active' : ''}" data-year="${y}">${y}</button>`).join('')}
+    </div>
     <div class="w-grid" id="brand500-${cat.key}"></div>`;
   brand500Container.appendChild(block);
+
   const catGrid = block.querySelector('#brand500-' + cat.key);
-  cat.items.forEach((item, i)=> renderWorkCard(catGrid, item, cat.items, i));
+  const tabsWrap = block.querySelector('#tabs-' + cat.key);
+
+  const renderYear = (year)=>{
+    catGrid.innerHTML = '';
+    const filtered = cat.items.filter(it=> it.year === year);
+    filtered.forEach((item, i)=> renderWorkCard(catGrid, item, filtered, i));
+  };
+
+  tabsWrap.querySelectorAll('.year-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabsWrap.querySelectorAll('.year-tab').forEach(b=> b.classList.remove('active'));
+      btn.classList.add('active');
+      renderYear(btn.dataset.year);
+    });
+  });
+
+  renderYear(years[0]); // 預設顯示最新年份
 });
 
 /* ============ Lightbox 邏輯（支援多組作品群組，僅在同一分類內切換上一張／下一張） ============ */
