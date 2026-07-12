@@ -86,8 +86,37 @@
     text-justify:inter-character;
   }
 
-  .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0; transition:opacity .3s ease; }
   .ripple-line{ fill:none; stroke:var(--sky); stroke-width:1; opacity:.5; }
+
+  /* 首頁背景：三種模式（影片／單色／漸層），由 HERO_BG_MODE 控制要顯示哪一種 */
+  .hero-video-wrap{ position:absolute; inset:0; overflow:hidden; z-index:0; background:var(--navy); display:none; }
+  .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .hero-video-scrim{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(15,32,50,.68) 0%, rgba(15,32,50,.48) 40%, rgba(15,32,50,.32) 70%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(10,22,36,.5) 0%, rgba(10,22,36,.12) 55%, rgba(10,22,36,.03) 100%);
+  }
+  .hero-bg-video .hero-video-wrap{ display:block; }
+  .hero-bg-solid{ background:var(--navy); }
+  .hero-bg-solid .ripple-svg{ opacity:.4; }
+  .hero-bg-gradient{ background:linear-gradient(150deg, var(--navy) 0%, var(--blue) 55%, var(--sky) 100%); }
+  .hero-bg-gradient .ripple-svg{ opacity:.5; }
+  @media (prefers-reduced-motion: reduce){ .hero-video{ display:none; } .hero-bg-video{ background:var(--navy); } }
+
+  /* Hero 文字：三種背景模式底色都偏深，統一使用淺色文字確保清晰對比 */
+  .hero .eyebrow{ color:var(--sky); }
+  .hero .hero-id span{ color:rgba(255,255,255,.85); }
+  .hero h1{ color:#fff; text-shadow:0 2px 20px rgba(0,0,0,.25); }
+  .hero h1 em{ color:var(--sky); }
+  .hero p.lead{ color:rgba(255,255,255,.88); }
+  .hero .tag{ color:#fff; border:1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); backdrop-filter:blur(4px); }
+  .hero .btn-ghost{ border-color:rgba(255,255,255,.75); color:#fff; }
+  .hero .btn-ghost:hover{ background:#fff; color:var(--navy); }
+  .hero .scroll-cue{ color:rgba(255,255,255,.85); }
+  .hero .scroll-cue .line{ background:rgba(255,255,255,.4); }
+  .hero .scroll-cue .line::after{ background:#fff; }
 
   /* 基本防盜圖措施：圖片禁止拖曳、禁止選取／長按快顯選單（僅圖片，不影響文字選取） */
   img{ -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
@@ -461,6 +490,23 @@
 <!-- ================= HOME ================= -->
 <div class="page active" id="page-home">
   <section class="hero" id="home">
+    <!-- ============ 首頁背景：影片 / 單色 / 漸層 三種模式，方便隨時切換 ============
+         要切換模式，到本頁最下方 JS 區塊開頭找到 HERO_BG_MODE 這個設定，
+         把值改成 'video'（影片）、'solid'（單色）或 'gradient'（漸層）即可，
+         其他程式碼都不用動。 -->
+    <div class="hero-video-wrap">
+      <!-- 目前嵌入的是 Pexels 免費授權、可商用的富士山空拍影片（湖面倒映富士山、夕陽時分、有小船划過湖面），
+           來源：pexels.com/video/a-footage-of-mt-fuji-6602522
+           之後想換成別的日本文化／傳統技藝主題影片，建議到 pexels.com 或 coverr.co 下載喜歡的免費影片檔案，
+           上傳到你自己的 GitHub 專案（例如放進一個叫 videos 的資料夾），
+           再把下面 <source src="..."> 的網址換成你自己檔案的相對路徑即可，例如 videos/hero-bg.mp4，
+           這樣長期使用會比直接連到別人網站的影片網址更穩定。 -->
+      <video class="hero-video" autoplay muted loop playsinline
+        poster="https://images.pexels.com/videos/6602522/pexels-photo-6602522.jpeg?auto=compress&cs=tinysrgb&h=1080&fit=crop&w=1920">
+        <source src="https://videos.pexels.com/video-files/6602522/6602522-hd_1920_1080_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-scrim"></div>
+    </div>
     <svg class="ripple-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
       <path class="ripple-line" d="M-50,180 C 250,120 450,260 750,180 S 1150,80 1300,180" stroke-width="1"/>
       <path class="ripple-line" d="M-50,320 C 250,260 450,400 750,320 S 1150,220 1300,320" stroke-width="1"/>
@@ -488,6 +534,8 @@
     </div>
     <div class="scroll-cue"><span class="line"></span>向下滑動</div>
   </section>
+
+
 
   <section class="category-section" id="works">
     <div class="page-inner">
@@ -716,6 +764,16 @@
 </div>
 
 <script>
+/* ============ 首頁背景模式切換 ============
+   把下面這個值改成 'video'（影片）、'solid'（單色）或 'gradient'（漸層）就能切換首頁背景，
+   其他程式碼都不用動：
+   - 'video'    使用上面 hero-video-wrap 裡嵌入的影片
+   - 'solid'    使用網站主色（紺色）當作單色背景
+   - 'gradient' 使用紺色到水色的漸層背景
+   三種模式下的文字顏色都已經處理好，不需要另外調整。 */
+const HERO_BG_MODE = 'video';
+document.querySelector('.hero').classList.add('hero-bg-' + HERO_BG_MODE);
+
 /* ============ 資料（請替換為您自己的作品） ============ */
 
 // 平面設計作品（不分類）：把每一項的 img 換成你自己作品的圖片網址，desc 換成你自己的圖說即可
@@ -822,8 +880,8 @@ const ampStories = [
 // 開頭動畫頁已由原始碼 AdobeEdge.loadComposition() 參數確認為 768x960，
 // 另外兩篇（互動遊戲）維持先前調整過的 768x1300。
 const worldCup2014 = {
-  title:"2014世界盃",
-  intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，包含逐格繪製的插畫與互動效果，共分為三篇獨立作品，是投入相當多時間心力完成的作品。",
+  title:"FIFA2014世界盃",
+  intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，搭配HTML5語法撰寫調整，包含逐格繪製的插畫與互動效果，是投入相當多時間心力完成的作品。",
   repoUrl:"https://github.com/hirox0201/fifa2014",
   pages:[
     {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"images/fifa201401_s.webp", url:"https://hirox0201.github.io/fifa201401/", native:{w:768,h:914}},
@@ -1083,7 +1141,7 @@ wcGroup.className = 'feature-group';
 wcGroup.innerHTML = `
   <div class="feature-group-head">
     <h4>${worldCup2014.title}</h4>
-    <p>${worldCup2014.intro}　原始碼：<a href="${worldCup2014.repoUrl}" target="_blank" rel="noopener">GitHub</a></p>
+    <p>${worldCup2014.intro}　<a href="${worldCup2014.repoUrl}" target="_blank" rel="noopener"></a></p>
   </div>
   <div class="feature-mini-grid" id="wc2014-grid"></div>`;
 featureContainer.appendChild(wcGroup);
