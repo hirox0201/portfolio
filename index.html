@@ -331,7 +331,7 @@
   .feature-mini-info{ padding:14px 16px 16px; }
   .feature-mini-info .fmt{ font-size:13.5px; font-weight:500; color:var(--navy); margin-bottom:6px; }
   .feature-mini-info .fmd{ font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
-  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } .grid-general{ grid-template-columns:repeat(2,1fr); gap:12px; } }
+  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } }
 
   /* 影音作品 grid */
   .grid-video{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; padding-bottom:60px; }
@@ -446,6 +446,7 @@
     .g-item.tall{ grid-row:auto; }
     .grid-video{ grid-template-columns:1fr; }
     .grid-amp{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
+    .grid-general{ grid-template-columns:repeat(2,1fr); gap:12px; }
     .lightbox-content{ max-width:96vw; max-height:94vh; }
     .lightbox-img img{ max-width:96vw; max-height:72vh; }
     .lightbox-nav{ width:38px; height:38px; }
@@ -774,7 +775,7 @@
    - 'solid'    使用網站主色（紺色）當作單色背景
    - 'gradient' 使用紺色到水色的漸層背景
    三種模式下的文字顏色都已經處理好，不需要另外調整。 */
-const HERO_BG_MODE = 'solid';
+const HERO_BG_MODE = 'video';
 document.querySelector('.hero').classList.add('hero-bg-' + HERO_BG_MODE);
 
 /* ============ 資料（請替換為您自己的作品） ============ */
