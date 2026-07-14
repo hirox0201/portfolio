@@ -114,9 +114,9 @@
   .hero .tag{ color:#fff; border:1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); backdrop-filter:blur(4px); }
   .hero .btn-ghost{ border-color:rgba(255,255,255,.75); color:#fff; }
   .hero .btn-ghost:hover{ background:#fff; color:var(--navy); }
-  .hero .scroll-cue{ color:rgba(255,255,255,.85); }
-  .hero .scroll-cue .line{ background:rgba(255,255,255,.4); }
-  .hero .scroll-cue .line::after{ background:#fff; }
+  .hero .scroll-cue{ color:var(--navy); }
+  .hero .scroll-cue .line{ background:var(--blue-2); }
+  .hero .scroll-cue .line::after{ background:var(--navy); }
 
   /* 基本防盜圖措施：圖片禁止拖曳、禁止選取／長按快顯選單（僅圖片，不影響文字選取） */
   img{ -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
@@ -170,6 +170,7 @@
   .mobile-drawer ul{ list-style:none; display:flex; flex-direction:column; gap:26px; }
   .mobile-drawer a{ font-size:16px; letter-spacing:.06em; color:var(--navy); font-family:var(--font-display); font-weight:500; }
   .mobile-drawer .social-icon{ align-self:flex-start; display:inline-flex; gap:8px; width:auto; height:auto; padding:10px 16px; border-radius:100px; font-size:13px; letter-spacing:.06em; }
+  .mobile-drawer-social{ display:flex; flex-direction:column; gap:12px; }
   .mobile-drawer-backdrop{
     position:fixed; inset:0; z-index:590; background:rgba(10,25,40,.4);
     opacity:0; pointer-events:none; transition:opacity .3s ease;
@@ -484,10 +485,16 @@
     <li><a href="#stories" class="nav-link" data-target="stories">Infographic</a></li>
     <li><a href="#about" class="nav-link" data-target="about">わたくし</a></li>
   </ul>
-  <a class="social-icon" href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener" title="LinkedIn">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
-    LinkedIn
-  </a>
+  <div class="mobile-drawer-social">
+    <a class="social-icon" href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
+      LinkedIn
+    </a>
+    <a class="social-icon" href="mailto:hiro0201@gmail.com" title="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+      hiro0201@gmail.com
+    </a>
+  </div>
 </div>
 <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
 
@@ -505,9 +512,12 @@
            上傳到你自己的 GitHub 專案（例如放進一個叫 videos 的資料夾），
            再把下面 <source src="..."> 的網址換成你自己檔案的相對路徑即可，例如 videos/hero-bg.mp4，
            這樣長期使用會比直接連到別人網站的影片網址更穩定。 -->
+      <!-- 加上 media="(min-width:861px)" 之後，手機（寬度 860px 以下）完全不會下載或播放這支影片，
+           只會顯示 poster 那張靜態照片當背景，用意是避免手機解碼影片造成發熱、耗電，
+           桌機（861px 以上）才會真的載入播放影片。 -->
       <video class="hero-video" autoplay muted loop playsinline
         poster="images/rainning_sakura.webp">
-        <source src="https://hirox0201.github.io/rainning_sakura/rainning_sakura.mp4" type="video/mp4">
+        <source src="https://hirox0201.github.io/rainning_sakura/rainning_sakura.mp4" type="video/mp4" media="(min-width:861px)">
       </video>
       <div class="hero-video-scrim"></div>
     </div>
