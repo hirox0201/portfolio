@@ -791,8 +791,12 @@ document.querySelector('.hero').classList.add('hero-bg-' + HERO_BG_MODE);
 
 // 平面設計作品（不分類）：把每一項的 img 換成你自己作品的圖片網址，desc 換成你自己的圖說即可
 const graphicWorks = [
-  {title:"NIKE Cortez鞋款宣傳向量插畫", year:"2008", desc:"應公司要約繪製。", img:"images/nike_cortez.webp"},
-  {title:"手足球概念的向量繪圖", year:"2014", desc:"《聯合報》2014 世界杯專題，手足球遊戲向量繪圖。", img:"images/fifa2014.webp"},
+  {title:"NIKE Cortez鞋款宣傳向量插畫", year:"2008", desc:"應公司邀約繪製。", img:"images/nike_cortez.webp"},
+  {title:"FIFA2014世界盃，手足球概念向量繪圖", year:"2014", desc:"《聯合報》2014 世界杯專題，手足球遊戲向量繪圖，專題就在「Infographic」。", img:"images/fifa2014.webp"},
+  {title:"「星際大戰幼幼班 搞懂4色光劍」冷知識動畫向量繪圖", year:"2015", desc:"《聯合報》2015星際大戰光劍冷知識動畫專題向量繪圖，動畫就在「影音動畫敘事」。", img:"images/2015starwars.webp"},
+  {title:"「耶誕叮叮噹，馴鹿？麋鹿？」冷知識動畫向量繪圖", year:"2015", desc:"《聯合報》2015聖誕節冷知識動畫專題向量繪圖，動畫就在「影音動畫敘事」。", img:"images/2015xmas.webp"},
+  {title:"「還不知道加密貨幣？別做投資族的LKK」冷知識動畫向量繪圖", year:"2018", desc:"《ETtoday》2018加密貨幣動畫向量繪圖，動畫就在「影音動畫敘事」。", img:"images/bitcoin_ani.webp"},
+  {title:"「遊北韓4大禁忌 小心玩到沒命」冷知識動畫向量繪圖", year:"2018", desc:"《ETtoday》2018北韓旅遊動畫向量繪圖，動畫就在「影音動畫敘事」。", img:"images/north_korean_travel.webp"},
   {title:"人物手繪", year:"2019", desc:"情侶人物似顏繪。", img:"images/lover01.webp"},
   {title:"趣味自畫像", year:"2020", desc:"「惡魔形象的自己」有感而發的手繪，「我是台灣人」使用在新冠肺炎疫情間出國用。", img:"images/funny.webp"},
   {title:"我是台灣人（日文版）", year:"2020", desc:"新冠疫情前剛好回日本怕被歧視，只好推出「我是台灣人」。", img:"images/imtw_jp.webp"},
@@ -801,16 +805,6 @@ const graphicWorks = [
 
 // 500輯：4 個子分類，各先放 5 張假圖與假圖說，之後直接替換 img / title / desc 即可
 const brand500Categories = [
-  {
-    key:"pan", name:"500盤", intro:"《500輯》IP之一，第一份台灣人觀點的美食評鑑。",
-    items:[
-      {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2024", img:"https://picsum.photos/seed/pan01/700/875"},
-      {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2024", img:"https://picsum.photos/seed/pan02/700/875"},
-      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2023", img:"https://picsum.photos/seed/pan03/700/875"},
-      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2023", img:"https://picsum.photos/seed/pan04/700/875"},
-      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2022", img:"https://picsum.photos/seed/pan05/700/875"},
-    ]
-  },
   {
     key:"wan", name:"500碗", intro:"《500輯》IP之一，第一份台灣人在地觀點的新指南。",
     items:[
@@ -827,6 +821,33 @@ const brand500Categories = [
       {title:"500碗2025得獎店家特輯", desc:"年度得獎店家視覺紀錄。", year:"2025", img:"https://picsum.photos/seed/wan2025-02/700/875"},
       {title:"500碗2026主視覺", desc:"年度主視覺概念延伸提案。", year:"2026", img:"https://picsum.photos/seed/wan2026-01/700/875"},
       {title:"500碗2026周邊提案", desc:"年度周邊商品視覺提案。", year:"2026", img:"https://picsum.photos/seed/wan2026-02/700/875"},
+    ]
+  },
+  {
+    key:"pa", name:"500趴", intro:"《500輯》IP之一，記錄城市裡精彩派對與活動現場的第一手觀察。",
+    items:[
+      {title:"500趴2025主視覺", desc:"活動主視覺，視覺語言「外星變形蟲」，代表歡迎任何人、不分族群、人種、年齡與性別的一場年度派對盛事。", year:"2025", img:"images/500pa2025/500pa2025.webp"},
+      {title:"主Live舞台", desc:"音樂派對主舞台設計。", year:"2025", img:"images/500pa2025/500pa2025stage.webp"},
+      {title:"Taipei101水舞廣場", desc:"活動場景紀錄。", year:"2025", img:"images/500pa2025/500pa2025onboard.webp"},
+      {title:"500趴2025主視覺 廢案01", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse01.webp"},
+      {title:"500趴2025主視覺 廢案02", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse02.webp"},
+      {title:"500趴2025主視覺 廢案03", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse03.webp"},
+      {title:"500趴2025主視覺 廢案ver2.01", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_01.webp"},
+      {title:"500趴2025主視覺 廢案ver2.02", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_02.webp"},
+      {title:"500趴2025主視覺 廢案ver2.03", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_03.webp"},
+      {title:"屋頂派對特輯", desc:"城市屋頂派對場景與賓客紀錄。", year:"2023", img:"https://picsum.photos/seed/pa03/700/875"},
+      {title:"周年慶典紀錄", desc:"品牌周年活動現場紀實拍攝。", year:"2023", img:"https://picsum.photos/seed/pa04/700/875"},
+      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2023", img:"https://picsum.photos/seed/pa05/700/875"},
+    ]
+  },
+  {
+    key:"pan", name:"500盤", intro:"《500輯》IP之一，第一份台灣人觀點的美食評鑑。",
+    items:[
+      {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2024", img:"https://picsum.photos/seed/pan01/700/875"},
+      {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2024", img:"https://picsum.photos/seed/pan02/700/875"},
+      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2023", img:"https://picsum.photos/seed/pan03/700/875"},
+      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2023", img:"https://picsum.photos/seed/pan04/700/875"},
+      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2022", img:"https://picsum.photos/seed/pan05/700/875"},
     ]
   },
   {
@@ -847,16 +868,6 @@ const brand500Categories = [
       {title:"街頭文化觀察", desc:"城市街頭文化與青年生活紀錄。", year:"2024", img:"https://picsum.photos/seed/young03/700/875"},
       {title:"獨立市集特輯", desc:"週末獨立市集的攤位與商品紀錄。", year:"2024", img:"https://picsum.photos/seed/young04/700/875"},
       {title:"新型態商業空間", desc:"複合式商業空間的設計與體驗紀錄。", year:"2024", img:"https://picsum.photos/seed/young05/700/875"},
-    ]
-  },
-  {
-    key:"pa", name:"500趴", intro:"《500輯》IP之一，記錄城市裡精彩派對與活動現場的第一手觀察。",
-    items:[
-      {title:"品牌派對主視覺", desc:"品牌形象派對主視覺與現場佈置設計。", year:"2025", img:"https://picsum.photos/seed/pa01/700/875"},
-      {title:"音樂派對紀實", desc:"獨立音樂派對現場氛圍紀錄。", year:"2025", img:"https://picsum.photos/seed/pa02/700/875"},
-      {title:"屋頂派對特輯", desc:"城市屋頂派對場景與賓客紀錄。", year:"2023", img:"https://picsum.photos/seed/pa03/700/875"},
-      {title:"周年慶典紀錄", desc:"品牌周年活動現場紀實拍攝。", year:"2023", img:"https://picsum.photos/seed/pa04/700/875"},
-      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2023", img:"https://picsum.photos/seed/pa05/700/875"},
     ]
   },
 ];
