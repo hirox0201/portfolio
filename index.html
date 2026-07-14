@@ -828,9 +828,14 @@ function applyHeroBg(){
     return;
   }
 
+  // 不論手機或桌機，HERO_BG_MODE 為 'video' 時都套用 hero-bg-video，
+  // 這只是負責「把 poster 靜態圖顯示出來」的樣式，本身不會下載或播放任何影片，
+  // 所以手機也會正常看到 rainning_sakura.webp 這張圖當背景。
+  heroSection.classList.add('hero-bg-video');
+  const video = document.getElementById('heroVideo');
+
   if(isDesktopWidth){
-    heroSection.classList.add('hero-bg-video');
-    const video = document.getElementById('heroVideo');
+    // 只有確認是桌機寬度，才動態補上 <source> 並播放，手機完全不會走到這一段
     if(video && !video.querySelector('source')){
       const source = document.createElement('source');
       source.src = HERO_VIDEO_SRC;
@@ -839,9 +844,12 @@ function applyHeroBg(){
       video.load();
       video.play().catch(()=>{ /* 部分瀏覽器需要互動才能自動播放，失敗時保持顯示 poster 即可 */ });
     }
-  } else {
-    // 手機／平板：改用漸層背景，完全不建立 <source>，不會有任何影片下載或解碼行為
-    heroSection.classList.add('hero-bg-gradient');
+  } else if(video && video.querySelector('source')){
+    // 例如平板從橫式（桌機判定）轉回直式（手機判定）：移除已載入的影片來源並停止播放，
+    // 讓畫面改回顯示 poster 靜態圖，避免手機端殘留影片播放
+    video.pause();
+    video.querySelectorAll('source').forEach(s=> s.remove());
+    video.load();
   }
 }
 applyHeroBg();
@@ -912,9 +920,9 @@ const brand500Categories = [
     items:[
       {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2024", img:"https://picsum.photos/seed/pan01/700/875"},
       {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2024", img:"https://picsum.photos/seed/pan02/700/875"},
-      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2025", img:"https://picsum.photos/seed/pan03/700/875"},
-      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2026", img:"https://picsum.photos/seed/pan04/700/875"},
-      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2026", img:"https://picsum.photos/seed/pan05/700/875"},
+      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2023", img:"https://picsum.photos/seed/pan03/700/875"},
+      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2023", img:"https://picsum.photos/seed/pan04/700/875"},
+      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2022", img:"https://picsum.photos/seed/pan05/700/875"},
     ]
   },
   {
@@ -959,9 +967,9 @@ const brand500Categories = [
       畫面會自動改回顯示 brand500Categories 裡該年份的真正作品卡片，不用動其他程式碼。
    ============================================================ */
 const comingSoonYears = {
-  wan:   ["2026","2025"],
+  wan:   ["2026", "2025"],
   pa:    ["2023"],
-  pan:   ["2026","2025","2024"],
+  pan:   ["2024"],
   tian:  ["2026", "2025"],
   young: ["2026", "2024"],
 };
