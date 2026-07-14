@@ -127,7 +127,16 @@
     padding:22px 5vw;
     background:rgba(246,250,252,0.82);
     backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
+  }
+  /* 手機發熱主因之一：header 是 position:fixed 又套用 backdrop-filter 模糊效果，
+     只要使用者一滑動網頁，手機就得「每一影格」重新運算整個標題列背後的模糊範圍，
+     等於整段瀏覽過程 GPU 都在高負載運算，這在 iOS Safari／中低階 Android 上特別明顯、非常耗電發熱。
+     這裡讓手機版直接關閉 backdrop-filter，改用更不透明一點的純色背景，視覺上差異很小，
+     但能大幅降低手機瀏覽時的耗電與發熱。 */
+  @media(max-width:860px){
+    header{ backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(246,250,252,0.97); }
   }
   .logo-group{ display:flex; align-items:center; gap:16px; }
   .logo{ font-family:var(--font-display); font-weight:500; font-size:19px; letter-spacing:.12em; color:var(--navy); white-space:nowrap; }
@@ -299,6 +308,21 @@
   .year-tab{ font-family:var(--font-body); font-size:13px; letter-spacing:.04em; color:var(--ink-soft); background:none; border:1px solid var(--line); padding:8px 18px; border-radius:100px; cursor:pointer; transition:all .2s ease; }
   .year-tab:hover{ border-color:var(--blue-2); color:var(--navy); }
   .year-tab.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  /* 年份頁籤上的小圓點：標示這個年份目前是「準備中」狀態，方便你自己一眼看出哪些還沒上架 */
+  .soon-dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--blue-2); margin-left:6px; vertical-align:middle; }
+  .year-tab.active .soon-dot{ background:#fff; }
+  /* Coming Soon 提示區塊：取代作品卡片格線，顯示在該分類／年份底下 */
+  .coming-soon{
+    grid-column:1 / -1;
+    padding:64px 24px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    letter-spacing:.04em;
+    background:var(--bg-panel);
+    border:1px dashed var(--line);
+    border-radius:6px;
+  }
 
   /* 互動作品（HTML5）卡片 */
   .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); display:grid; grid-template-columns:1.2fr 1fr; transition:transform .3s ease, box-shadow .3s ease; }
@@ -512,13 +536,14 @@
            上傳到你自己的 GitHub 專案（例如放進一個叫 videos 的資料夾），
            再把下面 <source src="..."> 的網址換成你自己檔案的相對路徑即可，例如 videos/hero-bg.mp4，
            這樣長期使用會比直接連到別人網站的影片網址更穩定。 -->
-      <!-- 加上 media="(min-width:861px)" 之後，手機（寬度 860px 以下）完全不會下載或播放這支影片，
-           只會顯示 poster 那張靜態照片當背景，用意是避免手機解碼影片造成發熱、耗電，
-           桌機（861px 以上）才會真的載入播放影片。 -->
-      <video class="hero-video" autoplay muted loop playsinline
-        poster="images/rainning_sakura.webp">
-        <source src="https://hirox0201.github.io/rainning_sakura/rainning_sakura.mp4" type="video/mp4" media="(min-width:861px)">
-      </video>
+      <!-- 修正手機發熱主因：原本用 <source media="(min-width:861px)"> 想擋掉手機下載影片，
+           但這個寫法在不少手機瀏覽器（尤其部分 Android WebView／App 內建瀏覽器）並不可靠，
+           瀏覽器仍可能照樣去讀取、緩衝甚至解碼這支影片，這正是手機一直發熱的真正原因。
+           現在改成：HTML 這裡完全不放 <source>，畫面預設只顯示 poster 靜態圖，
+           真正的影片網址由下面 JS（見 applyHeroBg 函式）在「確認是桌機尺寸」時才動態加進來、
+           才呼叫 play()；手機／平板永遠不會有任何影片被下載或解碼。 -->
+      <video class="hero-video" id="heroVideo" muted loop playsinline
+        poster="images/rainning_sakura.webp"></video>
       <div class="hero-video-scrim"></div>
     </div>
     <svg class="ripple-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
@@ -785,7 +810,49 @@
    - 'gradient' 使用紺色到水色的漸層背景
    三種模式下的文字顏色都已經處理好，不需要另外調整。 */
 const HERO_BG_MODE = 'video';
-document.querySelector('.hero').classList.add('hero-bg-' + HERO_BG_MODE);
+const heroSection = document.querySelector('.hero');
+const HERO_VIDEO_SRC = 'https://hirox0201.github.io/rainning_sakura/rainning_sakura.mp4';
+
+/* applyHeroBg：真正決定「要不要載入影片」的地方。
+   - 只有目前視窗寬度 >= 861px（桌機）時，才會動態幫 <video id="heroVideo"> 補上 <source> 並播放，
+     手機／平板（860px 以下）完全不會建立 <source>，瀏覽器就不會有任何機會去下載或解碼影片，
+     這是修正手機發熱問題的關鍵。
+   - 如果之後想整個網站首頁都不要用影片背景，只要把最上面 HERO_BG_MODE 改成 'solid' 或 'gradient' 即可，
+     這個函式會自動改套用對應的純色／漸層背景，且完全不會建立 <video> 的 <source>。 */
+function applyHeroBg(){
+  heroSection.classList.remove('hero-bg-video','hero-bg-solid','hero-bg-gradient');
+  const isDesktopWidth = window.innerWidth >= 861;
+
+  if(HERO_BG_MODE !== 'video'){
+    heroSection.classList.add('hero-bg-' + HERO_BG_MODE);
+    return;
+  }
+
+  if(isDesktopWidth){
+    heroSection.classList.add('hero-bg-video');
+    const video = document.getElementById('heroVideo');
+    if(video && !video.querySelector('source')){
+      const source = document.createElement('source');
+      source.src = HERO_VIDEO_SRC;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      video.load();
+      video.play().catch(()=>{ /* 部分瀏覽器需要互動才能自動播放，失敗時保持顯示 poster 即可 */ });
+    }
+  } else {
+    // 手機／平板：改用漸層背景，完全不建立 <source>，不會有任何影片下載或解碼行為
+    heroSection.classList.add('hero-bg-gradient');
+  }
+}
+applyHeroBg();
+
+// 螢幕從直式轉橫式、或視窗尺寸跨越 861px 門檻時（例如平板旋轉），重新判斷一次即可，
+// 用簡單的 debounce 避免 resize 事件觸發過於頻繁造成額外負擔。
+let heroBgResizeTimer = null;
+window.addEventListener('resize', ()=>{
+  clearTimeout(heroBgResizeTimer);
+  heroBgResizeTimer = setTimeout(applyHeroBg, 300);
+});
 
 /* ============ 資料（請替換為您自己的作品） ============ */
 
@@ -845,9 +912,9 @@ const brand500Categories = [
     items:[
       {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2024", img:"https://picsum.photos/seed/pan01/700/875"},
       {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2024", img:"https://picsum.photos/seed/pan02/700/875"},
-      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2023", img:"https://picsum.photos/seed/pan03/700/875"},
-      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2023", img:"https://picsum.photos/seed/pan04/700/875"},
-      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2022", img:"https://picsum.photos/seed/pan05/700/875"},
+      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2025", img:"https://picsum.photos/seed/pan03/700/875"},
+      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2026", img:"https://picsum.photos/seed/pan04/700/875"},
+      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2026", img:"https://picsum.photos/seed/pan05/700/875"},
     ]
   },
   {
@@ -871,6 +938,33 @@ const brand500Categories = [
     ]
   },
 ];
+
+/* ============================================================
+   500輯「Coming Soon」設定（之後要更新最方便的地方！）
+   ============================================================
+   只要某個分類（key）＋某個年份出現在下面陣列裡，使用者點到該年份頁籤時，
+   畫面就會直接顯示「目前更新中，coming soon！もうすぐ。」，
+   不會顯示 brand500Categories 裡對應的作品卡片（就算資料已經先寫進去也一樣）。
+
+   五個分類的 key 對照：
+     wan   = 500碗
+     pa    = 500趴
+     pan   = 500盤
+     tian  = 500甜
+     young = 500Young
+
+   使用方式：
+   1) 該年份作品「還沒準備好」→ 把年份字串加進對應 key 的陣列裡，例如 wan:["2026"]
+   2) 該年份作品「已經準備好、要正式上架」→ 把該年份字串從陣列中刪除即可，
+      畫面會自動改回顯示 brand500Categories 裡該年份的真正作品卡片，不用動其他程式碼。
+   ============================================================ */
+const comingSoonYears = {
+  wan:   ["2026","2025"],
+  pa:    ["2023"],
+  pan:   ["2026","2025","2024"],
+  tian:  ["2026", "2025"],
+  young: ["2026", "2024"],
+};
 
 // 影音作品：已換成您提供的 6 支 YouTube 影片
 const videoWorks = [
@@ -1013,6 +1107,8 @@ brand500Categories.forEach(cat=>{
   // 依這個分類實際擁有的年份自動產生分頁按鈕，由新到舊排序
   const years = [...new Set(cat.items.map(it=>it.year))].sort((a,b)=> b.localeCompare(a));
 
+  const soonList = comingSoonYears[cat.key] || [];
+
   const block = document.createElement('div');
   block.className = 'brand500-cat';
   block.innerHTML = `
@@ -1021,7 +1117,7 @@ brand500Categories.forEach(cat=>{
       <p>${cat.intro}</p>
     </div>
     <div class="year-tabs" id="tabs-${cat.key}">
-      ${years.map((y,i)=> `<button type="button" class="year-tab${i===0 ? ' active' : ''}" data-year="${y}">${y}</button>`).join('')}
+      ${years.map((y,i)=> `<button type="button" class="year-tab${i===0 ? ' active' : ''}" data-year="${y}">${y}${soonList.includes(y) ? ' <span class="soon-dot" title="準備中"></span>' : ''}</button>`).join('')}
     </div>
     <div class="w-grid" id="brand500-${cat.key}"></div>`;
   brand500Container.appendChild(block);
@@ -1031,6 +1127,11 @@ brand500Categories.forEach(cat=>{
 
   const renderYear = (year)=>{
     catGrid.innerHTML = '';
+    // 若這個分類＋年份組合被列在 comingSoonYears 裡，直接顯示提示文字、不渲染作品卡片
+    if(soonList.includes(year)){
+      catGrid.innerHTML = `<div class="coming-soon">目前更新中，coming soon！もうすぐ。</div>`;
+      return;
+    }
     const filtered = cat.items.filter(it=> it.year === year);
     filtered.forEach((item, i)=> renderWorkCard(catGrid, item, filtered, i));
   };
