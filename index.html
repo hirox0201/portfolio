@@ -881,7 +881,7 @@ const graphicWorks = [
 // 500輯：4 個子分類，各先放 5 張假圖與假圖說，之後直接替換 img / title / desc 即可
 const brand500Categories = [
   {
-    key:"wan", name:"500碗", intro:"《500輯》IP之一，第一份台灣人在地觀點的新指南。",
+    key:"bowl", name:"500碗", intro:"《500輯》IP之一，第一份台灣人在地觀點的新指南。",
     items:[
       {title:"500碗2024主視覺", desc:"使用幾何圖形概念。", year:"2024", img:"images/500bowl2024/500bowl2024_main.webp"},
       {title:"500碗概念人偶", desc:"擬人化的人偶繪製，使用雜訊效果。", year:"2024", img:"images/500bowl2024/500bowl2024_01.webp"},
@@ -916,7 +916,7 @@ const brand500Categories = [
     ]
   },
   {
-    key:"pan", name:"500盤", intro:"《500輯》IP之一，第一份台灣人觀點的美食評鑑。",
+    key:"dish", name:"500盤", intro:"《500輯》IP之一，第一份台灣人觀點的美食評鑑。",
     items:[
       {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2026", img:"https://picsum.photos/seed/pan01/700/875"},
       {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2026", img:"https://picsum.photos/seed/pan02/700/875"},
@@ -926,7 +926,7 @@ const brand500Categories = [
     ]
   },
   {
-    key:"tian", name:"500甜", intro:"《500輯》IP之一，台灣首份甜點指南。",
+    key:"sweet", name:"500甜", intro:"《500輯》IP之一，台灣首份甜點指南。",
     items:[
       {title:"手作甜點工作室", desc:"獨立甜點工作室的作品拍攝與設計。", year:"2026", img:"https://picsum.photos/seed/tian01/700/875"},
       {title:"季節水果塔特輯", desc:"當季水果製作甜點的視覺紀錄。", year:"2026", img:"https://picsum.photos/seed/tian02/700/875"},
@@ -955,22 +955,22 @@ const brand500Categories = [
    不會顯示 brand500Categories 裡對應的作品卡片（就算資料已經先寫進去也一樣）。
 
    五個分類的 key 對照：
-     wan   = 500碗
+     bowl  = 500碗
      pa    = 500趴
-     pan   = 500盤
-     tian  = 500甜
+     dish  = 500盤
+     sweet = 500甜
      young = 500Young
 
    使用方式：
-   1) 該年份作品「還沒準備好」→ 把年份字串加進對應 key 的陣列裡，例如 wan:["2026"]
+   1) 該年份作品「還沒準備好」→ 把年份字串加進對應 key 的陣列裡，例如 bowl:["2026"]
    2) 該年份作品「已經準備好、要正式上架」→ 把該年份字串從陣列中刪除即可，
       畫面會自動改回顯示 brand500Categories 裡該年份的真正作品卡片，不用動其他程式碼。
    ============================================================ */
 const comingSoonYears = {
-  wan:   ["2026", "2025"],
-  pa:    ["2023"],
-  pan:   ["2026","2025","2024"],
-  tian:  ["2026", "2025"],
+  bowl:  ["2026", "2025"],
+  pa:    ["2025","2023"],
+  dish:  ["2026","2025","2024"],
+  sweet: ["2026", "2025"],
   young: ["2026", "2024"],
 };
 
