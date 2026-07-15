@@ -6,6 +6,26 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>TIM YANG｜Visual Designer 作品集</title>
 
+<!-- ============ Google Analytics（GA4）追蹤碼 ============
+     資源(Property)帳號：tim.yangx0201@gmail.com
+     評估ID(Measurement ID)：G-JBG52CDS2Q　← 已正式串接，非佔位符
+     安裝位置：<head> 最前面（可盡量抓到早期的頁面瀏覽事件）
+
+     目前已埋的「自訂事件」一覽（實作在頁面最下方 <script> 區塊，搜尋 trackGAEvent 可找到全部）：
+       - category_click        → 三大作品分類點擊（Photographic／影音動畫敘事／Infographic）
+       - interactive_work_click → AMP Story／HTML5互動作品／long form網頁 點擊
+       - contact_click          → LinkedIn／Email 點擊（header、手機選單、關於我、footer 全站通用）
+
+     之後想再新增追蹤點，直接呼叫 trackGAEvent('事件名稱', {自訂參數}) 即可，
+     不需要重新設定 gtag 本身。 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBG52CDS2Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JBG52CDS2Q');
+</script>
+
 <!-- ============ Favicon（網址列小圖示） ============
      這裡先用程式碼畫一個簡單的暫用圖示（紺色圓底＋白色 T 字母），
      之後你有自己的 LOGO 圖檔時，把下面這幾行整段刪掉，換成這一行即可：
@@ -1054,11 +1074,49 @@ function showSubPage(name){
   if(name !== 'home') window.scrollTo({top:0});
 }
 
+/* ============ GA4 自訂事件追蹤 ============
+   小工具函式：如果 gtag 已經載入（追蹤碼有正確安裝），就送出事件到 GA4；
+   就算 Measurement ID 還沒換成正式的，也不會噴錯誤、不會影響網站正常功能。
+   之後如果想再增加其他追蹤點，直接呼叫 trackGAEvent('事件名稱', {自訂參數}) 即可。 */
+function trackGAEvent(eventName, params){
+  if(typeof gtag === 'function'){
+    gtag('event', eventName, params || {});
+  }
+}
+
+/* GA4 追蹤：LinkedIn／Email 點擊（求職期間最重要的訊號 —— 有多少人看完作品後想聯絡你）。
+   用「事件代理」的方式一次抓全站所有 LinkedIn 連結和 mailto 連結，不管放在 header、
+   手機選單、關於我區塊、還是 footer，都不用個別加 onclick，之後網站上如果再新增
+   LinkedIn／Email 連結，也會自動被抓到，不用再改這段程式碼。 */
+document.addEventListener('click', (e)=>{
+  const contactLink = e.target.closest('a[href^="mailto:"], a[href*="linkedin.com"]');
+  if(contactLink){
+    const isLinkedIn = contactLink.href.includes('linkedin.com');
+    const location_area = contactLink.closest('header') ? 'header'
+      : contactLink.closest('.mobile-drawer') ? 'mobile_menu'
+      : contactLink.closest('#about') ? 'about_section'
+      : contactLink.closest('footer') ? 'footer'
+      : 'other';
+    trackGAEvent('contact_click', {
+      contact_type: isLinkedIn ? 'linkedin' : 'email',
+      click_location: location_area
+    });
+  }
+});
+
 document.addEventListener('click', (e)=>{
   const link = e.target.closest('.nav-link');
   if(link){
     e.preventDefault();
     const target = link.getAttribute('data-target') || link.getAttribute('href').replace('#','');
+
+    // GA4 追蹤：作品分類點擊。只追蹤三大作品分類（graphic／video／stories），
+    // home／works／about 這些導覽點擊不算「瀏覽作品分類」所以不送事件。
+    const categoryNames = { graphic:'Photographic', video:'影音動畫敘事', stories:'Infographic' };
+    if(categoryNames[target]){
+      trackGAEvent('category_click', { category_key: target, category_name: categoryNames[target] });
+    }
+
     if(location.hash === '#'+target){ routeFromHash(); }
     else{ location.hash = target; }
     closeMobileDrawer();
@@ -1263,7 +1321,11 @@ ampStories.forEach(s=>{
       <div class="amp-t">${s.title}</div>
       <div class="amp-label">AMP STORY</div>
     </div>`;
-  el.onclick = ()=> openContent(s.url, {shape:'portrait'});
+  el.onclick = ()=>{
+    // GA4 追蹤：AMP Story 點擊（含標題與網址，方便在 GA 後台看出哪一篇最受歡迎）
+    trackGAEvent('interactive_work_click', { work_type:'amp_story', work_title:s.title, work_url:s.url });
+    openContent(s.url, {shape:'portrait'});
+  };
   ampGrid.appendChild(el);
 });
 
@@ -1290,7 +1352,11 @@ worldCup2014.pages.forEach(p=>{
       <div class="feature-mini-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
     </div>
     <div class="feature-mini-info"><div class="fmt">${p.title}</div><div class="fmd">${p.desc}</div></div>`;
-  el.onclick = ()=> openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
+  el.onclick = ()=>{
+    // GA4 追蹤：HTML5 互動作品點擊（同時記錄屬於哪一組系列＋這一篇的標題，方便後台區分）
+    trackGAEvent('interactive_work_click', { work_type:'html5_interactive', work_series:worldCup2014.title, work_title:p.title, work_url:p.url });
+    openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
+  };
   wcGrid.appendChild(el);
 });
 
@@ -1308,6 +1374,10 @@ generalWorks.forEach(g=>{
       <div class="gen-title">${g.title}</div>
       <div class="gen-go">另開新分頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
     </div>`;
+  el.onclick = ()=>{
+    // GA4 追蹤：long form 網頁作品點擊（新分頁開啟，不影響原本的跳轉行為）
+    trackGAEvent('interactive_work_click', { work_type:'longform_webpage', work_title:g.title, work_url:g.url });
+  };
   generalGrid.appendChild(el);
 });
 
