@@ -344,6 +344,15 @@
     border-radius:6px;
   }
 
+  /* 500輯商業合作案：以「個案」為單位獨立呈現，每個合作案自己一個區塊，
+     不管作品數量差多少（1張或10幾張）都各自成一欄，互不影響版面 */
+  .biz-project{ margin-bottom:52px; padding-bottom:52px; border-bottom:1px solid var(--line); }
+  .biz-project:last-child{ margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .biz-project-head{ margin-bottom:20px; }
+  .biz-project-head h4{ font-size:17px; color:var(--navy); font-weight:500; margin-bottom:8px; display:flex; align-items:baseline; gap:12px; }
+  .biz-project-head .biz-project-year{ font-size:12.5px; color:var(--blue-2); font-family:var(--font-display); letter-spacing:.06em; font-weight:400; }
+  .biz-project-head p{ font-size:13px; color:var(--ink-soft); max-width:680px; line-height:1.85; }
+
   /* 互動作品（HTML5）卡片 */
   .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); display:grid; grid-template-columns:1.2fr 1fr; transition:transform .3s ease, box-shadow .3s ease; }
   .feature-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
@@ -904,7 +913,7 @@ const brand500Categories = [
     key:"bowl", name:"500碗", intro:"《500輯》IP之一，第一份台灣人在地觀點的新指南。",
     // yearOrder：年份頁籤要顯示的順序，由左到右照這個陣列排列，可以自己調整前後順序。
     // 如果之後新增了陣列裡沒有的年份，會自動排到最後面（由新到舊），不會不見。
-    yearOrder:["2024","2026","2025"],
+    yearOrder:["2024","2025","2026"],
     items:[
       {title:"500碗2024主視覺", desc:"使用幾何圖形概念。", year:"2024", img:"images/500bowl2024/500bowl2024_main.webp"},
       {title:"500碗概念人偶", desc:"擬人化的人偶繪製，使用雜訊效果。", year:"2024", img:"images/500bowl2024/500bowl2024_01.webp"},
@@ -965,22 +974,49 @@ const brand500Categories = [
     key:"young", name:"500Young", intro:"《500輯》IP之一，聚焦青年世代價值的領航獎項。",
     yearOrder:["2026","2024"],
     items:[
-      {title:"新創空間巡禮", desc:"年輕創業者打造的特色空間紀錄。", year:"2026", img:"https://picsum.photos/seed/young01/700/875"},
-      {title:"潮流品牌特輯", desc:"新興潮流品牌視覺與商品拍攝。", year:"2026", img:"https://picsum.photos/seed/young02/700/875"},
+      {title:"500Young2026主視覺", desc:"2026年的主視覺設計。", year:"2026", img:"images/500young2026/500young2026main.webp"},
+      {title:"賓客拍照背板", desc:"贊助商以及IP建構的賓客用拍照背板。", year:"2026", img:"images/500young2026/500young2026camerashot.webp"},
+      {title:"中央舞台左右側背板", desc:"頒獎典禮的左右兩側背板。", year:"2026", img:"images/500young2026/monitor.webp"},
+      {title:"中央舞台示意", desc:"頒獎典禮的舞台現場照。", year:"2026", img:"images/500young2026/main_stage.webp"},
       {title:"街頭文化觀察", desc:"城市街頭文化與青年生活紀錄。", year:"2024", img:"https://picsum.photos/seed/young03/700/875"},
       {title:"獨立市集特輯", desc:"週末獨立市集的攤位與商品紀錄。", year:"2024", img:"https://picsum.photos/seed/young04/700/875"},
       {title:"新型態商業空間", desc:"複合式商業空間的設計與體驗紀錄。", year:"2024", img:"https://picsum.photos/seed/young05/700/875"},
     ]
   },
   {
-    key:"biz", name:"500輯商業合作案", intro:"《500輯》IP之一，與各品牌／單位合作的商業合作專案紀錄。",
-    // 這個分類的項目是全新設定，之後有新的商業合作案，直接依照下面同樣的格式，
-    // 在 items 陣列裡新增一個 { title, desc, year, img } 物件即可，
-    // title 直接寫「年份 + 案名」（例如："2025 某某品牌合作案"），跟現在這兩筆暫定項目的格式一樣。
-    yearOrder:["2024"],
-    items:[
-      {title:"2024 屏東文學獎", desc:"暫定項目，之後補上詳細合作內容說明。", year:"2024", img:"https://picsum.photos/seed/biz01/700/875"},
-      {title:"2024 永豐餘100週年慶", desc:"暫定項目，之後補上詳細合作內容說明。", year:"2024", img:"https://picsum.photos/seed/biz02/700/875"},
+    key:"biz", name:"500輯商業合作案", intro:"《500輯》與合作品牌／公部門單位合作的商業合作專案紀錄。",
+    // 這個分類跟其他 500輯 分類不一樣：不是用「年份頁籤＋單一格線」呈現，
+    // 而是「每個合作案自己獨立一個區塊」，各自有自己的標題、簡介、跟自己的作品格線。
+    // 好處是：像「屏東文學獎」只有1張作品、「永豐餘100週年慶」可能有10幾張作品，
+    // 兩者可以各自呈現、互不混雜，不會因為作品數量差很多而讓版面看起來很奇怪。
+    //
+    // 之後有新的商業合作案，直接在下面 projects 陣列裡新增一個物件即可：
+    //   {
+    //     title:"案名（不用加年份，年份寫在 year 欄位）",
+    //     year:"該案的年份",
+    //     desc:"這個合作案的簡介／說明文字（可留空字串 \"\"）",
+    //     items:[
+    //       {title:"作品名稱", desc:"作品說明", img:"圖片網址"},
+    //       // 這個案子有幾張作品，就在這裡加幾筆，不限制數量
+    //     ]
+    //   }
+    // projects 陣列的排列順序，就是畫面由上到下顯示的順序，想調整順序直接搬動陣列裡物件的前後位置即可。
+    type:"projects",
+    projects:[
+      {
+        title:"屏東文學獎", year:"2024",
+        desc:"每年屏東縣政府都會舉辦的文學獎徵稿活動。",
+        items:[
+          {title:"徵稿活動主視覺", desc:"2024年屏東縣政府舉辦的文學獎徵稿活動。", img:"images/2024pingtungliteratureaward.webp"},
+        ]
+      },
+      /*/{
+        title:"永豐餘100週年慶", year:"2024",
+        desc:"暫定項目，之後補上詳細合作內容說明。",
+        items:[
+          {title:"視覺主圖", desc:"暫定項目，之後補上詳細合作內容說明。", img:"https://picsum.photos/seed/biz02/700/875"},
+        ]
+      },/**/
     ]
   },
 ];
@@ -1010,7 +1046,7 @@ const comingSoonYears = {
   pa:    ["2023"],
   dish:  ["2026","2025","2024"],
   sweet: ["2026", "2025"],
-  young: ["2026", "2024"],
+  young: ["2024"],
 };
 
 // 影音作品：已換成您提供的 6 支 YouTube 影片
@@ -1182,19 +1218,58 @@ function renderWorkCard(container, item, group, index){
 const graphicGrid = document.getElementById('graphic-grid');
 graphicWorks.forEach((w, i)=> renderWorkCard(graphicGrid, w, graphicWorks, i));
 
-/* ============ 渲染：500輯（六個子分類，各自獨立，並依年份分頁瀏覽） ============
-   每個分類底下的年份分頁按鈕，只會控制「自己這個分類」要顯示哪個年份的作品，
-   跟其他分類的分頁按鈕完全獨立、互不影響。
-
-   年份頁籤的「先後順序」由每個分類的 yearOrder 陣列決定（見上面 brand500Categories），
-   想調整某個分類的年份排列順序，直接去改那個分類的 yearOrder 陣列順序即可，
-   不需要更動這段渲染邏輯。如果 yearOrder 忘記加進某個新年份，
-   畫面仍會自動把它排到最後面（由新到舊），不會漏掉、也不會壞掉。
-
-   日後要新增/調整作品，只要在 brand500Categories 該分類的 items 裡調整每個項目的
-   year 欄位即可，分頁按鈕會自動依資料裡出現過的年份產生。 */
+/* ============ 渲染：500輯（六個子分類，各自獨立） ============
+   分成兩種呈現方式，依每個分類的資料格式自動判斷：
+   - type:'projects' 的分類（目前只有「500輯商業合作案」）→ 以個案為單位獨立呈現，見下面「分類類型 A」
+   - 其餘分類（500碗／500趴／500盤／500甜／500Young）→ 維持年份頁籤＋格線，見下面「分類類型 B」 */
 const brand500Container = document.getElementById('brand500-container');
 brand500Categories.forEach(cat=>{
+
+  // ============ 分類類型 A：「商業合作案」這種以個案為單位的分類 ============
+  // 每個合作案（cat.projects 裡的每一筆）各自獨立一個區塊：自己的標題／簡介／作品格線，
+  // 案子之間完全不共用格線，所以有些案子只有1張作品、有些有10幾張作品都不會互相影響版面。
+  if(cat.type === 'projects'){
+    const block = document.createElement('div');
+    block.className = 'brand500-cat';
+    block.innerHTML = `
+      <div class="sub-head">
+        <h3>${cat.name}</h3>
+        <p>${cat.intro}</p>
+      </div>
+      <div class="biz-projects" id="biz-${cat.key}"></div>`;
+    brand500Container.appendChild(block);
+
+    const wrap = block.querySelector('#biz-' + cat.key);
+    cat.projects.forEach(proj=>{
+      const projEl = document.createElement('div');
+      projEl.className = 'biz-project';
+      projEl.innerHTML = `
+        <div class="biz-project-head">
+          <h4>${proj.title}<span class="biz-project-year">${proj.year || ''}</span></h4>
+          ${proj.desc ? `<p>${proj.desc}</p>` : ''}
+        </div>
+        <div class="w-grid"></div>`;
+      wrap.appendChild(projEl);
+      const projGrid = projEl.querySelector('.w-grid');
+      proj.items.forEach((item, i)=> renderWorkCard(projGrid, item, proj.items, i));
+    });
+    return; // 這個分類處理完畢，不執行下面「年份頁籤」那一套邏輯
+  }
+
+  // ============ 分類類型 B：其餘 500輯 分類（500碗／500趴／500盤／500甜／500Young）============
+  // 這些維持原本「年份頁籤＋格線」的呈現方式。
+  //
+  // 每個分類底下的年份分頁按鈕，只會控制「自己這個分類」要顯示哪個年份的作品，
+  // 跟其他分類的分頁按鈕完全獨立、互不影響。
+  //
+  // 年份頁籤的「先後順序」由每個分類的 yearOrder 陣列決定（見上面 brand500Categories），
+  // 想調整某個分類的年份排列順序，直接去改那個分類的 yearOrder 陣列順序即可，
+  // 不需要更動這段渲染邏輯。如果 yearOrder 忘記加進某個新年份，
+  // 畫面仍會自動把它排到最後面（由新到舊），不會漏掉、也不會壞掉。
+  //
+  // 日後要新增/調整作品，只要在 brand500Categories 該分類的 items 裡調整每個項目的
+  // year 欄位即可，分頁按鈕會自動依資料裡出現過的年份產生。
+
   // 這個分類實際擁有的年份
   const existingYears = [...new Set(cat.items.map(it=>it.year))];
   // 依 yearOrder 指定的順序排列；yearOrder 裡沒提到的年份，自動排到最後面（由新到舊）
