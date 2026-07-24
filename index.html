@@ -33,479 +33,7 @@
      （favicon.ico 檔案要跟這個 index.html 放在同一層資料夾） -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%2317324D'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' fill='%23AFD0E3' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
 
-<style>
-  /* ============ 自訂字體：獅尾四季春加糖（標題）／獅尾黑體（內文） ============ */
-  /* 來源：max32002 獅尾字體系列（SIL Open Font License 1.1，可免費商用） */
-  @font-face{
-    font-family:'SweiSpringSugar';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-spring@1.068/WebFont/CJK%20TC/SweiSpringSugarCJKtc-Regular.woff2') format('woff2');
-    font-weight:400; font-style:normal; font-display:swap;
-  }
-  @font-face{
-    font-family:'SweiSpringSugar';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-spring@1.068/WebFont/CJK%20TC/SweiSpringSugarCJKtc-Medium.woff2') format('woff2');
-    font-weight:500; font-style:normal; font-display:swap;
-  }
-  @font-face{
-    font-family:'SweiSpringSugar';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-spring@1.068/WebFont/CJK%20TC/SweiSpringSugarCJKtc-Bold.woff2') format('woff2');
-    font-weight:700; font-style:normal; font-display:swap;
-  }
-  @font-face{
-    font-family:'SweiSans';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-sans@2.102/WebFont/CJK%20TC/SweiSansCJKtc-Regular.woff2') format('woff2');
-    font-weight:400; font-style:normal; font-display:swap;
-  }
-  @font-face{
-    font-family:'SweiSans';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-sans@2.102/WebFont/CJK%20TC/SweiSansCJKtc-Medium.woff2') format('woff2');
-    font-weight:500; font-style:normal; font-display:swap;
-  }
-  @font-face{
-    font-family:'SweiSans';
-    src:url('https://cdn.jsdelivr.net/gh/max32002/swei-sans@2.102/WebFont/CJK%20TC/SweiSansCJKtc-Bold.woff2') format('woff2');
-    font-weight:700; font-style:normal; font-display:swap;
-  }
-
-  :root{
-    --bg:        #F6FAFC;
-    --bg-panel:  #EFF6FA;
-    --navy:      #17324D;
-    --blue:      #3E6E96;
-    --blue-2:    #6E9CC0;
-    --sky:       #AFD0E3;
-    --sky-pale:  #E4F0F6;
-    --ink:       #1D2B36;
-    --ink-soft:  #5A6D7C;
-    --line:      #D7E6EE;
-    --white:     #FFFFFF;
-    --shadow:    0 12px 40px rgba(23,50,77,0.10);
-    --font-display:'SweiSpringSugar','Noto Serif JP','Noto Serif TC',serif;
-    --font-body:'SweiSans','Noto Sans JP','Noto Sans TC',sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:var(--font-body);
-    background:var(--bg);
-    color:var(--ink);
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,.serif{ font-family:var(--font-display); }
-  a{color:inherit;text-decoration:none;}
-  ::selection{ background:var(--sky); color:var(--navy); }
-
-  /* 文字對齊：段落文字統一左右對齊（justify），並讓全形／半形混排時的字距分佈更均勻，
-     不會因為中英文混排造成單邊參差不齊、看起來像「空一格」的視覺問題 */
-  p, .lead, .about-block p, .timeline .desc, .w-info .wd, .feature-meta .fd,
-  .feature-mini-info .fmd, .brand500-head p, .feature-group-head p, .video-note,
-  .work-hero p, .gen-title small, .sub-head span, .cat-card p{
-    text-align:justify;
-    text-justify:inter-character;
-  }
-
-  .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0; transition:opacity .3s ease; }
-  .ripple-line{ fill:none; stroke:var(--sky); stroke-width:1; opacity:.5; }
-
-  /* 首頁背景：三種模式（影片／單色／漸層），由 HERO_BG_MODE 控制要顯示哪一種 */
-  .hero-video-wrap{ position:absolute; inset:0; overflow:hidden; z-index:0; background:var(--navy); display:none; }
-  .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-  .hero-video-scrim{
-    position:absolute; inset:0;
-    background:
-      linear-gradient(180deg, rgba(15,32,50,.68) 0%, rgba(15,32,50,.48) 40%, rgba(15,32,50,.32) 70%, var(--bg) 100%),
-      linear-gradient(90deg, rgba(10,22,36,.5) 0%, rgba(10,22,36,.12) 55%, rgba(10,22,36,.03) 100%);
-  }
-  .hero-bg-video .hero-video-wrap{ display:block; }
-  .hero-bg-solid{ background:var(--navy); }
-  .hero-bg-solid .ripple-svg{ opacity:.4; }
-  .hero-bg-gradient{ background:linear-gradient(150deg, var(--navy) 0%, var(--blue) 55%, var(--sky) 100%); }
-  .hero-bg-gradient .ripple-svg{ opacity:.5; }
-  @media (prefers-reduced-motion: reduce){ .hero-video{ display:none; } .hero-bg-video{ background:var(--navy); } }
-
-  /* Hero 文字：三種背景模式底色都偏深，統一使用淺色文字確保清晰對比 */
-  .hero .eyebrow{ color:var(--sky); }
-  .hero .hero-id span{ color:rgba(255,255,255,.85); }
-  .hero h1{ color:#fff; text-shadow:0 2px 20px rgba(0,0,0,.25); }
-  .hero h1 em{ color:var(--sky); }
-  .hero p.lead{ color:rgba(255,255,255,.88); }
-  .hero .tag{ color:#fff; border:1px solid rgba(255,255,255,.45); background:rgba(255,255,255,.12); backdrop-filter:blur(4px); }
-  .hero .btn-ghost{ border-color:rgba(255,255,255,.75); color:#fff; }
-  .hero .btn-ghost:hover{ background:#fff; color:var(--navy); }
-  .hero .scroll-cue{ color:var(--navy); }
-  .hero .scroll-cue .line{ background:var(--blue-2); }
-  .hero .scroll-cue .line::after{ background:var(--navy); }
-
-  /* 基本防盜圖措施：圖片禁止拖曳、禁止選取／長按快顯選單（僅圖片，不影響文字選取） */
-  img{ -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
-
-  header{
-    position:fixed; top:0; left:0; right:0; z-index:500;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:22px 5vw;
-    background:rgba(246,250,252,0.82);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--line);
-  }
-  /* 手機發熱主因之一：header 是 position:fixed 又套用 backdrop-filter 模糊效果，
-     只要使用者一滑動網頁，手機就得「每一影格」重新運算整個標題列背後的模糊範圍，
-     等於整段瀏覽過程 GPU 都在高負載運算，這在 iOS Safari／中低階 Android 上特別明顯、非常耗電發熱。
-     這裡讓手機版直接關閉 backdrop-filter，改用更不透明一點的純色背景，視覺上差異很小，
-     但能大幅降低手機瀏覽時的耗電與發熱。 */
-  @media(max-width:860px){
-    header{ backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(246,250,252,0.97); }
-  }
-  .logo-group{ display:flex; align-items:center; gap:16px; }
-  .logo{ font-family:var(--font-display); font-weight:500; font-size:19px; letter-spacing:.12em; color:var(--navy); white-space:nowrap; }
-  .logo span{ color:var(--blue-2); }
-  .social-icon{
-    width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center; color:var(--blue);
-    transition:all .25s ease; flex-shrink:0;
-  }
-  .social-icon:hover{ background:var(--navy); border-color:var(--navy); color:#fff; transform:translateY(-2px); }
-  .social-icon svg{ width:16px; height:16px; }
-
-  nav ul{ display:flex; gap:36px; list-style:none; }
-  nav a{
-    font-size:13.5px; letter-spacing:.1em; color:var(--ink-soft);
-    position:relative; padding-bottom:4px; cursor:pointer;
-  }
-  nav a::after{
-    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
-    background:var(--navy); transition:width .3s ease;
-  }
-  nav a:hover, nav a.active{ color:var(--navy); }
-  nav a:hover::after, nav a.active::after{ width:100%; }
-
-  /* 漢堡選單按鈕（預設隱藏，行動裝置才顯示） */
-  .menu-toggle{ display:none; flex-direction:column; justify-content:center; gap:5px; width:32px; height:32px; cursor:pointer; }
-  .menu-toggle span{ display:block; width:100%; height:1.5px; background:var(--navy); transition:transform .3s ease, opacity .3s ease; }
-  .menu-toggle.open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
-  .menu-toggle.open span:nth-child(2){ opacity:0; }
-  .menu-toggle.open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
-
-  /* 行動裝置抽屜選單 */
-  .mobile-drawer{
-    position:fixed; top:0; right:0; bottom:0; width:min(78vw,320px); z-index:600;
-    background:#fff; box-shadow:-8px 0 30px rgba(23,50,77,.15);
-    padding:100px 34px 40px; display:flex; flex-direction:column; gap:40px;
-    transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.7,.3,1);
-  }
-  .mobile-drawer.open{ transform:translateX(0); }
-  .mobile-drawer ul{ list-style:none; display:flex; flex-direction:column; gap:26px; }
-  .mobile-drawer a{ font-size:16px; letter-spacing:.06em; color:var(--navy); font-family:var(--font-display); font-weight:500; }
-  .mobile-drawer .social-icon{ align-self:flex-start; display:inline-flex; gap:8px; width:auto; height:auto; padding:10px 16px; border-radius:100px; font-size:13px; letter-spacing:.06em; }
-  .mobile-drawer-social{ display:flex; flex-direction:column; gap:12px; }
-  .mobile-drawer-backdrop{
-    position:fixed; inset:0; z-index:590; background:rgba(10,25,40,.4);
-    opacity:0; pointer-events:none; transition:opacity .3s ease;
-  }
-  .mobile-drawer-backdrop.open{ opacity:1; pointer-events:all; }
-
-  .page{ display:none; min-height:100vh; }
-  .page.active{ display:block; }
-  .page-inner{ max-width:1180px; margin:0 auto; padding:0 5vw; }
-
-  #page-home{ position:relative; }
-  .hero{ position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; padding:110px 0 96px; overflow:hidden; }
-  .hero-inner{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:0 5vw; width:100%; }
-  .eyebrow{ font-size:12.5px; letter-spacing:.35em; color:var(--blue); margin-bottom:22px; text-transform:uppercase; }
-  .hero-id{ display:flex; align-items:center; gap:12px; margin-bottom:26px; }
-  .hero-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #fff; box-shadow:0 2px 10px rgba(23,50,77,.15); }
-  .hero-id span{ font-size:12.5px; letter-spacing:.08em; color:var(--ink-soft); }
-  .hero h1{ font-size:clamp(42px,7vw,86px); font-weight:500; line-height:1.2; letter-spacing:.02em; margin-bottom:22px; }
-  .hero h1 em{ font-style:normal; }
-  .hero p.lead{ font-size:17px; max-width:520px; margin-bottom:44px; }
-  .hero-tags{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:48px; }
-  .tag{ font-size:12.5px; letter-spacing:.06em; color:var(--blue); border:1px solid var(--sky); padding:7px 16px; border-radius:100px; background:rgba(255,255,255,.5); }
-  .btn-row{ display:flex; gap:18px; flex-wrap:wrap; }
-  .btn{ display:inline-flex; align-items:center; gap:10px; font-size:13.5px; letter-spacing:.08em; padding:15px 30px; border-radius:2px; cursor:pointer; border:1px solid transparent; transition:all .25s ease; }
-  .btn-primary{ background:var(--navy); color:#fff; }
-  .btn-primary:hover{ background:var(--blue); transform:translateY(-2px); box-shadow:var(--shadow); }
-  .btn-ghost{ border-color:var(--navy); color:var(--navy); }
-  .btn-ghost:hover{ background:var(--navy); color:#fff; }
-
-  .scroll-cue{ position:absolute; bottom:36px; left:5vw; z-index:2; display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.2em; color:var(--blue-2); }
-  .scroll-cue .line{ width:36px; height:1px; background:var(--blue-2); position:relative; overflow:hidden; }
-  .scroll-cue .line::after{ content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--navy); animation:cue 2.4s ease-in-out infinite; }
-  @keyframes cue{ 0%{left:-100%;} 50%{left:0;} 100%{left:100%;} }
-
-  .section-head{ margin-bottom:56px; }
-  .section-head .eyebrow{ margin-bottom:14px; }
-  .section-head h2{ font-size:clamp(28px,4vw,42px); color:var(--navy); font-weight:500; }
-
-  .category-section{ padding:120px 0 100px; position:relative; scroll-margin-top:90px; }
-  .category-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
-  .cat-card{ position:relative; border-radius:4px; overflow:hidden; cursor:pointer; background:var(--navy); aspect-ratio:3/4; display:flex; flex-direction:column; justify-content:flex-end; padding:32px; color:#fff; box-shadow:0 4px 20px rgba(23,50,77,.08); transition:transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s ease; }
-  .cat-card:hover{ transform:translateY(-8px); box-shadow:var(--shadow); }
-  .cat-bg{ position:absolute; inset:0; overflow:hidden; background:var(--navy); }
-  .cat-bg img{ width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
-  .cat-card:hover .cat-bg img{ transform:scale(1.06); }
-  .cat-overlay{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.65) 0%, rgba(10,25,40,0) 55%); }
-  .cat-num{ position:relative; font-family:var(--font-display); font-size:15px; letter-spacing:.1em; opacity:.85; margin-bottom:10px; }
-  .cat-card h3{ position:relative; font-size:25px; font-weight:500; margin-bottom:8px; }
-  .cat-card p{ position:relative; font-size:13px; opacity:.85; }
-  .cat-arrow{ position:relative; margin-top:20px; font-size:13px; letter-spacing:.08em; display:flex; align-items:center; gap:8px; }
-  .cat-arrow svg{ width:16px; transition:transform .3s ease; }
-  .cat-card:hover .cat-arrow svg{ transform:translateX(6px); }
-
-  #about{ padding:100px 0 130px; position:relative; scroll-margin-top:90px; }
-  .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:80px; align-items:start; }
-  .about-photo-group{ display:flex; flex-direction:column; gap:18px; }
-  .about-photo{ border-radius:4px; position:relative; overflow:hidden; background:linear-gradient(160deg,#17324D,#3E6E96 70%,#AFD0E3); }
-  .about-photo.main{ aspect-ratio:4/5; }
-  .about-photo.second{ aspect-ratio:16/10; }
-  .about-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .about-block{ margin-bottom:42px; }
-  .about-block:last-child{ margin-bottom:0; }
-  .about-block h4{ font-size:12.5px; letter-spacing:.25em; color:var(--blue); margin-bottom:18px; text-transform:uppercase; font-family:var(--font-body); font-weight:700; }
-  .timeline{ list-style:none; }
-  .timeline li{ display:grid; grid-template-columns:90px 1fr; gap:18px; padding:16px 0; border-top:1px solid var(--line); font-size:14.5px; }
-  .timeline li:last-child{ border-bottom:1px solid var(--line); }
-  .timeline .yr{ color:var(--blue-2); font-family:var(--font-display); font-size:17px; }
-  .timeline .desc b{ color:var(--navy); font-weight:700; }
-  .chip-row{ display:flex; flex-wrap:wrap; gap:10px; }
-  .chip{ font-size:13px; padding:9px 16px; border-radius:100px; background:var(--sky-pale); color:var(--navy); border:1px solid var(--line); }
-  .skill-list{ display:flex; flex-direction:column; gap:14px; }
-  .skill-row{ display:flex; align-items:baseline; gap:16px; font-size:14.5px; }
-  .skill-row .dot{ width:6px; height:6px; border-radius:50%; background:var(--blue-2); flex-shrink:0; }
-  .contact-line{ margin-top:40px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; font-size:14.5px; color:var(--ink-soft); }
-  .contact-line a{ color:var(--navy); border-bottom:1px solid var(--sky); }
-  .contact-line .inline-icon{ display:inline-flex; align-items:center; gap:8px; }
-  .contact-line .inline-icon svg{ width:15px; height:15px; }
-
-  footer{ padding:40px 5vw; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; font-size:12px; letter-spacing:.06em; color:var(--ink-soft); }
-  footer .foot-links{ display:flex; align-items:center; gap:16px; }
-  footer .foot-links a{ display:flex; align-items:center; gap:6px; }
-  footer .foot-links svg{ width:14px; height:14px; }
-
-  .work-page{ padding-top:110px; min-height:100vh; }
-  .work-hero{ padding:60px 0 60px; position:relative; }
-  .back-btn{ display:inline-flex; align-items:center; gap:10px; font-size:13px; letter-spacing:.08em; color:var(--blue); cursor:pointer; margin-bottom:34px; padding:10px 0; }
-  .back-btn svg{ width:16px; transition:transform .25s ease; }
-  .back-btn:hover{ color:var(--navy); }
-  .back-btn:hover svg{ transform:translateX(-4px); }
-  .work-hero h2{ font-size:clamp(30px,4.4vw,46px); color:var(--navy); margin-bottom:14px; font-weight:500; }
-  .work-hero p{ color:var(--ink-soft); max-width:560px; font-size:14.5px; }
-
-  /* 平面設計 grid */
-  .grid-graphic{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; padding-bottom:120px; }
-  .g-item{ position:relative; border-radius:3px; overflow:hidden; cursor:zoom-in; aspect-ratio:4/5; box-shadow:0 3px 14px rgba(23,50,77,.08); background:var(--navy); }
-  .g-item img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .g-item:hover img{ transform:scale(1.05); }
-  .g-item .g-cap{ position:absolute; left:0; right:0; bottom:0; padding:18px; background:linear-gradient(0deg, rgba(10,25,40,.75), rgba(10,25,40,0)); color:#fff; opacity:0; transition:opacity .3s ease; }
-  .g-item:hover .g-cap{ opacity:1; }
-  .g-cap .gt{ font-size:14.5px; font-weight:500; margin-bottom:2px; }
-  .g-cap .gy{ font-size:11.5px; opacity:.8; letter-spacing:.06em; }
-  .g-item.tall{ grid-row: span 2; }
-
-  /* 平面設計 / 500輯：帶常駐圖說的作品卡 */
-  .w-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:24px; }
-  .w-card{ cursor:zoom-in; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
-  .w-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .w-thumb{ position:relative; overflow:hidden; background:var(--bg-panel); }
-  .w-thumb img{ display:block; width:100%; height:auto; transition:transform .5s ease; }
-  .w-card:hover .w-thumb img{ transform:scale(1.04); }
-  .w-info{ padding:14px 16px 18px; border-top:1px solid var(--line); }
-  .w-info .wt{ font-size:14px; font-weight:500; color:var(--navy); margin-bottom:6px; }
-  .w-info .wd{ font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:8px; }
-  .w-info .wy{ font-size:11px; color:var(--blue-2); letter-spacing:.06em; }
-
-  /* 500輯 大區塊 */
-  .brand500-head{ margin-bottom:44px; }
-  .brand500-head .eyebrow{ margin-bottom:12px; }
-  .brand500-head h2{ font-size:clamp(26px,3.4vw,36px); color:var(--navy); font-weight:500; margin-bottom:12px; }
-  .brand500-head p{ color:var(--ink-soft); font-size:14px; max-width:640px; }
-  .brand500-cat{ padding-top:10px; padding-bottom:56px; }
-  .brand500-cat .sub-head{ flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:22px; }
-  .brand500-cat .sub-head h3{ font-size:19px; }
-  .brand500-cat .sub-head p{ font-size:12.5px; color:var(--ink-soft); letter-spacing:0; }
-  .year-tabs{ display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
-  .year-tab{ font-family:var(--font-body); font-size:13px; letter-spacing:.04em; color:var(--ink-soft); background:none; border:1px solid var(--line); padding:8px 18px; border-radius:100px; cursor:pointer; transition:all .2s ease; }
-  .year-tab:hover{ border-color:var(--blue-2); color:var(--navy); }
-  .year-tab.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
-  /* 年份頁籤上的小圓點：標示這個年份目前是「準備中」狀態，方便你自己一眼看出哪些還沒上架 */
-  .soon-dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--blue-2); margin-left:6px; vertical-align:middle; }
-  .year-tab.active .soon-dot{ background:#fff; }
-  /* Coming Soon 提示區塊：取代作品卡片格線，顯示在該分類／年份底下 */
-  .coming-soon{
-    grid-column:1 / -1;
-    padding:64px 24px;
-    text-align:center;
-    color:var(--ink-soft);
-    font-size:14.5px;
-    letter-spacing:.04em;
-    background:var(--bg-panel);
-    border:1px dashed var(--line);
-    border-radius:6px;
-  }
-
-  /* 500輯商業合作案：以「個案」為單位獨立呈現，每個合作案自己一個區塊，
-     不管作品數量差多少（1張或10幾張）都各自成一欄，互不影響版面 */
-  .biz-project{ margin-bottom:52px; padding-bottom:52px; border-bottom:1px solid var(--line); }
-  .biz-project:last-child{ margin-bottom:0; padding-bottom:0; border-bottom:none; }
-  .biz-project-head{ margin-bottom:20px; }
-  .biz-project-head h4{ font-size:17px; color:var(--navy); font-weight:500; margin-bottom:8px; display:flex; align-items:baseline; gap:12px; }
-  .biz-project-head .biz-project-year{ font-size:12.5px; color:var(--blue-2); font-family:var(--font-display); letter-spacing:.06em; font-weight:400; }
-  .biz-project-head p{ font-size:13px; color:var(--ink-soft); max-width:680px; line-height:1.85; }
-
-  /* 互動作品（HTML5）卡片 */
-  .feature-card{ cursor:pointer; border-radius:6px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); display:grid; grid-template-columns:1.2fr 1fr; transition:transform .3s ease, box-shadow .3s ease; }
-  .feature-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .feature-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
-  .feature-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .feature-card:hover .feature-thumb img{ transform:scale(1.05); }
-  .feature-play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; }
-  .feature-play svg{ width:18px; margin-left:2px; }
-  .feature-meta{ padding:26px 28px; display:flex; flex-direction:column; justify-content:center; }
-  .feature-meta .ft{ font-size:18px; font-weight:500; color:var(--navy); margin-bottom:10px; }
-  .feature-meta .fd{ font-size:13px; color:var(--ink-soft); line-height:1.75; margin-bottom:14px; }
-  .feature-meta .fx{ display:flex; gap:8px; flex-wrap:wrap; }
-  @media(max-width:860px){ .feature-card{ grid-template-columns:1fr; } }
-
-  /* 互動作品分組（例如「2014世界盃」內含多篇獨立作品） */
-  .feature-group{ margin-bottom:52px; }
-  .feature-group:last-child{ margin-bottom:0; }
-  .feature-group-head{ margin-bottom:18px; }
-  .feature-group-head h4{ font-size:16.5px; color:var(--navy); font-weight:500; margin-bottom:8px; }
-  .feature-group-head p{ font-size:13px; color:var(--ink-soft); max-width:680px; line-height:1.85; }
-  .feature-group-head a{ color:var(--blue); border-bottom:1px solid var(--sky); }
-  .feature-mini-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .feature-mini-card{ cursor:pointer; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
-  .feature-mini-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .feature-mini-thumb{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--navy); }
-  .feature-mini-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .feature-mini-card:hover .feature-mini-thumb img{ transform:scale(1.06); }
-  .feature-mini-play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; }
-  .feature-mini-play svg{ width:14px; margin-left:2px; }
-  .feature-mini-info{ padding:14px 16px 16px; }
-  .feature-mini-info .fmt{ font-size:13.5px; font-weight:500; color:var(--navy); margin-bottom:6px; }
-  .feature-mini-info .fmd{ font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
-  @media(max-width:860px){ .feature-mini-grid{ grid-template-columns:1fr; } }
-
-  /* 影音作品 grid */
-  .grid-video{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; padding-bottom:60px; }
-  .v-item{ cursor:pointer; border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); }
-  .v-thumb{ position:relative; aspect-ratio:16/9; overflow:hidden; background:var(--navy); }
-  .v-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; display:block; }
-  .v-item:hover .v-thumb img{ transform:scale(1.06); }
-  .v-thumb::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,25,40,.55), rgba(10,25,40,.05)); }
-  .play-btn{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; z-index:2; transition:transform .3s ease, background .3s ease; }
-  .v-item:hover .play-btn{ transform:translate(-50%,-50%) scale(1.1); background:#fff; }
-  .play-btn svg{ width:20px; margin-left:3px; }
-  .v-meta{ padding:20px 22px 24px; color:var(--navy); border-top:1px solid var(--line); }
-  .v-meta .vt{ font-size:15.5px; font-weight:500; margin-bottom:6px; }
-  .v-meta .vd{ font-size:12.5px; color:var(--blue); letter-spacing:.04em; }
-  .video-note{ font-size:12.5px; color:var(--ink-soft); padding-bottom:60px; max-width:640px; }
-
-  /* 網頁作品：子區塊標題 */
-  .sub-section{ padding-top:20px; padding-bottom:70px; }
-  .sub-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:28px; }
-  /* 僅 Infographic 頁面（#page-stories）的區塊標題改為上下排列，其他頁面維持原本左右排列 */
-  #page-stories .sub-head{ flex-direction:column; align-items:flex-start; gap:6px; }
-  #page-stories .sub-head span{ font-size:13px; line-height:1.8; letter-spacing:.02em; color:var(--ink-soft); }
-  .sub-head h3{ font-size:20px; color:var(--navy); font-weight:500; }
-  .sub-head span{ font-size:12px; color:var(--blue-2); letter-spacing:.1em; }
-
-  /* AMP Stories 卡片（像 IG 限動縮圖） */
-  .grid-amp{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:20px; }
-  .amp-card{ cursor:pointer; }
-  .amp-ring{ width:100%; aspect-ratio:16/9; border-radius:8px; padding:3px; background:var(--navy); margin-bottom:12px; box-shadow:0 4px 16px rgba(23,50,77,.10); transition:transform .3s ease; }
-  .amp-card:hover .amp-ring{ transform:translateY(-6px) scale(1.02); }
-  .amp-inner{ width:100%; height:100%; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#fff; position:relative; overflow:hidden; }
-  .amp-cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .amp-card:hover .amp-cover{ transform:scale(1.06); }
-  .amp-inner::before{ content:''; position:absolute; inset:0; background:rgba(10,25,40,.28); }
-  .amp-inner .amp-play{ position:relative; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.5); display:flex; align-items:center; justify-content:center; }
-  .amp-inner .amp-play svg{ width:16px; }
-  .amp-info{ padding:0 2px; }
-  .amp-info .amp-t{ font-size:14px; font-weight:500; color:var(--navy); margin-bottom:4px; }
-  .amp-info .amp-label{ font-size:11.5px; color:var(--blue); letter-spacing:.06em; }
-
-  .grid-general{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .gen-item{ border-radius:4px; overflow:hidden; background:#fff; box-shadow:0 3px 14px rgba(23,50,77,.08); transition:transform .3s ease, box-shadow .3s ease; }
-  .gen-item:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
-  .gen-thumb{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--navy); }
-  .gen-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .gen-item:hover .gen-thumb img{ transform:scale(1.06); }
-  .gen-info{ padding:16px 18px 18px; border-top:1px solid var(--line); }
-  .gen-title{ font-size:15.5px; color:var(--navy); font-weight:500; }
-  .gen-go{ display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-soft); letter-spacing:.03em; margin-top:10px; }
-  .gen-go svg{ width:11px; height:11px; flex-shrink:0; }
-
-  /* ===== Lightbox（圖片） ===== */
-  .lightbox{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
-  .lightbox.open{ opacity:1; pointer-events:all; }
-  .lightbox-content{ position:relative; display:flex; flex-direction:column; align-items:center; max-width:min(74vw,720px); max-height:92vh; }
-  .lightbox-img{ position:relative; border-radius:3px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.4); background:var(--navy); transform:scale(.92); transition:transform .4s cubic-bezier(.2,.7,.3,1); }
-  .lightbox-img img{ display:block; max-width:min(74vw,720px); max-height:74vh; width:auto; height:auto; }
-  .lightbox.open .lightbox-img{ transform:scale(1); }
-  .lightbox-cap{ margin-top:16px; text-align:center; color:#fff; padding:0 8px; max-width:100%; }
-  .lightbox-cap .lt{ font-size:15px; margin-bottom:5px; }
-  .lightbox-cap .ly{ font-size:12px; opacity:.75; }
-  .lightbox-close, .video-close, .story-close{ position:absolute; top:30px; right:5vw; z-index:1010; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .25s ease; }
-  .lightbox-close:hover, .video-close:hover, .story-close:hover{ background:rgba(255,255,255,.22); }
-  .lightbox-nav{ position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1010; transition:background .25s ease; }
-  .lightbox-nav:hover{ background:rgba(255,255,255,.22); }
-  .lightbox-prev{ left:5vw; } .lightbox-next{ right:5vw; }
-
-  /* ===== 影片 Modal ===== */
-  .video-modal{ position:fixed; inset:0; z-index:1000; background:rgba(12,26,40,.94); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; }
-  .video-modal.open{ opacity:1; pointer-events:all; }
-  .video-frame-wrap{ width:min(84vw,980px); aspect-ratio:16/9; position:relative; transform:scale(.94); transition:transform .4s cubic-bezier(.2,.7,.3,1); box-shadow:0 30px 80px rgba(0,0,0,.4); background:#000; }
-  .video-modal.open .video-frame-wrap{ transform:scale(1); }
-  .video-frame-wrap iframe{ width:100%; height:100%; border:0; }
-  .video-fallback-link{ position:absolute; left:0; right:0; bottom:-38px; text-align:center; font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
-  .video-fallback-link:hover{ color:#fff; }
-
-  /* ===== 通用內容 Modal（AMP Stories / HTML5 互動作品 共用）=====
-     每一篇都是完全獨立開啟、獨立關閉，彼此之間沒有任何左右切換或連動機制。 */
-  .content-modal{ position:fixed; inset:0; z-index:1100; background:rgba(10,24,38,.95); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s ease; }
-  .content-modal.open{ opacity:1; pointer-events:all; }
-  .content-stage{ position:relative; border-radius:8px; overflow:hidden; background:#fff; box-shadow:0 30px 90px rgba(0,0,0,.5); transform:scale(.96); transition:transform .35s cubic-bezier(.2,.7,.3,1); }
-  .content-modal.open .content-stage{ transform:scale(1); }
-  .content-stage.portrait{ width:min(420px,92vw); height:min(88vh,880px); border-radius:16px; }
-  .content-stage.landscape{ width:min(94vw,1200px); height:min(86vh,760px); border-radius:6px; }
-  .content-frame-wrap{ position:absolute; inset:0; }
-  .content-frame-wrap iframe{ width:100%; height:100%; border:0; transition:opacity .5s ease; }
-
-  /* 固定尺寸 HTML5 作品專用：可縮放／拖曳的檢視器，初始以「適合閱讀」的比例顯示 */
-  .content-viewport{ position:absolute; inset:0; overflow:auto; -webkit-overflow-scrolling:touch; background:#f2f2f2; }
-  .content-canvas{ position:relative; background:#fff; box-shadow:0 0 24px rgba(0,0,0,.08); }
-  .content-canvas iframe{ position:absolute; top:0; left:0; border:0; display:block; }
-  .content-edge-hint{ position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border-radius:50%; background:rgba(0,0,0,.32); border:1px solid rgba(255,255,255,.4); color:#fff; display:flex; align-items:center; justify-content:center; z-index:3; pointer-events:none; opacity:.85; }
-  .content-edge-hint svg{ width:14px; }
-  .content-edge-hint.left{ left:10px; } .content-edge-hint.right{ right:10px; }
-  .content-loading{ position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#fff; color:var(--ink-soft); font-size:12.5px; letter-spacing:.06em; transition:opacity .3s ease; }
-  .content-spinner{ width:30px; height:30px; border-radius:50%; border:2px solid var(--line); border-top-color:var(--blue); animation:contentSpin .8s linear infinite; }
-  @keyframes contentSpin{ to{ transform:rotate(360deg); } }
-  .content-fallback-link{ position:absolute; left:0; right:0; bottom:-38px; text-align:center; font-size:12.5px; color:var(--sky); letter-spacing:.04em; }
-  .content-fallback-link:hover{ color:#fff; }
-  .content-title-tag{ position:absolute; top:-38px; left:0; font-size:12.5px; color:var(--sky); letter-spacing:.06em; }
-
-  @media(max-width:860px){
-    nav ul{ display:none; }
-    .menu-toggle{ display:flex; }
-    .hero{ padding:100px 0 88px; }
-    .hero-tags{ margin-bottom:32px; }
-    .btn-row{ margin-bottom:6px; }
-    .scroll-cue{ bottom:26px; }
-    .about-grid{ grid-template-columns:1fr; gap:50px; }
-    .category-grid{ grid-template-columns:1fr; }
-    .grid-graphic{ grid-template-columns:repeat(2,1fr); }
-    .g-item.tall{ grid-row:auto; }
-    .grid-video{ grid-template-columns:1fr; }
-    .grid-amp{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
-    .grid-general{ grid-template-columns:repeat(2,1fr); gap:12px; }
-    .lightbox-content{ max-width:96vw; max-height:94vh; }
-    .lightbox-img img{ max-width:96vw; max-height:72vh; }
-    .lightbox-nav{ width:38px; height:38px; }
-  }
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -516,16 +44,22 @@
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
     </a>
   </div>
-  <nav>
-    <ul>
-      <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
-      <li><a href="#graphic" class="nav-link" data-target="graphic">Photographic</a></li>
-      <li><a href="#video" class="nav-link" data-target="video">影音動畫敘事</a></li>
-      <li><a href="#stories" class="nav-link" data-target="stories">Infographic</a></li>
-      <li><a href="#about" class="nav-link" data-target="about">わたくし</a></li>
-    </ul>
-  </nav>
-  <div class="menu-toggle" id="menuToggle" aria-label="開啟選單">
+  <div class="nav-group">
+    <nav>
+      <ul>
+        <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
+        <li><a href="#graphic" class="nav-link" data-target="graphic">Photographic</a></li>
+        <li><a href="#video" class="nav-link" data-target="video" data-i18n="nav_video">影音動畫敘事</a></li>
+        <li><a href="#stories" class="nav-link" data-target="stories">Infographic</a></li>
+        <li><a href="#about" class="nav-link" data-target="about" data-i18n="nav_about">わたくし</a></li>
+      </ul>
+    </nav>
+    <!-- 語言切換鈕：點擊會在中／英之間切換，並記住選擇（下次造訪沿用同一個語言） -->
+    <button type="button" class="lang-toggle" id="langToggle">
+      <span data-lang="zh">中</span><span class="lang-sep">/</span><span data-lang="en">EN</span>
+    </button>
+  </div>
+  <div class="menu-toggle" id="menuToggle" data-i18n-aria="menu_toggle_aria" aria-label="開啟選單">
     <span></span><span></span><span></span>
   </div>
 </header>
@@ -534,10 +68,13 @@
   <ul>
     <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
     <li><a href="#graphic" class="nav-link" data-target="graphic">Photographic</a></li>
-    <li><a href="#video" class="nav-link" data-target="video">影音動畫敘事</a></li>
+    <li><a href="#video" class="nav-link" data-target="video" data-i18n="nav_video">影音動畫敘事</a></li>
     <li><a href="#stories" class="nav-link" data-target="stories">Infographic</a></li>
-    <li><a href="#about" class="nav-link" data-target="about">わたくし</a></li>
+    <li><a href="#about" class="nav-link" data-target="about" data-i18n="nav_about">わたくし</a></li>
   </ul>
+  <button type="button" class="lang-toggle lang-toggle-mobile" id="langToggleMobile">
+    <span data-lang="zh">中文</span><span class="lang-sep">/</span><span data-lang="en">EN</span>
+  </button>
   <div class="mobile-drawer-social">
     <a class="social-icon" href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener" title="LinkedIn">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
@@ -588,19 +125,19 @@
         <span>TIM YANG ｜ Visual Designer</span>
       </div>
       <div class="eyebrow">VISUAL DESIGNER PORTFOLIO</div>
-      <h1>設計，是把想法<br><em>清楚地</em>說出來。</h1>
-      <p class="lead">十餘年新聞媒體與品牌視覺經驗，個人風格強烈，專長橫跨平面設計、UI／UX、動態影音與網頁敘事。相信簡潔的畫面，能承載最複雜的訊息。</p>
+      <h1 data-i18n-html="hero_h1_html">設計，是把想法<br><em>清楚地</em>說出來。</h1>
+      <p class="lead" data-i18n="hero_lead">十餘年新聞媒體與品牌視覺經驗，個人風格強烈，專長橫跨平面設計、UI／UX、動態影音與網頁敘事。相信簡潔的畫面，能承載最複雜的訊息。</p>
       <div class="hero-tags">
-        <span class="tag">平面設計</span>
-        <span class="tag">UI / UX ＆ 網頁設計</span>
-        <span class="tag">動畫影音設計 ＆ 腳本分鏡</span>
+        <span class="tag" data-i18n="hero_tag1">平面設計</span>
+        <span class="tag" data-i18n="hero_tag2">UI / UX ＆ 網頁設計</span>
+        <span class="tag" data-i18n="hero_tag3">動畫影音設計 ＆ 腳本分鏡</span>
       </div>
       <div class="btn-row">
-        <a class="btn btn-primary nav-link" href="#works" data-target="works">瀏覽作品集</a>
-        <a class="btn btn-ghost nav-link" href="#about" data-target="about">わたくし</a>
+        <a class="btn btn-primary nav-link" href="#works" data-target="works" data-i18n="hero_btn_works">瀏覽作品集</a>
+        <a class="btn btn-ghost nav-link" href="#about" data-target="about" data-i18n="nav_about">わたくし</a>
       </div>
     </div>
-    <div class="scroll-cue"><span class="line"></span>向下滑動</div>
+    <div class="scroll-cue"><span class="line"></span><span data-i18n="hero_scroll">向下滑動</span></div>
   </section>
 
 
@@ -609,7 +146,7 @@
     <div class="page-inner">
       <div class="section-head">
         <div class="eyebrow">WORKS</div>
-        <h2>作品鑑賞</h2>
+        <h2 data-i18n="works_h2">作品鑑賞</h2>
       </div>
       <div class="category-grid">
         <a class="cat-card cat-01 nav-link" href="#graphic" data-target="graphic">
@@ -618,17 +155,17 @@
           <div class="cat-overlay"></div>
           <div class="cat-num">01</div>
           <h3>Photographic</h3>
-          <p>品牌識別、活動視覺、印刷刊物、隨手亂畫</p>
-          <div class="cat-arrow">進入瀏覽 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <p data-i18n="cat1_desc">品牌識別、活動視覺、印刷刊物、隨手亂畫</p>
+          <div class="cat-arrow"><span data-i18n="cat_arrow">進入瀏覽</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </a>
         <a class="cat-card cat-02 nav-link" href="#video" data-target="video">
           <!-- 分類封面圖 2：把下面 src 換成你自己的圖片網址即可 -->
           <div class="cat-bg"><img src="images/videoanimate.webp" alt="影音動畫敘事"></div>
           <div class="cat-overlay"></div>
           <div class="cat-num">02</div>
-          <h3>影音動畫敘事</h3>
-          <p>動畫、專題影片、腳本分鏡、故事敘事</p>
-          <div class="cat-arrow">進入瀏覽 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <h3 data-i18n="nav_video">影音動畫敘事</h3>
+          <p data-i18n="cat2_desc">動畫、專題影片、腳本分鏡、故事敘事</p>
+          <div class="cat-arrow"><span data-i18n="cat_arrow">進入瀏覽</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </a>
         <a class="cat-card cat-03 nav-link" href="#stories" data-target="stories">
           <!-- 分類封面圖 3：把下面 src 換成你自己的圖片網址即可 -->
@@ -636,8 +173,8 @@
           <div class="cat-overlay"></div>
           <div class="cat-num">03</div>
           <h3>Infographic</h3>
-          <p>AMP Stories、HTML5動畫網頁、long form網頁</p>
-          <div class="cat-arrow">進入瀏覽 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <p data-i18n="cat3_desc">AMP Stories、HTML5動畫網頁、long form網頁</p>
+          <div class="cat-arrow"><span data-i18n="cat_arrow">進入瀏覽</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </a>
       </div>
     </div>
@@ -647,7 +184,7 @@
     <div class="page-inner">
       <div class="section-head">
         <div class="eyebrow">ABOUT</div>
-        <h2>わたくし</h2>
+        <h2 data-i18n="about_h2">わたくし</h2>
       </div>
       <div class="about-grid">
         <div class="about-photo-group">
@@ -662,22 +199,22 @@
         </div>
         <div>
           <div class="about-block">
-            <h4>自己紹介</h4>
-            <p style="font-size:14.5px; color:var(--ink-soft); line-height:1.95;">
+            <h4 data-i18n="about_intro_h4">自己紹介</h4>
+            <p data-i18n="about_bio" style="font-size:14.5px; color:var(--ink-soft); line-height:1.95;">
               楊 殿宏（TIM YANG），1982年生，SOLOキャンプ40代おじさん。I人無誤、大叔級資深肥宅王者，日本旅遊超過四十趟，旅居醉酒有達2個月，主要出沒在東京和關東地區，熱愛露營、金屬類音樂，遊戲資歷從任天堂紅白機發售到現在PS5，有資訊前端工程背景、 SCA 烘豆師資格的 OUTDOOR LIFE 視覺專案管理師。
             </p>
           </div>
           <div class="about-block">
-            <h4>工作經驗</h4>
+            <h4 data-i18n="about_exp_h4">工作經驗</h4>
             <ul class="timeline">
-              <li><span class="yr">2010前</span><span class="desc">曾任職於 <b>NIKE</b>、<b>行政院新聞局</b>（現 行政院新聞傳播處）、<b>研華電子</b>、<b>北市府產發局台北花卉博覽會</b>，擔任設計工作。</span></li>
-              <li><span class="yr">2011</span><span class="desc">進入《<b>聯合報 新媒體中心</b>》，擔任視覺設計師，工作為數位設計領域，並閒暇之餘短暫擔任專題記者，撰稿旅遊線專訪日本311大地震後的東北地區狀況。</span></li>
-              <li><span class="yr">2017</span><span class="desc">進入《<b>東森新媒體 ETtoday</b>》擔任視覺設計師，2年後成立《<b>視覺設計中心</b>》，擔任中心主任，團隊人數為6人。</span></li>
-              <li><span class="yr">2023</span><span class="desc">進入《<b>聯合線上 娛樂生活事業部 行銷中心</b>》500輯團隊擔任專案經理 Program Manager，負責視覺設計管理並兼任視覺設計師至今。</span></li>
+              <li><span class="yr">2010前</span><span class="desc" data-i18n-html="about_tl1_html">曾任職於 <b>NIKE</b>、<b>行政院新聞局</b>（現 行政院新聞傳播處）、<b>研華電子</b>、<b>北市府產發局台北花卉博覽會</b>，擔任設計工作。</span></li>
+              <li><span class="yr">2011</span><span class="desc" data-i18n-html="about_tl2_html">進入《<b>聯合報 新媒體中心</b>》，擔任視覺設計師，工作為數位設計領域，並閒暇之餘短暫擔任專題記者，撰稿旅遊線專訪日本311大地震後的東北地區狀況。</span></li>
+              <li><span class="yr">2017</span><span class="desc" data-i18n-html="about_tl3_html">進入《<b>東森新媒體 ETtoday</b>》擔任視覺設計師，2年後成立《<b>視覺設計中心</b>》，擔任中心主任，團隊人數為6人。</span></li>
+              <li><span class="yr">2023</span><span class="desc" data-i18n-html="about_tl4_html">進入《<b>聯合線上 娛樂生活事業部 行銷中心</b>》500輯團隊擔任專案經理 Program Manager，負責視覺設計管理並兼任視覺設計師至今。</span></li>
             </ul>
           </div>
           <div class="about-block">
-            <h4>使用軟體</h4>
+            <h4 data-i18n="about_software_h4">使用軟體</h4>
             <div class="chip-row">
               <span class="chip">Adobe Photoshop</span>
               <span class="chip">Adobe Illustrator</span>
@@ -688,11 +225,11 @@
             </div>
           </div>
           <div class="about-block">
-            <h4>專長SKILL</h4>
-              <div class="skill-row"><span class="dot"></span>平面設計</div>
-              <div class="skill-row"><span class="dot"></span>UI / UX ＆ 網頁設計</div>
-              <div class="skill-row"><span class="dot"></span>動畫影音設計製作 ＆ 腳本分鏡撰寫</div>
-              <div class="skill-row"><span class="dot"></span>專案管理 ＆ 跨部門協作與溝通</div>
+            <h4 data-i18n="about_skill_h4">專長SKILL</h4>
+              <div class="skill-row"><span class="dot"></span><span data-i18n="about_skill1">平面設計</span></div>
+              <div class="skill-row"><span class="dot"></span><span data-i18n="about_skill2">UI / UX ＆ 網頁設計</span></div>
+              <div class="skill-row"><span class="dot"></span><span data-i18n="about_skill3">動畫影音設計製作 ＆ 腳本分鏡撰寫</span></div>
+              <div class="skill-row"><span class="dot"></span><span data-i18n="about_skill4">專案管理 ＆ 跨部門協作與溝通</span></div>
             </div>
           </div>
           <div class="contact-line">
@@ -700,7 +237,7 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23h-4V8z"/></svg>
               LinkedIn
             </a>
-            <span>聯絡信箱 ｜ <a href="mailto:hiro0201@gmail.com">hiro0201@gmail.com</a></span>
+            <span><span data-i18n="about_contact_email">聯絡信箱 ｜</span> <a href="mailto:hiro0201@gmail.com">hiro0201@gmail.com</a></span>
           </div>
         </div>
       </div>
@@ -708,7 +245,7 @@
   </section>
 
   <footer>
-    <span>© 2026 TIM YANG — Visual Designer．站內圖片版權所有，未經同意請勿轉載使用</span>
+    <span data-i18n="footer_copyright">© 2026 TIM YANG — Visual Designer．站內圖片版權所有，未經同意請勿轉載使用</span>
     <div class="foot-links">
       <a href="mailto:hiro0201@gmail.com">hiro0201@gmail.com</a>
       <a href="https://www.linkedin.com/in/tim-yang-20ab01bb/" target="_blank" rel="noopener">
@@ -725,22 +262,22 @@
     <div class="work-hero">
       <a class="back-btn nav-link" href="#works" data-target="works">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-        返回上一頁
+        <span data-i18n="back_btn">返回上一頁</span>
       </a>
-      <h2>Photographic</h2>
-      <p>多種風格、可可愛愛、口味任選。往下滑還會有《500輯》系列IP的心血作品。</p>
+      <h2 data-i18n="graphic_page_title">Photographic</h2>
+      <p data-i18n="graphic_page_desc">多種風格、可可愛愛、口味任選。往下滑還會有《500輯》系列IP的心血作品。</p>
     </div>
 
     <div class="sub-section">
-      <div class="sub-head"><h3>隨便畫畫，隨心所欲</h3><span>點圖放大瀏覽</span></div>
+      <div class="sub-head"><h3 data-i18n="graphic_sub1_h3">隨便畫畫，隨心所欲</h3><span data-i18n="graphic_sub1_hint">點圖放大瀏覽</span></div>
       <div class="w-grid" id="graphic-grid"></div>
     </div>
 
     <div class="sub-section" style="padding-top:10px;">
       <div class="brand500-head">
-        <div class="eyebrow">SPECIAL PROJECT</div>
+        <div class="eyebrow" data-i18n="special_project_eyebrow">SPECIAL PROJECT</div>
         <h2>500輯</h2>
-        <p>專為台灣新世代質感青年打造，飲食與生活風格內容專題，依主題分為以下四個系列。</p>
+        <p data-i18n="brand500_desc">專為台灣新世代質感青年打造，飲食與生活風格內容專題，依主題分為以下四個系列。</p>
       </div>
       <div id="brand500-container"></div>
     </div>
@@ -753,13 +290,13 @@
     <div class="work-hero">
       <a class="back-btn nav-link" href="#works" data-target="works">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-        返回上一頁
+        <span data-i18n="back_btn">返回上一頁</span>
       </a>
-      <h2>影音動畫敘事</h2>
-      <p>點擊縮圖即可在原頁面直接放大播放，無需跳轉。</p>
+      <h2 data-i18n="nav_video">影音動畫敘事</h2>
+      <p data-i18n="video_page_desc">點擊縮圖即可在原頁面直接放大播放，無需跳轉。</p>
     </div>
     <div class="grid-video" id="video-grid"></div>
-    <p class="video-note">以上動畫作品，從腳本撰寫、分鏡、幕後次要配音、角色人物繪製、動畫動態呈現皆由本人執行，其餘資料彙整、校對、幕後主要配音則由同仁一起處理。一部動畫製作時期從三周到一個月半不等。</p>
+    <p class="video-note" data-i18n="video_note">以上動畫作品，從腳本撰寫、分鏡、幕後次要配音、角色人物繪製、動畫動態呈現皆由本人執行，其餘資料彙整、校對、幕後主要配音則由同仁一起處理。一部動畫製作時期從三周到一個月半不等。</p>
   </div>
 </div>
 
@@ -769,24 +306,24 @@
     <div class="work-hero">
       <a class="back-btn nav-link" href="#works" data-target="works">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-        返回上一頁
+        <span data-i18n="back_btn">返回上一頁</span>
       </a>
       <h2>Infographic</h2>
-      <p>各式新聞議題的專題專頁，涵蓋了各樣的互動式閱讀。圖表、插畫、影音等等。</p>
+      <p data-i18n="stories_page_desc">各式新聞議題的專題專頁，涵蓋了各樣的互動式閱讀。圖表、插畫、影音等等。</p>
     </div>
 
     <div class="sub-section">
-      <div class="sub-head"><h3>AMP Stories</h3><span>現稱為 Google Web Stories，主要針對手機以及平板等載具而發開設計，將圖片、影片、文字與互動元素結合，為網站帶來載入極速且極具視覺吸引力的行動閱讀體驗。點縮圖 → 原地以限動形式展開</span></div>
+      <div class="sub-head"><h3>AMP Stories</h3><span data-i18n="amp_hint">現稱為 Google Web Stories，主要針對手機以及平板等載具而發開設計，將圖片、影片、文字與互動元素結合，為網站帶來載入極速且極具視覺吸引力的行動閱讀體驗。點縮圖 → 原地以限動形式展開</span></div>
       <div class="grid-amp" id="amp-grid"></div>
     </div>
 
     <div class="sub-section">
-      <div class="sub-head"><h3>HTML5動態互動式網頁</h3><span>取代FLASH的劃時代網頁的核心標準。點縮圖 → 原地開啟，每篇皆完全獨立、互不干擾</span></div>
+      <div class="sub-head"><h3 data-i18n="html5_h3">HTML5動態互動式網頁</h3><span data-i18n="html5_hint">取代FLASH的劃時代網頁的核心標準。點縮圖 → 原地開啟，每篇皆完全獨立、互不干擾</span></div>
       <div id="feature-container"></div>
     </div>
 
     <div class="sub-section">
-      <div class="sub-head"><h3>專題long form網頁作品</h3><span>最常見的專題網頁格式，內含了圖表、圖片、HTML5動畫、影音。點縮圖 → 另開新分頁</span></div>
+      <div class="sub-head"><h3 data-i18n="longform_h3">專題long form網頁作品</h3><span data-i18n="longform_hint">最常見的專題網頁格式，內含了圖表、圖片、HTML5動畫、影音。點縮圖 → 另開新分頁</span></div>
       <div class="grid-general" id="general-grid"></div>
     </div>
   </div>
@@ -830,830 +367,9 @@
   </div>
 </div>
 
-<script>
-/* ============ 首頁背景模式切換 ============
-   把下面這個值改成 'video'（影片）、'solid'（單色）或 'gradient'（漸層）就能切換首頁背景，
-   其他程式碼都不用動：
-   - 'video'    使用上面 hero-video-wrap 裡嵌入的影片
-   - 'solid'    使用網站主色（紺色）當作單色背景
-   - 'gradient' 使用紺色到水色的漸層背景
-   三種模式下的文字顏色都已經處理好，不需要另外調整。 */
-const HERO_BG_MODE = 'video';
-const heroSection = document.querySelector('.hero');
-const HERO_VIDEO_SRC = 'https://hirox0201.github.io/rainning_sakura/rainning_sakura.mp4';
+<script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
 
-/* applyHeroBg：真正決定「要不要載入影片」的地方。
-   - 只有目前視窗寬度 >= 861px（桌機）時，才會動態幫 <video id="heroVideo"> 補上 <source> 並播放，
-     手機／平板（860px 以下）完全不會建立 <source>，瀏覽器就不會有任何機會去下載或解碼影片，
-     這是修正手機發熱問題的關鍵。
-   - 如果之後想整個網站首頁都不要用影片背景，只要把最上面 HERO_BG_MODE 改成 'solid' 或 'gradient' 即可，
-     這個函式會自動改套用對應的純色／漸層背景，且完全不會建立 <video> 的 <source>。 */
-function applyHeroBg(){
-  heroSection.classList.remove('hero-bg-video','hero-bg-solid','hero-bg-gradient');
-  const isDesktopWidth = window.innerWidth >= 861;
-
-  if(HERO_BG_MODE !== 'video'){
-    heroSection.classList.add('hero-bg-' + HERO_BG_MODE);
-    return;
-  }
-
-  // 不論手機或桌機，HERO_BG_MODE 為 'video' 時都套用 hero-bg-video，
-  // 這只是負責「把 poster 靜態圖顯示出來」的樣式，本身不會下載或播放任何影片，
-  // 所以手機也會正常看到 rainning_sakura.webp 這張圖當背景。
-  heroSection.classList.add('hero-bg-video');
-  const video = document.getElementById('heroVideo');
-
-  if(isDesktopWidth){
-    // 只有確認是桌機寬度，才動態補上 <source> 並播放，手機完全不會走到這一段
-    if(video && !video.querySelector('source')){
-      const source = document.createElement('source');
-      source.src = HERO_VIDEO_SRC;
-      source.type = 'video/mp4';
-      video.appendChild(source);
-      video.load();
-      video.play().catch(()=>{ /* 部分瀏覽器需要互動才能自動播放，失敗時保持顯示 poster 即可 */ });
-    }
-  } else if(video && video.querySelector('source')){
-    // 例如平板從橫式（桌機判定）轉回直式（手機判定）：移除已載入的影片來源並停止播放，
-    // 讓畫面改回顯示 poster 靜態圖，避免手機端殘留影片播放
-    video.pause();
-    video.querySelectorAll('source').forEach(s=> s.remove());
-    video.load();
-  }
-}
-applyHeroBg();
-
-// 螢幕從直式轉橫式、或視窗尺寸跨越 861px 門檻時（例如平板旋轉），重新判斷一次即可，
-// 用簡單的 debounce 避免 resize 事件觸發過於頻繁造成額外負擔。
-let heroBgResizeTimer = null;
-window.addEventListener('resize', ()=>{
-  clearTimeout(heroBgResizeTimer);
-  heroBgResizeTimer = setTimeout(applyHeroBg, 300);
-});
-
-/* ============ 資料（請替換為您自己的作品） ============ */
-
-// 平面設計作品（不分類）：把每一項的 img 換成你自己作品的圖片網址，desc 換成你自己的圖說即可
-const graphicWorks = [
-  {title:"NIKE Cortez鞋款宣傳向量插畫", year:"2008", desc:"應公司邀約繪製。", img:"images/nike_cortez.webp"},
-  {title:"FIFA2014世界盃，手足球概念向量繪圖", year:"2014", desc:"《聯合報》2014 世界杯專題，手足球遊戲向量繪圖，專題就在「Infographic」。", img:"images/fifa2014.webp"},
-  {title:"「星際大戰幼幼班 搞懂4色光劍」冷知識動畫向量繪圖", year:"2015", desc:"《聯合報》2015星際大戰光劍冷知識動畫專題向量繪圖，動畫就在「影音動畫敘事」。", img:"images/2015starwars.webp"},
-  {title:"「耶誕叮叮噹，馴鹿？麋鹿？」冷知識動畫向量繪圖", year:"2015", desc:"《聯合報》2015聖誕節冷知識動畫專題向量繪圖，動畫就在「影音動畫敘事」。", img:"images/2015xmas.webp"},
-  {title:"「還不知道加密貨幣？別做投資族的LKK」冷知識動畫向量繪圖", year:"2018", desc:"《ETtoday》2018加密貨幣動畫向量繪圖，動畫就在「影音動畫敘事」。", img:"images/bitcoin_ani.webp"},
-  {title:"「遊北韓4大禁忌 小心玩到沒命」冷知識動畫向量繪圖", year:"2018", desc:"《ETtoday》2018北韓旅遊動畫向量繪圖，動畫就在「影音動畫敘事」。", img:"images/north_korean_travel.webp"},
-  {title:"人物手繪", year:"2019", desc:"情侶人物似顏繪。", img:"images/lover01.webp"},
-  {title:"趣味自畫像", year:"2020", desc:"「惡魔形象的自己」有感而發的手繪，「我是台灣人」使用在新冠肺炎疫情間出國用。", img:"images/funny.webp"},
-  {title:"我是台灣人（日文版）", year:"2020", desc:"新冠疫情前剛好回日本怕被歧視，只好推出「我是台灣人」。", img:"images/imtw_jp.webp"},
-  {title:"我是台灣人（西文版）", year:"2020", desc:"西班牙文的延伸，應同志好友邀約繪製彩虹版本。", img:"images/imtw_spain.webp"},
-];
-
-// 500輯：4 個子分類，各先放 5 張假圖與假圖說，之後直接替換 img / title / desc 即可
-const brand500Categories = [
-  {
-    key:"bowl", name:"500碗", intro:"《500輯》IP之一，第一份台灣人在地觀點的新指南。",
-    // yearOrder：年份頁籤要顯示的順序，由左到右照這個陣列排列，可以自己調整前後順序。
-    // 如果之後新增了陣列裡沒有的年份，會自動排到最後面（由新到舊），不會不見。
-    yearOrder:["2026","2025","2024"],
-    items:[
-      {title:"500碗2026主視覺", desc:"手繪的小吃圖案再轉換成向量圖形。", year:"2026", img:"images/500bowl2026/500bowl2026_main.webp"},
-      {title:"500碗2026主視覺小吃icon", desc:"台式小吃的icon，有牛肉湯、肉燥飯、切仔麵、臭豆腐、肉圓、蔥油餅、割包。", year:"2026", img:"images/500bowl2026/500bowl2026_main02.webp"},
-      {title:"500碗2026店家得碗獎章", desc:"500碗2026店家得碗獎章。", year:"2026", img:"images/500bowl2026/500bowl2026_medal.webp"},
-      {title:"500碗2026紙本小吃推薦", desc:"A5尺寸的折頁式台灣小吃推薦。", year:"2026", img:"images/500bowl2026/500bowl2026_dm.webp"},
-      {title:"500碗2026小吃市集拱門出入口", desc:"為期三天、在台北市西門紅樓的小吃市集，人潮眾多。", year:"2026", img:"images/500bowl2026/500bowl2026_market.webp"},
-      {title:"500碗2026頒獎典禮", desc:"台北西門紅樓的記者會頒獎典禮現場。", year:"2026", img:"images/500bowl2026/500bowl2026_award.webp"},
-      {title:"500碗2026記者會拍照背板", desc:"典禮會場內可讓賓客拍照。", year:"2026", img:"images/500bowl2026/500bowl2026_pic.webp"},
-      {title:"500碗2026周邊食玩", desc:"可以吸在冰箱上或是鐵板上的磁鐵小燈箱食玩。", year:"2026", img:"images/500bowl2026/500bowl2026_toy.webp"},
-      {title:"500碗2024主視覺", desc:"使用幾何圖形概念。", year:"2024", img:"images/500bowl2024/500bowl2024_main.webp"},
-      {title:"500碗概念人偶", desc:"擬人化的人偶繪製，使用雜訊效果。", year:"2024", img:"images/500bowl2024/500bowl2024_01.webp"},
-      {title:"500碗概念人偶", desc:"擬人化的人偶繪製，使用扁平化質感繪製。", year:"2024", img:"images/500bowl2024/500bowl2024_02.webp"},
-      {title:"周邊商品提案圖", desc:"周邊商品圖案繪製提案。", year:"2024", img:"images/500bowl2024/500bowl2024_03.webp"},
-      {title:"周邊商品提案圖", desc:"周邊商品提案，以台灣都市傳說為概念。", year:"2024", img:"images/500bowl2024/500bowl2024_04.webp"},
-      {title:"周邊商品提案圖", desc:"周邊商品提案，以台灣都市傳說為概念。", year:"2024", img:"images/500bowl2024/500bowl2024_05.webp"},
-      {title:"獎旗設計", desc:"發送給各個得碗店家，方便掛至店內的獎旗。", year:"2024", img:"images/500bowl2024/500bowl2024_06.webp"},
-      {title:"工作人員＆媒體識別證", desc:"工作人員識別證個性款。", year:"2024", img:"images/500bowl2024/500bowl2024_07.webp"},
-      {title:"工作人員＆媒體識別證", desc:"工作人員識別證質感款。", year:"2024", img:"images/500bowl2024/500bowl2024_08.webp"},
-      {title:"500碗2025主視覺", desc:"年度主視覺概念延伸提案。", year:"2025", img:"https://picsum.photos/seed/wan2025-01/700/875"},
-      {title:"500碗2025得獎店家特輯", desc:"年度得獎店家視覺紀錄。", year:"2025", img:"https://picsum.photos/seed/wan2025-02/700/875"},
-      
-    ]
-  },
-  {
-    key:"pa", name:"500趴", intro:"《500輯》IP之一，記錄城市裡精彩派對與活動現場的第一手觀察。",
-    yearOrder:["2025","2023"],
-    items:[
-      {title:"500趴2025主視覺", desc:"活動主視覺，視覺語言「外星變形蟲」，代表歡迎任何人、不分族群、人種、年齡與性別的一場年度派對盛事。", year:"2025", img:"images/500pa2025/500pa2025.webp"},
-      {title:"主Live舞台", desc:"音樂派對主舞台設計。", year:"2025", img:"images/500pa2025/500pa2025stage.webp"},
-      {title:"Taipei101水舞廣場", desc:"活動場景紀錄。", year:"2025", img:"images/500pa2025/500pa2025onboard.webp"},
-      {title:"500趴2025主視覺 廢案01", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse01.webp"},
-      {title:"500趴2025主視覺 廢案02", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse02.webp"},
-      {title:"500趴2025主視覺 廢案03", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nouse03.webp"},
-      {title:"500趴2025主視覺 廢案ver2.01", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_01.webp"},
-      {title:"500趴2025主視覺 廢案ver2.02", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_02.webp"},
-      {title:"500趴2025主視覺 廢案ver2.03", desc:"致敬日本FUJIROCK主視覺設計，視覺語言太陽與月亮代表白天到晚上不停歇，未使用廢案。", year:"2025", img:"images/500pa2025/500pa2025_nousever2_03.webp"},
-      {title:"屋頂派對特輯", desc:"城市屋頂派對場景與賓客紀錄。", year:"2023", img:"https://picsum.photos/seed/pa03/700/875"},
-      {title:"周年慶典紀錄", desc:"品牌周年活動現場紀實拍攝。", year:"2023", img:"https://picsum.photos/seed/pa04/700/875"},
-      {title:"派對邀請卡設計", desc:"限定活動邀請卡與周邊視覺設計。", year:"2023", img:"https://picsum.photos/seed/pa05/700/875"},
-    ]
-  },
-  {
-    key:"dish", name:"500盤", intro:"《500輯》IP之一，第一份台灣人觀點的美食評鑑。",
-    yearOrder:["2026","2025","2024"],
-    items:[
-      {title:"IP主視覺設計", desc:"以幾何圖形繪製而成。", year:"2026", img:"https://picsum.photos/seed/pan01/700/875"},
-      {title:"主廚精選盤飾", desc:"餐廳主廚精選料理擺盤攝影紀錄。", year:"2026", img:"https://picsum.photos/seed/pan02/700/875"},
-      {title:"街邊小吃特輯", desc:"台灣街邊小吃的日常飲食紀錄。", year:"2025", img:"https://picsum.photos/seed/pan03/700/875"},
-      {title:"異國料理巡禮", desc:"異國餐廳料理視覺紀錄與版面設計。", year:"2025", img:"https://picsum.photos/seed/pan04/700/875"},
-      {title:"職人餐桌故事", desc:"料理職人與其代表作品的圖文紀錄。", year:"2024", img:"https://picsum.photos/seed/pan05/700/875"},
-    ]
-  },
-  {
-    key:"sweet", name:"500甜", intro:"《500輯》IP之一，台灣首份甜點指南。",
-    yearOrder:["2025","2026"],
-    items:[
-      {title:"手作甜點工作室", desc:"獨立甜點工作室的作品拍攝與設計。", year:"2026", img:"https://picsum.photos/seed/tian01/700/875"},
-      {title:"季節水果塔特輯", desc:"當季水果製作甜點的視覺紀錄。", year:"2026", img:"https://picsum.photos/seed/tian02/700/875"},
-      {title:"職人手沖咖啡", desc:"咖啡職人手沖過程與空間紀錄。", year:"2025", img:"https://picsum.photos/seed/tian03/700/875"},
-      {title:"傳統糕餅故事", desc:"傳統糕餅店的職人故事與商品紀錄。", year:"2025", img:"https://picsum.photos/seed/tian04/700/875"},
-      {title:"下午茶提案", desc:"城市下午茶店家精選提案設計。", year:"2025", img:"https://picsum.photos/seed/tian05/700/875"},
-    ]
-  },
-  {
-    key:"young", name:"500Young", intro:"《500輯》IP之一，聚焦青年世代價值的領航獎項。",
-    yearOrder:["2026","2024"],
-    items:[
-      {title:"500Young2026主視覺", desc:"「彭羅斯階梯（三角形）」，主要強調的是「層次感與矛盾」。", year:"2026", img:"images/500young2026/500young2026main.webp"},
-      {title:"500Young2026主視覺ICON", desc:"四個代表性的3D設計ICON元素。拼圖、魔術方塊、指北針、沙漏", year:"2026", img:"images/500young2026/500young2026_icon.webp"},
-      {title:"賓客拍照背板", desc:"贊助商以及IP建構的賓客用拍照背板。", year:"2026", img:"images/500young2026/500young2026camerashot.webp"},
-      {title:"中央舞台左右側背板", desc:"頒獎典禮的左右兩側背板。", year:"2026", img:"images/500young2026/monitor.webp"},
-      {title:"中央舞台示意", desc:"頒獎典禮的舞台現場照。", year:"2026", img:"images/500young2026/main_stage.webp"},
-      {title:"500Young2024主視覺", desc:"「補夢網」＆「莫比烏斯之環」的概念設計。", year:"2024", img:"images/500young2024/500young2024_main.webp"},
-      {title:"500Young2024工作人員識別證", desc:"活動現場的工作人員識別證，共兩種。", year:"2024", img:"images/500young2024/500young2024_staff.webp"},
-      {title:"500Young2024論壇宣傳廣告", desc:"講座的宣傳報版。", year:"2024", img:"images/500young2024/500young2024_class.webp"},
-      {title:"500Young2024獎項公告", desc:"即將公布的樣式。", year:"2024", img:"images/500young2024/500young2024_01.webp"},
-      {title:"500Young2024主視覺 廢案01", desc:"「補夢網」＆「莫比烏斯之環」的概念，未採用的深色款設計。", year:"2024", img:"images/500young2024/500young2024_main_nouse01.webp"},
-      {title:"500Young2024主視覺 廢案02", desc:"「補夢網」＆「莫比烏斯之環」的概念，調整前的色違感、淺色款設計。", year:"2024", img:"images/500young2024/500young2024_main_nouse02.webp"},
-    ]
-  },
-  {
-    key:"biz", name:"500輯商業合作案", intro:"《500輯》與合作品牌／公部門單位合作的商業合作專案紀錄。",
-    // 這個分類跟其他 500輯 分類不一樣：不是用「年份頁籤＋單一格線」呈現，
-    // 而是「每個合作案自己獨立一個區塊」，各自有自己的標題、簡介、跟自己的作品格線。
-    // 好處是：像「屏東文學獎」只有1張作品、「永豐餘100週年慶」可能有10幾張作品，
-    // 兩者可以各自呈現、互不混雜，不會因為作品數量差很多而讓版面看起來很奇怪。
-    //
-    // 之後有新的商業合作案，直接在下面 projects 陣列裡新增一個物件即可：
-    //   {
-    //     title:"案名（不用加年份，年份寫在 year 欄位）",
-    //     year:"該案的年份",
-    //     desc:"這個合作案的簡介／說明文字（可留空字串 \"\"）",
-    //     items:[
-    //       {title:"作品名稱", desc:"作品說明", img:"圖片網址"},
-    //       // 這個案子有幾張作品，就在這裡加幾筆，不限制數量
-    //     ]
-    //   }
-    // projects 陣列的排列順序，就是畫面由上到下顯示的順序，想調整順序直接搬動陣列裡物件的前後位置即可。
-    type:"projects",
-    projects:[
-      {
-        title:"屏東文學獎", year:"2024",
-        desc:"每年屏東縣政府都會舉辦的文學獎徵稿活動。",
-        items:[
-          {title:"徵稿活動主視覺", desc:"2024年屏東縣政府舉辦的文學獎徵稿活動。", img:"images/2024pingtungliteratureaward.webp"},
-        ]
-      },
-      /*/{
-        title:"永豐餘100週年慶", year:"2024",
-        desc:"暫定項目，之後補上詳細合作內容說明。",
-        items:[
-          {title:"視覺主圖", desc:"暫定項目，之後補上詳細合作內容說明。", img:"https://picsum.photos/seed/biz02/700/875"},
-        ]
-      },/**/
-    ]
-  },
-];
-
-/* ============================================================
-   500輯「Coming Soon」設定（之後要更新最方便的地方！）
-   ============================================================
-   只要某個分類（key）＋某個年份出現在下面陣列裡，使用者點到該年份頁籤時，
-   畫面就會直接顯示「目前更新中，coming soon！もうすぐ。」，
-   不會顯示 brand500Categories 裡對應的作品卡片（就算資料已經先寫進去也一樣）。
-
-   六個分類的 key 對照：
-     bowl  = 500碗
-     pa    = 500趴
-     dish  = 500盤
-     sweet = 500甜
-     young = 500Young
-     biz   = 500輯商業合作案
-
-   使用方式：
-   1) 該年份作品「還沒準備好」→ 把年份字串加進對應 key 的陣列裡，例如 bowl:["2026"]
-   2) 該年份作品「已經準備好、要正式上架」→ 把該年份字串從陣列中刪除即可，
-      畫面會自動改回顯示 brand500Categories 裡該年份的真正作品卡片，不用動其他程式碼。
-   ============================================================ */
-const comingSoonYears = {
-  bowl:  ["2025"],
-  pa:    ["2023"],
-  dish:  ["2026","2025","2024"],
-  sweet: ["2026", "2025"],
-  young: [],
-};
-
-// 影音作品：已換成您提供的 6 支 YouTube 影片
-const videoWorks = [
-  {title:"星際大戰幼幼班 搞懂四色光劍", desc:"透過8-bit繪製，呈現趣味的冷知識。", ytid:"9cMXhftGdNE"},
-  {title:"耶誕叮叮噹 紅鼻子是馴鹿…還是麋鹿？", desc:"整體用耶誕折疊卡片的概念、角色用巧拼版質感設計，討論冷知識。", ytid:"1_fNvCi90Vs"},
-  {title:"台語王是你？草莓台語安抓唸", desc:"實際的水果影片配上可愛手繪擬人，讓學習冷知識也可以很輕鬆。", ytid:"RaaSajsD6u4"},
-  {title:"身體好嗎？便便顏色告訴你", desc:"完全手繪的可可愛愛動畫，平常鮮少人討論的日常健康冷知識。", ytid:"GcKrLSai86U"},
-  {title:"還不知道加密貨幣？別做投資族的LKK", desc:"新興的加密貨幣，向量動畫讓你知！", ytid:"nqFTLATqsQM"},
-  {title:"遊北韓4大禁忌 小心玩到沒命", desc:"想去北韓旅遊嗎？這篇告訴你！", ytid:"lJFLhsY3-7g"},
-];
-
-// AMP Stories（原地獨立瀏覽，每一篇彼此獨立，沒有左右切換機制）－標題為依網址暫擬，請依實際內容調整
-// img 為封面圖，目前先放佔位圖，之後直接替換 img 網址即可
-const ampStories = [
-  {title:"十二夜後仍不見曙光，零撲殺浮現五大危機", url:"https://events.ettoday.net/depth-report/amp-dog/", img:"https://events.ettoday.net/depth-report/amp-dog/dog_share.jpg"},
-  {title:"深夜法器聲響起，百年習俗「送肉粽」解密，7大禁忌別碰", url:"https://events.ettoday.net/depth-report/amp-sbc/index.html", img:"https://events.ettoday.net/depth-report/amp-sbc/sbc-fb.jpg"},
-  {title:"200年前的「變女術」", url:"https://events.ettoday.net/depth-report/amp-beijingopera/", img:"https://events.ettoday.net/depth-report/amp-beijingopera/beijingopera-fb.jpg"},
-  {title:"國小生也聽KPOP！", url:"https://events.ettoday.net/depth-report/amp-kpop/", img:"https://events.ettoday.net/depth-report/amp-kpop/kpop-fb.jpg"},
-  {title:"逃離辦公室，成為大海的子民", url:"https://events.ettoday.net/depth-report/amp-mermaid/", img:"https://events.ettoday.net/depth-report/amp-mermaid/mermaid-fb.jpg"},
-  {title:"匠人之魂的燃燒", url:"https://events.ettoday.net/depth-report/amp-daystar/", img:"https://events.ettoday.net/depth-report/amp-daystar/daystar-fb.jpg"},
-  {title:"甩尾進金崙，跟村民一起搶救解憂雜貨店", url:"https://events.ettoday.net/depth-report/amp-konbini/", img:"https://events.ettoday.net/depth-report/amp-konbini/konbini-fb.jpg"},
-  {title:"人生旅遊清單+1，直擊加拿大冰川天空步道，全覽洛磯山美景", url:"https://events.ettoday.net/depth-report/amp-canadaiceriver/", img:"https://events.ettoday.net/depth-report/amp-canadaiceriver/canadaiceriver-fb.jpg"},
-  {title:"熊出沒！野生動物的天堂「加拿大傑士伯國家公園」", url:"https://events.ettoday.net/depth-report/amp-canadajasper/", img:"https://events.ettoday.net/depth-report/amp-canadajasper/canadajasper-fb.jpg"},
-  {title:"我們的城中城", url:"https://events.ettoday.net/depth-report/amp-cheng-zhong-cheng/index.html", img:"https://events.ettoday.net/depth-report/amp-cheng-zhong-cheng/cheng-zhong-cheng-fb.jpg"},
-  {title:"羞答答台灣之光，摩鐵的「八腳獸傳奇」", url:"https://events.ettoday.net/depth-report/amp-motel_sexchair/index.html", img:"https://events.ettoday.net/depth-report/amp-motel_sexchair/sexchair-fb.jpg"},
-  {title:"非去不可的Funtel！全家摩鐵玩起來", url:"https://events.ettoday.net/depth-report/amp-motel_funtel/index.html", img:"https://events.ettoday.net/depth-report/amp-motel_funtel/motel_funtel-fb.jpg"},
-];
-
-// 互動作品（HTML5 / Adobe Edge Animate）
-// 「2014世界盃」是一組 3 篇的作品，每一篇都是完全獨立的網址、獨立開啟、獨立關閉，
-// 彼此之間沒有任何左右切換或連動機制。
-// native:{w,h} 為各篇實際的 Adobe Edge 原始設計畫布尺寸（直式）：
-// 開頭動畫頁已由原始碼 AdobeEdge.loadComposition() 參數確認為 768x960，
-// 另外兩篇（互動遊戲）維持先前調整過的 768x1300。
-const worldCup2014 = {
-  title:"FIFA2014世界盃",
-  intro:"2014年世界盃足球賽期間特別繪製與製作的主題式互動動畫網頁，使用 Adobe Edge Animate 製作，搭配HTML5語法撰寫調整，包含逐格繪製的插畫與互動效果，是投入相當多時間心力完成的作品。",
-  repoUrl:"https://github.com/hirox0201/fifa2014",
-  pages:[
-    {title:"開頭動畫頁", desc:"世界盃主題開場動畫，以逐格繪製插畫呈現賽事氛圍。", img:"images/fifa201401_s.webp", url:"https://hirox0201.github.io/fifa201401/", native:{w:768,h:914}},
-    {title:"國家隊街頭足球互動遊戲", desc:"以各國家隊為主題的街頭足球互動小遊戲。", img:"images/fifa201402_s.webp", url:"https://hirox0201.github.io/fifa201402/", native:{w:768,h:1300}},
-    {title:"規則小知識互動遊戲", desc:"以互動問答呈現世界盃賽事規則小知識。", img:"images/fifa201403_s.webp", url:"https://hirox0201.github.io/fifa201404/", native:{w:768,h:1300}},
-  ]
-};
-
-// 一般網頁作品（另開新分頁）－標題為依網址暫擬，請依實際內容調整
-// img 為縮圖，目前先放佔位圖，之後直接替換 img 網址即可
-const generalWorks = [
-  {title:"十二夜後，仍不見曙光 零撲殺浮現五大危機", desc:"十二夜後，仍不見曙光 零撲殺浮現五大危機", url:"https://events.ettoday.net/depth-report/dog_care/", img:"http://events.ettoday.net/depth-report/dog_care/img/dog_fb-2.jpg"},
-  {title:"2018 SIHH日內瓦高級鐘錶展", desc:"2018 SIHH日內瓦高級鐘錶展", url:"https://events.ettoday.net/depth-report/sihh2018/", img:"https://events.ettoday.net/depth-report/sihh2018/images/sihh2018-fb.jpg"},
-  {title:"遊北韓4禁忌　踩了就GG", desc:"遊北韓4禁忌　踩了就GG", url:"https://events.ettoday.net/depth-report/ncs_travel/", img:"https://events.ettoday.net/depth-report/ncs_travel/images/ncs_travel-fb.jpg"},
-];
-
-/* ============ 路由 / 頁面切換（含錨點 + 平滑捲動） ============ */
-const routableIds = ['home','works','about','graphic','video','stories'];
-
-function routeFromHash(){
-  let hash = location.hash.replace('#','') || 'home';
-  if(!routableIds.includes(hash)) hash = 'home';
-
-  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active'));
-  document.querySelectorAll('.nav-link[data-target="'+hash+'"]').forEach(a=>a.classList.add('active'));
-
-  if(hash === 'graphic' || hash === 'video' || hash === 'stories'){
-    showSubPage(hash);
-  } else {
-    showSubPage('home');
-    // 回到首頁後，平滑捲動到對應錨點區塊
-    requestAnimationFrame(()=>{
-      const el = document.getElementById(hash === 'home' ? 'home' : hash);
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    });
-  }
-}
-
-function showSubPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(name !== 'home') window.scrollTo({top:0});
-}
-
-/* ============ GA4 自訂事件追蹤 ============
-   小工具函式：如果 gtag 已經載入（追蹤碼有正確安裝），就送出事件到 GA4；
-   就算 Measurement ID 還沒換成正式的，也不會噴錯誤、不會影響網站正常功能。
-   之後如果想再增加其他追蹤點，直接呼叫 trackGAEvent('事件名稱', {自訂參數}) 即可。 */
-function trackGAEvent(eventName, params){
-  if(typeof gtag === 'function'){
-    gtag('event', eventName, params || {});
-  }
-}
-
-/* GA4 追蹤：LinkedIn／Email 點擊（求職期間最重要的訊號 —— 有多少人看完作品後想聯絡你）。
-   用「事件代理」的方式一次抓全站所有 LinkedIn 連結和 mailto 連結，不管放在 header、
-   手機選單、關於我區塊、還是 footer，都不用個別加 onclick，之後網站上如果再新增
-   LinkedIn／Email 連結，也會自動被抓到，不用再改這段程式碼。 */
-document.addEventListener('click', (e)=>{
-  const contactLink = e.target.closest('a[href^="mailto:"], a[href*="linkedin.com"]');
-  if(contactLink){
-    const isLinkedIn = contactLink.href.includes('linkedin.com');
-    const location_area = contactLink.closest('header') ? 'header'
-      : contactLink.closest('.mobile-drawer') ? 'mobile_menu'
-      : contactLink.closest('#about') ? 'about_section'
-      : contactLink.closest('footer') ? 'footer'
-      : 'other';
-    trackGAEvent('contact_click', {
-      contact_type: isLinkedIn ? 'linkedin' : 'email',
-      click_location: location_area
-    });
-  }
-});
-
-document.addEventListener('click', (e)=>{
-  const link = e.target.closest('.nav-link');
-  if(link){
-    e.preventDefault();
-    const target = link.getAttribute('data-target') || link.getAttribute('href').replace('#','');
-
-    // GA4 追蹤：作品分類點擊。只追蹤三大作品分類（graphic／video／stories），
-    // home／works／about 這些導覽點擊不算「瀏覽作品分類」所以不送事件。
-    const categoryNames = { graphic:'Photographic', video:'影音動畫敘事', stories:'Infographic' };
-    if(categoryNames[target]){
-      trackGAEvent('category_click', { category_key: target, category_name: categoryNames[target] });
-    }
-
-    if(location.hash === '#'+target){ routeFromHash(); }
-    else{ location.hash = target; }
-    closeMobileDrawer();
-  }
-});
-window.addEventListener('hashchange', routeFromHash);
-window.addEventListener('DOMContentLoaded', routeFromHash);
-
-/* ============ 行動裝置漢堡選單 ============ */
-function openMobileDrawer(){
-  document.getElementById('menuToggle').classList.add('open');
-  document.getElementById('mobileDrawer').classList.add('open');
-  document.getElementById('mobileDrawerBackdrop').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeMobileDrawer(){
-  document.getElementById('menuToggle').classList.remove('open');
-  document.getElementById('mobileDrawer').classList.remove('open');
-  document.getElementById('mobileDrawerBackdrop').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.getElementById('menuToggle').addEventListener('click', ()=>{
-  const isOpen = document.getElementById('mobileDrawer').classList.contains('open');
-  if(isOpen) closeMobileDrawer(); else openMobileDrawer();
-});
-document.getElementById('mobileDrawerBackdrop').addEventListener('click', closeMobileDrawer);
-
-/* ============ 共用：作品卡片渲染（含常駐圖說） ============ */
-function renderWorkCard(container, item, group, index){
-  const el = document.createElement('div');
-  el.className = 'w-card';
-  el.innerHTML = `
-    <div class="w-thumb"><img src="${item.img}" alt="${item.title}"></div>
-    <div class="w-info">
-      <div class="wt">${item.title}</div>
-      <div class="wd">${item.desc || ''}</div>
-      <div class="wy">${item.year || ''}</div>
-    </div>`;
-  el.onclick = ()=> openLightbox(group, index);
-  container.appendChild(el);
-}
-
-/* ============ 渲染：平面設計作品（不分類） ============ */
-const graphicGrid = document.getElementById('graphic-grid');
-graphicWorks.forEach((w, i)=> renderWorkCard(graphicGrid, w, graphicWorks, i));
-
-/* ============ 渲染：500輯（六個子分類，各自獨立） ============
-   分成兩種呈現方式，依每個分類的資料格式自動判斷：
-   - type:'projects' 的分類（目前只有「500輯商業合作案」）→ 以個案為單位獨立呈現，見下面「分類類型 A」
-   - 其餘分類（500碗／500趴／500盤／500甜／500Young）→ 維持年份頁籤＋格線，見下面「分類類型 B」 */
-const brand500Container = document.getElementById('brand500-container');
-brand500Categories.forEach(cat=>{
-
-  // ============ 分類類型 A：「商業合作案」這種以個案為單位的分類 ============
-  // 每個合作案（cat.projects 裡的每一筆）各自獨立一個區塊：自己的標題／簡介／作品格線，
-  // 案子之間完全不共用格線，所以有些案子只有1張作品、有些有10幾張作品都不會互相影響版面。
-  if(cat.type === 'projects'){
-    const block = document.createElement('div');
-    block.className = 'brand500-cat';
-    block.innerHTML = `
-      <div class="sub-head">
-        <h3>${cat.name}</h3>
-        <p>${cat.intro}</p>
-      </div>
-      <div class="biz-projects" id="biz-${cat.key}"></div>`;
-    brand500Container.appendChild(block);
-
-    const wrap = block.querySelector('#biz-' + cat.key);
-    cat.projects.forEach(proj=>{
-      const projEl = document.createElement('div');
-      projEl.className = 'biz-project';
-      projEl.innerHTML = `
-        <div class="biz-project-head">
-          <h4>${proj.title}<span class="biz-project-year">${proj.year || ''}</span></h4>
-          ${proj.desc ? `<p>${proj.desc}</p>` : ''}
-        </div>
-        <div class="w-grid"></div>`;
-      wrap.appendChild(projEl);
-      const projGrid = projEl.querySelector('.w-grid');
-      proj.items.forEach((item, i)=> renderWorkCard(projGrid, item, proj.items, i));
-    });
-    return; // 這個分類處理完畢，不執行下面「年份頁籤」那一套邏輯
-  }
-
-  // ============ 分類類型 B：其餘 500輯 分類（500碗／500趴／500盤／500甜／500Young）============
-  // 這些維持原本「年份頁籤＋格線」的呈現方式。
-  //
-  // 每個分類底下的年份分頁按鈕，只會控制「自己這個分類」要顯示哪個年份的作品，
-  // 跟其他分類的分頁按鈕完全獨立、互不影響。
-  //
-  // 年份頁籤的「先後順序」由每個分類的 yearOrder 陣列決定（見上面 brand500Categories），
-  // 想調整某個分類的年份排列順序，直接去改那個分類的 yearOrder 陣列順序即可，
-  // 不需要更動這段渲染邏輯。如果 yearOrder 忘記加進某個新年份，
-  // 畫面仍會自動把它排到最後面（由新到舊），不會漏掉、也不會壞掉。
-  //
-  // 日後要新增/調整作品，只要在 brand500Categories 該分類的 items 裡調整每個項目的
-  // year 欄位即可，分頁按鈕會自動依資料裡出現過的年份產生。
-
-  // 這個分類實際擁有的年份
-  const existingYears = [...new Set(cat.items.map(it=>it.year))];
-  // 依 yearOrder 指定的順序排列；yearOrder 裡沒提到的年份，自動排到最後面（由新到舊）
-  const orderedYears = (cat.yearOrder || []).filter(y=> existingYears.includes(y));
-  const leftoverYears = existingYears.filter(y=> !orderedYears.includes(y)).sort((a,b)=> b.localeCompare(a));
-  const years = [...orderedYears, ...leftoverYears];
-
-  const soonList = comingSoonYears[cat.key] || [];
-
-  const block = document.createElement('div');
-  block.className = 'brand500-cat';
-  block.innerHTML = `
-    <div class="sub-head">
-      <h3>${cat.name}</h3>
-      <p>${cat.intro}</p>
-    </div>
-    <div class="year-tabs" id="tabs-${cat.key}">
-      ${years.map((y,i)=> `<button type="button" class="year-tab${i===0 ? ' active' : ''}" data-year="${y}">${y}${soonList.includes(y) ? ' <span class="soon-dot" title="準備中"></span>' : ''}</button>`).join('')}
-    </div>
-    <div class="w-grid" id="brand500-${cat.key}"></div>`;
-  brand500Container.appendChild(block);
-
-  const catGrid = block.querySelector('#brand500-' + cat.key);
-  const tabsWrap = block.querySelector('#tabs-' + cat.key);
-
-  const renderYear = (year)=>{
-    catGrid.innerHTML = '';
-    // 若這個分類＋年份組合被列在 comingSoonYears 裡，直接顯示提示文字、不渲染作品卡片
-    if(soonList.includes(year)){
-      catGrid.innerHTML = `<div class="coming-soon">目前更新中，coming soon！もうすぐ。</div>`;
-      return;
-    }
-    const filtered = cat.items.filter(it=> it.year === year);
-    filtered.forEach((item, i)=> renderWorkCard(catGrid, item, filtered, i));
-  };
-
-  tabsWrap.querySelectorAll('.year-tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      tabsWrap.querySelectorAll('.year-tab').forEach(b=> b.classList.remove('active'));
-      btn.classList.add('active');
-      renderYear(btn.dataset.year);
-    });
-  });
-
-  renderYear(years[0]); // 預設顯示最新年份
-});
-
-/* ============ Lightbox 邏輯（支援多組作品群組，僅在同一分類內切換上一張／下一張） ============ */
-let lbGroup = graphicWorks;
-let lbIndex = 0;
-function openLightbox(group, index){
-  lbGroup = group;
-  lbIndex = index;
-  renderLightbox();
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function renderLightbox(){
-  const w = lbGroup[lbIndex];
-  document.getElementById('lightbox-img-tag').src = w.img;
-  document.getElementById('lightbox-img-tag').alt = w.title;
-  document.getElementById('lightbox-title').textContent = w.title;
-  document.getElementById('lightbox-year').textContent = [w.year, w.desc].filter(Boolean).join(' ｜ ');
-}
-function navLightbox(dir){
-  lbIndex = (lbIndex + dir + lbGroup.length) % lbGroup.length;
-  renderLightbox();
-}
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
-document.getElementById('lightbox').addEventListener('click', e=>{
-  if(e.target.id === 'lightbox') closeLightbox();
-});
-
-/* 燈箱觸控滑動切換（左右滑動看上一張／下一張），不會自動播放，純手勢觸發 */
-(function(){
-  const lb = document.getElementById('lightbox');
-  let touchStartX = 0, touchStartY = 0, touchActive = false;
-  lb.addEventListener('touchstart', e=>{
-    if(e.touches.length !== 1) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    touchActive = true;
-  }, { passive:true });
-  lb.addEventListener('touchend', e=>{
-    if(!touchActive) return;
-    touchActive = false;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    // 水平滑動距離明顯大於垂直滑動，且超過門檻值，才判定為切換手勢（避免誤觸垂直滑動）
-    if(Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5){
-      navLightbox(dx < 0 ? 1 : -1);
-    }
-  }, { passive:true });
-})();
-
-/* ============ 渲染：影音作品 ============ */
-const videoGrid = document.getElementById('video-grid');
-videoWorks.forEach(v=>{
-  const el = document.createElement('div');
-  el.className = 'v-item';
-  el.innerHTML = `
-    <div class="v-thumb">
-      <img src="https://img.youtube.com/vi/${v.ytid}/hqdefault.jpg" alt="${v.title}">
-      <div class="play-btn"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
-    </div>
-    <div class="v-meta"><div class="vt">${v.title}</div><div class="vd">${v.desc}</div></div>`;
-  el.onclick = ()=> openVideo(v.ytid);
-  videoGrid.appendChild(el);
-});
-
-// 修正 YouTube 錯誤 153：改用 youtube-nocookie 網域、關閉 origin 檢查造成的問題，
-// 並將 iframe 的 referrerpolicy 設為 "origin"，避免在沙盒環境中因無有效 referrer 而被拒絕播放。
-function openVideo(id){
-  const wrap = document.getElementById('videoFrameWrap');
-  let originParam = '';
-  try{
-    if(window.location.origin && window.location.origin !== 'null'){
-      originParam = '&origin=' + encodeURIComponent(window.location.origin);
-    }
-  }catch(e){}
-  wrap.innerHTML = `<iframe
-      src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&enablejsapi=1${originParam}"
-      title="video player"
-      referrerpolicy="unsafe-url"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-      <a class="video-fallback-link" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">若無法播放，點此在 YouTube 直接觀看 →</a>`;
-  document.getElementById('videoModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeVideo(){
-  document.getElementById('videoModal').classList.remove('open');
-  document.getElementById('videoFrameWrap').innerHTML = '';
-  document.body.style.overflow = '';
-}
-document.getElementById('videoModal').addEventListener('click', e=>{
-  if(e.target.id === 'videoModal') closeVideo();
-});
-
-/* ============ 渲染：AMP Stories（每一篇獨立卡片，各自獨立開啟，無左右切換） ============ */
-const ampGrid = document.getElementById('amp-grid');
-ampStories.forEach(s=>{
-  const el = document.createElement('div');
-  el.className = 'amp-card';
-  el.innerHTML = `
-    <div class="amp-ring">
-      <div class="amp-inner">
-        <img class="amp-cover" src="${s.img}" alt="${s.title}">
-        <div class="amp-play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
-      </div>
-    </div>
-    <div class="amp-info">
-      <div class="amp-t">${s.title}</div>
-      <div class="amp-label">AMP STORY</div>
-    </div>`;
-  el.onclick = ()=>{
-    // GA4 追蹤：AMP Story 點擊（含標題與網址，方便在 GA 後台看出哪一篇最受歡迎）
-    trackGAEvent('interactive_work_click', { work_type:'amp_story', work_title:s.title, work_url:s.url });
-    openContent(s.url, {shape:'portrait'});
-  };
-  ampGrid.appendChild(el);
-});
-
-/* ============ 渲染：互動作品（2014世界盃，3篇皆各自獨立） ============ */
-const featureContainer = document.getElementById('feature-container');
-
-// 2014世界盃：一組標題下方放 3 張獨立卡片，點哪張只會開啟那一篇，互不干擾
-const wcGroup = document.createElement('div');
-wcGroup.className = 'feature-group';
-wcGroup.innerHTML = `
-  <div class="feature-group-head">
-    <h4>${worldCup2014.title}</h4>
-    <p>${worldCup2014.intro}　<a href="${worldCup2014.repoUrl}" target="_blank" rel="noopener"></a></p>
-  </div>
-  <div class="feature-mini-grid" id="wc2014-grid"></div>`;
-featureContainer.appendChild(wcGroup);
-const wcGrid = wcGroup.querySelector('#wc2014-grid');
-worldCup2014.pages.forEach(p=>{
-  const el = document.createElement('div');
-  el.className = 'feature-mini-card';
-  el.innerHTML = `
-    <div class="feature-mini-thumb">
-      <img src="${p.img}" alt="${p.title}">
-      <div class="feature-mini-play"><svg viewBox="0 0 24 24" fill="#17324D"><path d="M8 5v14l11-7z"/></svg></div>
-    </div>
-    <div class="feature-mini-info"><div class="fmt">${p.title}</div><div class="fmd">${p.desc}</div></div>`;
-  el.onclick = ()=>{
-    // GA4 追蹤：HTML5 互動作品點擊（同時記錄屬於哪一組系列＋這一篇的標題，方便後台區分）
-    trackGAEvent('interactive_work_click', { work_type:'html5_interactive', work_series:worldCup2014.title, work_title:p.title, work_url:p.url });
-    openContent(p.url, {shape:'landscape', native:p.native, mobilePortrait:true});
-  };
-  wcGrid.appendChild(el);
-});
-
-/* ============ 渲染：一般網頁作品（另開新分頁） ============ */
-const generalGrid = document.getElementById('general-grid');
-generalWorks.forEach(g=>{
-  const el = document.createElement('a');
-  el.className = 'gen-item';
-  el.href = g.url;
-  el.target = '_blank';
-  el.rel = 'noopener';
-  el.innerHTML = `
-    <div class="gen-thumb"><img src="${g.img}" alt="${g.title}"></div>
-    <div class="gen-info">
-      <div class="gen-title">${g.title}</div>
-      <div class="gen-go">另開新分頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
-    </div>`;
-  el.onclick = ()=>{
-    // GA4 追蹤：long form 網頁作品點擊（新分頁開啟，不影響原本的跳轉行為）
-    trackGAEvent('interactive_work_click', { work_type:'longform_webpage', work_title:g.title, work_url:g.url });
-  };
-  generalGrid.appendChild(el);
-});
-
-/* ============ 通用內容 Modal 邏輯（AMP Stories／互動作品 共用） ============
-   每次呼叫 openContent() 都只會載入「這一個」網址，彼此完全獨立：
-   - 沒有上一篇／下一篇切換
-   - 沒有自動輪播
-   - 關閉後會把 iframe 完全卸載，下次打開別篇也不會殘留上一篇的畫面
-   日後新增項目，只要照同樣方式呼叫 openContent(url, {shape:'portrait'|'landscape', native:{w,h}})，
-   同樣會維持各自獨立，不會被合併或互相干擾。
-
-   native:{w,h} 是給「固定尺寸、沒有 RWD」的舊版 HTML5（Adobe Edge Animate）作品用的：
-   會以「符合裝置寬度、方便閱讀」的比例完整呈現，不額外提供縮放按鈕，介面越簡單越好；
-   如果內容比視窗高，直接用捲動（滑鼠滾輪／觸控滑動）瀏覽其餘部分即可，iframe 本身完全
-   保持可互動（可以正常點擊裡面的遊戲、按鈕），不會被檢視器擋掉。
-
-   mobilePortrait:true 是給「原始設計為直式（例如 iPad 直式）」的作品用的：
-   在手機瀏覽時會自動改用直式（9:16 比例）的畫面框呈現，桌機則維持原本較寬的畫面框
-   （桌機螢幕夠大，維持原樣即可）。
-============================================================ */
-let contentResizeHandler = null;
-
-function openContent(url, opts){
-  opts = opts || {};
-  const stage = document.getElementById('contentStage');
-  stage.style.width = '';
-  stage.style.height = '';
-  if(contentResizeHandler){ window.removeEventListener('resize', contentResizeHandler); contentResizeHandler = null; }
-
-  // 鎖定背景頁面捲動，避免手機上出現「拖到彈窗卻滑動背景」的卡頓感
-  document.body.style.overflow = 'hidden';
-
-  // 手機瀏覽且標記為 mobilePortrait 的作品：改用直式畫面框
-  const isMobile = window.innerWidth < 700;
-  const shape = (opts.mobilePortrait && isMobile) ? 'portrait' : (opts.shape === 'portrait' ? 'portrait' : 'landscape');
-  stage.className = 'content-stage ' + shape;
-
-  const wrap = document.getElementById('contentFrameWrap');
-
-  if(opts.native && opts.native.w && opts.native.h){
-    // 固定尺寸 HTML5 作品：等比例縮放至符合裝置畫面，超出的部分用捲動瀏覽
-    wrap.innerHTML = `
-      <div class="content-loading" id="contentLoading">
-        <div class="content-spinner"></div>
-        <span>載入中…</span>
-      </div>
-      <div class="content-viewport" id="contentViewport">
-        <div class="content-canvas" id="contentCanvas">
-          <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
-        </div>
-      </div>
-      <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
-    document.getElementById('contentModal').classList.add('open');
-
-    const iframe = document.getElementById('contentIframe');
-    const loading = document.getElementById('contentLoading');
-    iframe.addEventListener('load', ()=>{
-      if(loading) loading.style.opacity = '0';
-      iframe.style.opacity = '1';
-      setTimeout(()=>{ if(loading) loading.remove(); }, 400);
-    });
-
-    setupNativeViewport(opts.native.w, opts.native.h, shape);
-  } else {
-    // 一般內容（AMP Stories 等）：單純 iframe，本身已具備 RWD
-    const edgeHints = shape === 'portrait'
-      ? `<div class="content-edge-hint left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 18l-6-6 6-6"/></svg></div>
-         <div class="content-edge-hint right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></div>`
-      : '';
-    wrap.innerHTML = `
-      <div class="content-loading" id="contentLoading">
-        <div class="content-spinner"></div>
-        <span>載入中…</span>
-      </div>
-      <iframe id="contentIframe" src="${url}" referrerpolicy="origin" style="opacity:0" allowfullscreen title="content"></iframe>
-      ${edgeHints}
-      <a class="content-fallback-link" href="${url}" target="_blank" rel="noopener">若畫面空白，點此在新分頁開啟 →</a>`;
-    document.getElementById('contentModal').classList.add('open');
-
-    const iframe = document.getElementById('contentIframe');
-    const loading = document.getElementById('contentLoading');
-    iframe.addEventListener('load', ()=>{
-      if(loading) loading.style.opacity = '0';
-      iframe.style.opacity = '1';
-      setTimeout(()=>{ if(loading) loading.remove(); }, 400);
-    });
-  }
-}
-
-function setupNativeViewport(nativeW, nativeH, shape){
-  const stage = document.getElementById('contentStage');
-  const canvas = document.getElementById('contentCanvas');
-  const iframe = document.getElementById('contentIframe');
-
-  const fitToDevice = ()=>{
-    const isPortraitStage = shape === 'portrait';
-    const maxW = isPortraitStage
-      ? Math.min(window.innerWidth * 0.94, 420)
-      : Math.min(window.innerWidth * (window.innerWidth < 640 ? 0.98 : 0.94), 1200);
-    const maxH = isPortraitStage
-      ? Math.min(window.innerHeight * 0.9, 880)
-      : Math.min(window.innerHeight * (window.innerWidth < 640 ? 0.9 : 0.86), 760);
-
-    // 以「符合裝置寬度」為基準縮放，讓內容盡量放大到方便閱讀
-    const scale = Math.min(Math.max(maxW / nativeW, 0.3), 1.4);
-    const canvasW = nativeW * scale;
-    const canvasH = nativeH * scale;
-
-    // 畫面框「貼合實際內容尺寸」，不要留下多餘留白：
-    // 寬／高只要小於上限，就直接用內容本身的尺寸，超過上限才用捲動瀏覽其餘部分
-    stage.style.width = Math.min(canvasW, maxW) + 'px';
-    stage.style.height = Math.min(canvasH, maxH) + 'px';
-
-    canvas.style.width = canvasW + 'px';
-    canvas.style.height = canvasH + 'px';
-    iframe.style.width = nativeW + 'px';
-    iframe.style.height = nativeH + 'px';
-    iframe.style.transform = 'scale(' + scale + ')';
-    iframe.style.transformOrigin = 'top left';
-  };
-
-  fitToDevice();
-  contentResizeHandler = fitToDevice;
-  window.addEventListener('resize', contentResizeHandler);
-}
-
-function closeContent(){
-  document.getElementById('contentModal').classList.remove('open');
-  document.body.style.overflow = '';
-  if(contentResizeHandler){
-    window.removeEventListener('resize', contentResizeHandler);
-    contentResizeHandler = null;
-  }
-  // 延遲卸載，讓關閉動畫先跑完，同時確保下次開別篇時是全新載入、不殘留內容
-  setTimeout(()=>{ document.getElementById('contentFrameWrap').innerHTML = ''; }, 350);
-}
-document.getElementById('contentModal').addEventListener('click', e=>{
-  if(e.target.id === 'contentModal') closeContent();
-});
-
-/* ============ 基本防盜圖 ============
-   禁止對圖片點右鍵（擋掉「另存圖片」選單）與拖曳圖片，僅作用在 <img>，
-   不影響文字選取、複製等其他正常操作。
-   提醒：這只能擋掉多數隨手複製的行為，無法百分之百防止有心人透過開發者工具
-   或畫面截圖取得圖片，最有效的做法還是上傳「網頁用低解析度版本」，
-   原始高解析度檔案不要放到網站上。 ============ */
-document.addEventListener('contextmenu', e=>{
-  if(e.target.tagName === 'IMG') e.preventDefault();
-});
-document.addEventListener('dragstart', e=>{
-  if(e.target.tagName === 'IMG') e.preventDefault();
-});
-
-/* ============ 鍵盤操作 ============ */
-document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape'){ closeLightbox(); closeVideo(); closeContent(); }
-  if(document.getElementById('lightbox').classList.contains('open')){
-    if(e.key === 'ArrowLeft') navLightbox(-1);
-    if(e.key === 'ArrowRight') navLightbox(1);
-  }
-});
-</script>
 </body>
 </html>
