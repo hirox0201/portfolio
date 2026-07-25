@@ -70,6 +70,19 @@
     text-justify:inter-character;
   }
 
+  /* inter-character 斷行對齊是設計給中文用的（字與字之間本來就沒有空白，
+     靠拉開字距填滿行寬很自然）。英文是靠空白分單字，同一招會把單字間的空格
+     硬拉成一大條，出現排版很醜的大縫隙。這裡偵測 <html lang="en">（i18n.js
+     切換語言時會自動設定這個屬性），英文版統一改回一般左右對齊，不分桌機／
+     手機都套用，中文版完全不受影響。 */
+  :lang(en) p, :lang(en) .lead, :lang(en) .about-block p, :lang(en) .timeline .desc,
+  :lang(en) .w-info .wd, :lang(en) .feature-mini-info .fmd, :lang(en) .brand500-head p,
+  :lang(en) .feature-group-head p, :lang(en) .video-note, :lang(en) .work-hero p,
+  :lang(en) .gen-title small, :lang(en) .sub-head span, :lang(en) .cat-card p{
+    text-align:left;
+    text-justify:auto;
+  }
+
   .ripple-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0; transition:opacity .3s ease; }
   .ripple-line{ fill:none; stroke:var(--sky); stroke-width:1; opacity:.5; }
 
