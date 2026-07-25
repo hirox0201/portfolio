@@ -242,6 +242,10 @@
   .about-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
   .about-block{ margin-bottom:42px; }
   .about-block:last-child{ margin-bottom:0; }
+  .about-bio p{ margin-bottom:14px; }
+  .about-bio ul{ padding-left:4px; list-style:none; margin-bottom:14px; }
+  .about-bio li{ margin-bottom:8px; }
+  .about-bio p:last-child, .about-bio li:last-child{ margin-bottom:0; }
   .about-block h4{ font-size:12.5px; letter-spacing:.25em; color:var(--blue); margin-bottom:18px; text-transform:uppercase; font-family:var(--font-body); font-weight:700; }
   .timeline{ list-style:none; }
   .timeline li{ display:grid; grid-template-columns:90px 1fr; gap:18px; padding:16px 0; border-top:1px solid var(--line); font-size:14.5px; }
@@ -265,6 +269,8 @@
   .work-page{ padding-top:110px; min-height:100vh; }
   .work-hero{ padding:60px 0 60px; position:relative; }
   .back-btn{ display:inline-flex; align-items:center; gap:10px; font-size:13px; letter-spacing:.08em; color:var(--blue); cursor:pointer; margin-bottom:34px; padding:10px 0; }
+  .back-btn-bottom{ margin-top:16px; padding-top:32px; padding-bottom:70px; border-top:1px solid var(--line); }
+  .back-btn-bottom .back-btn{ margin-bottom:0; }
   .back-btn svg{ width:16px; transition:transform .25s ease; }
   .back-btn:hover{ color:var(--navy); }
   .back-btn:hover svg{ transform:translateX(-4px); }
